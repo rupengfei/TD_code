@@ -4,7 +4,7 @@
 #         mail: a773849069@gmail.com
 #         time: 2018/12/3
 # ==========================================
-from PySide2 import QtWidgets  # , QtGui, QtCore
+from PySide2 import QtWidgets, QtGui, QtCore
 # import shaderCore
 import shaderIOQt
 from Utils import uiTool
