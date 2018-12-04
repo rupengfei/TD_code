@@ -20,3 +20,5 @@ class ShaderIO(QtWidgets.QMainWindow, shaderIOQt.Ui_MainWindow):
 
         self.show()
 
+    def hello(self):
+        pass
