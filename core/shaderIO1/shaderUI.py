@@ -22,9 +22,6 @@ class ShaderIO(QtWidgets.QMainWindow, shaderQt.Ui_MainWindow):
 
         self.show()
 
-
-
-
     @QtCore.Slot(bool)
     def on_btn_setExportShaderPath_clicked(self, args=None):
         '''
@@ -35,9 +32,6 @@ class ShaderIO(QtWidgets.QMainWindow, shaderQt.Ui_MainWindow):
             self.line_outputData.setText('{0}.json'.format(os.path.splitext(filePath[0])[0]))
             self.__current_dir = os.path.dirname(filePath[0])
 
-
-
-
     @QtCore.Slot(bool)
     def on_btn_setExportDataPath_clicked(self, args=None):
         '''
@@ -46,9 +40,6 @@ class ShaderIO(QtWidgets.QMainWindow, shaderQt.Ui_MainWindow):
         if filePath:
             self.line_outputData.setText(filePath[0])
             self.__current_dir = os.path.dirname(filePath[0])
-
-
-
 
     @QtCore.Slot(bool)
     def on_btn_exportAll_clicked(self, args=None):
@@ -65,9 +56,6 @@ class ShaderIO(QtWidgets.QMainWindow, shaderQt.Ui_MainWindow):
         if node_path:
             shaderCore.export_all_shading_nodes(node_path)
 
-
-
-
     @QtCore.Slot(bool)
     def on_btn_exportSelection_clicked(self, args=None):
         '''
@@ -83,9 +71,6 @@ class ShaderIO(QtWidgets.QMainWindow, shaderQt.Ui_MainWindow):
         if node_path:
             shaderCore.export_sel_shading_nodes(node_path)
 
-
-
-
     @QtCore.Slot(bool)
     def on_btn_setImportShaderPath_clicked(self, args=None):
         '''
@@ -96,9 +81,6 @@ class ShaderIO(QtWidgets.QMainWindow, shaderQt.Ui_MainWindow):
             self.line_inputData.setText('{0}.json'.format(os.path.splitext(filePath[0])[0]))
             self.__current_dir = os.path.dirname(filePath[0])
 
-
-
-
     @QtCore.Slot(bool)
     def on_btn_setImportDataPath_clicked(self, args=None):
         '''
@@ -107,9 +89,6 @@ class ShaderIO(QtWidgets.QMainWindow, shaderQt.Ui_MainWindow):
         if filePath:
             self.line_inputData.setText(filePath[0])
             self.__current_dir = os.path.dirname(filePath[0])
-
-
-
 
     @QtCore.Slot(bool)
     def on_btn_import_clicked(self, args=None):
