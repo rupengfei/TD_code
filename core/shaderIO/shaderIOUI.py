@@ -34,7 +34,7 @@ class ShaderIO(base_class, form_class):
         self.list_widget.setAcceptDrops(True)
         self.list_widget.setDropIndicatorShown(True)
         # self.list_widget.selectionChanged = self.list_widget_selectionChanged
-        self.list_widget.mouseMoveEvent = self.drag_move_event
+        # self.list_widget.mouseMoveEvent = self.drag_move_event
         self.list_widget.dragEnterEvent = self.list_widget_dragEnterEvent
         self.list_widget.dragMoveEvent = self.drag_move_event
         self.list_widget.dropEvent = self.list_widget_dropEvent
@@ -58,11 +58,8 @@ class ShaderIO(base_class, form_class):
             event.acceptProposedAction()
 
     @QtCore.Slot(bool)
-    def on_list_widget_pressed(self):
-        print "111"
-
-    def list_widget_selectionChanged(self, ):
-        print "111"
+    def on_list_widget_itemClicked(self, e):
+        print e
 
     def show_win(self, args=None):
         uiTool.windowExists(uiTool.get_maya_window(), win_name)
