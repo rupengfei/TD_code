@@ -44,10 +44,7 @@ def endProgress():
     mc.progressBar(PROGRESSBAR, e=True, ep=True)
 
 
-
 def get_start_dir(start_dir):
-    '''
-    '''
     if os.path.isfile(start_dir):
         start_dir = os.path.dirname(start_dir)
 

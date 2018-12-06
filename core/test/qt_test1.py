@@ -36,7 +36,7 @@ class ShaderIO(base_class, form_class):
         return True
 
     @QtCore.Slot(bool)
-    def on_pf_text_textChanged(self, args=None):
+    def on_pf_text_changeEvent(self, args=None):
         print("pf_textEdit")
         print(dir(self.pf_text()))
         return True
