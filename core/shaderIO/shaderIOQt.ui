@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>批量材质导出</string>
+   <string>列表窗口</string>
   </property>
   <property name="animated">
    <bool>true</bool>
@@ -25,12 +25,16 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QListView" name="list_view"/>
+     <widget class="QListView" name="list_view">
+      <property name="editTriggers">
+       <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
+      </property>
+     </widget>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="btn_delete_select">
         <property name="minimumSize">
          <size>
           <width>100</width>
@@ -43,7 +47,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="btn_clear_all">
         <property name="minimumSize">
          <size>
           <width>0</width>

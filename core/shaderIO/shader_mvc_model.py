@@ -31,6 +31,7 @@ class MVC_List_Model(QtCore.QAbstractListModel):
 
     def rowCount(self, index=QtCore.QModelIndex()):
         """
+        返回列表的长度  是个整数
         """
         return len(self.__data)
 
@@ -46,23 +47,38 @@ class MVC_List_Model(QtCore.QAbstractListModel):
         """
         """
         current_flags = super(MVC_List_Model, self).flags(index)
-        return current_flags | QtCore.Qt.ItemIsSelectable
+        return current_flags | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsDragEnabled
 
-    def insertRow(self, value, row=-1, index=QtCore.QModelIndex()):
-        """
-        """
-        if row == -1:
-            row = self.rowCount()
+    # def insertRow(self, value, row=-1, index=QtCore.QModelIndex()):
+    #     """
+    #     """
+    #     if row == -1:
+    #         row = self.rowCount()
+    #
+    #     self.beginInsertRows(index, row, row)
+    #     self.__data.insert(row, value)
+    #     self.endInsertRows()
+    #     return True
 
-        self.beginInsertRows(index, row, row)
-        self.__data.insert(row, value)
-        self.endInsertRows()
-        return True
-
-    def removeRow(self, row=-1, index=QtCore.QModelIndex()):
+    def removeRow(self, row=-1, index=QtCore.QModelIndex(), sel_items=None):
         self.beginRemoveRows(index, row, row)
-        if True:
-            self.__data.pop(row)
+        for item in sel_items:
+            self.__data.pop(item.row())
         self.endRemoveRows()
         return True
 
+    def my_sel(self):
+        return True
+
+    def append(self, value, index=QtCore.QModelIndex()):
+        self.__data.append(value)
+        self.dataChanged.emit(index, index)
+        return True
+
+    def fanhui_index(self, index=QtCore.QModelIndex()):
+        print "1111111"
+        print self.__data[index.flags()]
+        return True
+
+    def sel_item(self, index=QtCore.QModelIndex()):
+        return self.__data[index.row()]
