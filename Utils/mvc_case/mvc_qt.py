@@ -8,6 +8,7 @@
 
 from PySide2 import QtCore, QtGui, QtWidgets
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -105,4 +106,3 @@ class Ui_MainWindow(object):
         self.btn_tbv_remove.setText(_translate("MainWindow", "Remove"))
         self.btn_tbv_clear.setText(_translate("MainWindow", "Clear"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Table View"))
-
