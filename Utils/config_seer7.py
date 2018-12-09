@@ -5,8 +5,10 @@
 #         time: 2018/12/9
 # ==========================================
 import json
-from Utils import scriptTool, ioTool
+from Utils import scriptTool, ioTool, mayaTool
 import os
+import maya.cmds as mc
+from core.shaderIO import shaderCore
 
 
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
@@ -50,7 +52,7 @@ def split_cam(cam="Sc003_054_001_035_cam"):
     shot_name = "{0}_{1}".format(scene, shot)
     start_frame = data[2]
     end_frame = data[3]
-    return scene, shot,shot_name, start_frame, end_frame
+    return scene, shot, shot_name, start_frame, end_frame
 
 
 def an_makedir(an_path="D:/Repo/seer7/cacheIO/Animation", scene="sc003", shot_name="sc003_054"):
@@ -59,6 +61,54 @@ def an_makedir(an_path="D:/Repo/seer7/cacheIO/Animation", scene="sc003", shot_na
     """
     an_path = os.path.join(an_path, scene, shot_name)
     return an_path
+
+
+def format_path():
+    """
+    """
+    source_file = mayaTool.get_scene_path()
+
+    path = os.path.dirname(source_file)
+    if path[-3:] == "Rig":
+        path = path[:-3] + "shaderIO"  # path
+        if not os.path.exists(path):
+            os.makedirs(path)
+    name = os.path.basename(source_file)
+    scene_name = path + "/" + name.split(".")[0] + "_SG." + name.split(".")[1]  # atieda_SG.ma
+    json_name = path + "/" + name.split(".")[0] + "_SG.json"  # atieda_SG.json
+    fix_name = name.split(".")[1]  # ma or mb
+
+    return scene_name, json_name, fix_name
+
+def aoto_export_shader():
+    scene_name, json_name, fix_name = format_path()
+    geos = mc.ls("*_Geo") or list()
+    for geo in geos:
+        # print geo
+        sels = mc.ls(geo, dag=True, typ="mesh")
+        sels1 = mc.listRelatives(sels, p=True)
+        sels2 = sels1[:]
+        shaderCore.export_sel_sg_nodes(scene_name, fix_name, sels1)
+        shaderCore.export_sel_sg_members(json_name, sels2)
+
+    return True
+
+def export_sel_shader():
+    scene_name, json_name, fix_name = format_path()
+    shaderCore.export_sel_sg_nodes(scene_name, fix_name)
+    shaderCore.export_sel_sg_members(json_name)
+
+def export_all_shader():
+    scene_name, json_name, fix_name = format_path()
+    shaderCore.export_all_sg_nodes(scene_name, fix_name)
+    shaderCore.export_all_sg_members(json_name)
+
+def import_sel_shader():
+    pass
+
+def import_all_shader():
+    pass
+
 
 
 if __name__ == '__main__':

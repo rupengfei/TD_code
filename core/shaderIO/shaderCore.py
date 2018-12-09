@@ -16,11 +16,13 @@ def get_all_sg_nodes():
     return sg_nodes
 
 
-def get_sel_sg_nodes():
+def get_sg_nodes(args=None):
+    # print args
     sg_nodes = list()
-    selected_geos = mc.ls(sl=True)
-    for geo in selected_geos:
-        shapes = mc.listRelatives(geo, children=True, path=True) or list()
+    for geo in args:
+        # print geo
+        shapes = mc.listRelatives(geo, children=True, shapes=True, path=True) or list()
+        # print shapes
         for shp in shapes:
             sg_node = mc.listConnections(shp, destination=True, t="shadingEngine")
             if not sg_node:
@@ -30,20 +32,35 @@ def get_sel_sg_nodes():
     return scriptTool.arrayRemoveDuplicates(sg_nodes)
 
 
-def export_sg_nodes(sg_nodes, file_path):
+def get_sel_sg_nodes(args=None):
+    # print args
+    if args:
+        return get_sg_nodes(args)
+    else:
+        args = mc.ls(sl=True)
+        return get_sg_nodes(args)
+
+
+def export_sg_nodes(sg_nodes, file_path, fix_name="ma"):
+    # print sg_nodes
     if len(sg_nodes) == 0:
         return False
+    if fix_name == "ma":
+        fix_name = "mayaAscii"
+    if fix_name == "mb":
+        fix_name = "mayaBinary"
     mc.select(sg_nodes, r=True, ne=True)
-    mc.file(file_path, options="v=0;", typ="mayaAscii", pr=True, es=True)
+    mc.file(file_path, options="v=0;", typ=fix_name, pr=True, es=True, force=True)
     return True
 
 
-def export_all_sg_nodes(file_path):
-    return export_sg_nodes(get_all_sg_nodes(), file_path)
+def export_all_sg_nodes(file_path, fix_name="ma"):
+    return export_sg_nodes(get_all_sg_nodes(), file_path, fix_name)
 
 
-def export_sel_sg_nodes(file_path):
-    return export_sg_nodes(get_sel_sg_nodes(), file_path)
+def export_sel_sg_nodes(file_path, fix_name="ma", args=None):
+    # print args
+    return export_sg_nodes(get_sel_sg_nodes(args), file_path, fix_name)
 
 
 def get_sg_members(sg_nodes=tuple()):
@@ -64,8 +81,9 @@ def get_all_sg_members():
     return get_sg_members(get_all_sg_nodes())
 
 
-def get_sel_sg_members():
-    return get_sg_members(get_sel_sg_nodes())
+def get_sel_sg_members(args=None):
+    # print args
+    return get_sg_members(get_sel_sg_nodes(args))
 
 
 def export_sg_members(data, file_path):
@@ -79,8 +97,8 @@ def export_all_sg_members(file_path):
     return export_sg_members(get_all_sg_members(), file_path)
 
 
-def export_sel_sg_members(file_path):
-    return export_sg_members(get_sel_sg_members(), file_path)
+def export_sel_sg_members(file_path, args=None):
+    return export_sg_members(get_sel_sg_members(args), file_path)
 
 
 def reference_shader_file(file_path):
