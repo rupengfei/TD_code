@@ -103,8 +103,11 @@ def export_all_shader():
     shaderCore.export_all_sg_nodes(scene_name, fix_name)
     shaderCore.export_all_sg_members(json_name)
 
-def import_sel_shader():
-    pass
+def import_sel_shader(file_path, geo_namespace=None):
+    json_path = ioTool.convert_ma_to_json(file_path)
+    shaderCore.reference_shader_file(file_path)
+    shaderCore.assign_data_to_all(json_path)
+    return True
 
 def import_all_shader():
     pass

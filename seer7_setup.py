@@ -42,6 +42,7 @@ class Setup(base_class, form_class):
     def on_btn_export_all_clicked(self, args=None):
         print "2222"
 
+
     def lin_import_dragEnterEvent(self, event):
         if event.mimeData().hasUrls():
             event.acceptProposedAction()
@@ -57,8 +58,7 @@ class Setup(base_class, form_class):
 
     @QtCore.Slot(bool)
     def on_btn_import_sel_shader_clicked(self, args=None):
-        print self.lin_import.text()
-        print "3333"
+        config_seer7.import_sel_shader(self.lin_import.text(), self.lin_namespace.text())
 
     @QtCore.Slot(bool)
     def on_btn_import_all_clicked(self, args=None):
@@ -66,9 +66,7 @@ class Setup(base_class, form_class):
 
     @QtCore.Slot(bool)
     def on_btn_aoto_export_clicked(self, args=None):
-        # print "aaaa"
-        reload(config_seer7)
-        print config_seer7.aoto_export_shader()
+        config_seer7.aoto_export_shader()
 
 
     # @QtCore.Slot(bool)

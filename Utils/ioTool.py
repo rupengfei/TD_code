@@ -9,6 +9,8 @@ import json
 
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 
+def convert_ma_to_json(file_path):
+    return file_path.split(".")[0] + ".json"
 
 def readData(path):
     """
