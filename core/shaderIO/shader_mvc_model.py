@@ -5,9 +5,68 @@
 #         time: 2018/12/7
 # ==========================================
 from PySide2 import QtCore, QtGui
-
-
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
+
+
+class DnDListWidget(QListWidget):
+    """QListWidget多重继承，其中一个父类是QAbstractItemView,支持setDragEnabled()，
+    所以可以直接设置为True，但是还要要有startDrag()方法以创建Drag对象"""
+    def __init__(self, parent=None):
+        super(DnDListWidget, self).__init__(parent)
+        self.setAcceptDrops(True)
+        self.setDragEnabled(True)
+        self.setToolTip("DnDListWidget")
+
+    def dragEnterEvent(self, event):
+        print "dragEnterEvent"
+        # if event.mimeData().hasFormat("application/x-icon-and-text"):
+        #     event.accept()
+        # else:
+        #     event.ignore()
+
+    def dragMoveEvent(self, event):
+        print "dragMoveEvent"
+        # if event.mimeData().hasFormat("application/x-icon-and-text"):
+        #     event.setDropAction(Qt.MoveAction)
+        #     event.accept()
+        # else:
+        #     event.ignore()
+
+    def dropEvent(self, event):
+        print "dropEvent"
+        # if event.mimeData().hasFormat("application/x-icon-and-text"):
+        #     data = event.mimeData().data("application/x-icon-and-text")
+        #     stream = QDataStream(data, QIODevice.ReadOnly)
+        #     text = stream.readQString()
+        #     # text=""
+        #     # stream>>text
+        #     icon = QIcon()
+        #     stream >> icon
+        #     item = QListWidgetItem(text, self)
+        #     item.setIcon(icon)
+        #     event.setDropAction(Qt.MoveAction)
+        #     event.accept()
+        # else:
+        #     event.ignore()
+
+    def startDrag(self, dropActions):
+        print "111"
+        # item = self.currentItem()
+        # icon = item.icon()
+        # data = QByteArray()
+        # stream = QDataStream(data, QIODevice.WriteOnly)
+        # stream.writeQString(item.text())
+        # stream<<item.text()
+        # stream << icon
+        # mimeData = QMimeData()
+        # mimeData.setData("application/x-icon-and-text", data)
+        # drag = QDrag(self)
+        # drag.setMimeData(mimeData)
+        # pixmap = icon.pixmap(24, 24)
+        # drag.setHotSpot(QPoint(12, 12))
+        # drag.setPixmap(pixmap)
+        # if drag.exec(QtCore.Qt.MoveAction) == QtCore.Qt.MoveAction:
+        #     self.takeItem(self.row(item))
 
 
 class MVC_List_Model(QtCore.QAbstractListModel):

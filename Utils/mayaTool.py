@@ -11,6 +11,10 @@ import maya.mel as mel
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 
 
+def sel_Geo():
+    return mc.ls("*_Geo")
+
+# noinspection PyPep8Naming
 def getBlendShapeInfo(blendShape):
     """Return blendShape's ID and attributes dict.."""
     attribute_dict = {}
@@ -29,8 +33,9 @@ def getBlendShapeInfo(blendShape):
     return attribute_dict
 
 
+# noinspection PyPep8Naming
 def getBlendShapeAttributes(blendShape):
-    """"
+    """
     Return blendShape attributes..
     """
     attribute_dict = getBlendShapeInfo(blendShape)

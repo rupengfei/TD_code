@@ -12,7 +12,7 @@ from Utils import uiTool, scriptTool, mayaTool
 from core.shaderIO import shader_mvc_model, shaderIOQt
 
 reload(shader_mvc_model)
-reload(shaderIOQt)
+# reload(shaderIOQt)
 
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 # script_path = scriptTool.getScriptPath()
@@ -29,7 +29,7 @@ class ShaderIO(shaderIOQt.Ui_list_window, QtWidgets.QMainWindow):
             mc.deleteUI(self.window_name)
         super(ShaderIO, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowTitle("材质文件批量导出工具")
+        self.setWindowTitle("......")
         self.setObjectName(win_name)
         desktop = QtWidgets.QApplication.desktop().availableGeometry()
         size = self.geometry()
@@ -39,49 +39,60 @@ class ShaderIO(shaderIOQt.Ui_list_window, QtWidgets.QMainWindow):
         self.list_view.setModel(self.__list_model)
         self.list_view.setAcceptDrops(True)  # 拖拽接收开启
         self.list_view.setDragEnabled(True)  # 拖拽反馈开启
-        # self.list_view.SelectItems
-        self.list_view.mouseDoubleClickEvent = self.get_sel_item  # 鼠标双击事件
-        # self.list_view.mouseMoveEvent = self.mouse_double_clicked_event  # 鼠标移动事件
-        self.list_view.dragEnterEvent = self.list_view_dragEnterEvent  # 拖拽事件
-        self.list_view.dragMoveEvent = self.drag_move_event  # 拖拽移动事件
+        self.list_view.dragEnterEvent = self.list_view_dragEnterEvent  # 拖拽启动事件
+        self.list_view.dragMoveEvent = self.list_view_dragMoveEvent  # 拖拽移动事件
         self.list_view.dropEvent = self.list_view_dropEvent  # 拖拽松开事件
+
+        # self.list_view.mouseMoveEvent = self.mouse_double_clicked_event  # 鼠标移动事件
+        self.list_view.mouseDoubleClickEvent = self.get_sel_item  # 鼠标双击事件
+        self.list_view.mouseReleaseEvent = self.mouse_release_event
+        self.list_view.releaseMouse()
+        # self.list_view.mouseGrabber = self.mouse_grabber_event
+        # self.list_view.mousePressEvent = self.mouse_press_event
         # self.__current_dir = ''
+        self.__list_model = shader_mvc_model.DnDListWidget(self.list_view)
+        self.list_view.setModel(self.__list_model)
 
     def list_view_dragEnterEvent(self, event):
-        print dir(event.posF())
-        print event.posF()
-        print event.pos().x(), event.pos().y()
-        self.__drag_pos = (event.pos().x(), event.pos().y())
+        print "dragEnterEvent"
+        # self.__drag_pos = (event.pos().x(), event.pos().y())
         if event.mimeData().hasUrls():
+            print event.pos().x(), event.pos().y()
             event.acceptProposedAction()
 
-    def drag_move_event(self, event):
-
-        pass
+    def list_view_dragMoveEvent(self, event):
+        event.ionge
+        # print dir(event)
+        # print event.pos().x(), event.pos().y()
+        # if event.mimeData().hasUrls():
+        #     print event.pos().x(), event.pos().y()
+        #     event.acceptProposedAction()
 
     def list_view_dropEvent(self, event):
-        if event.mimeData().hasUrls():
-            for url in event.mimeData().urls():
-                self.__list_model.append(url.toString()[8:])
-            event.acceptProposedAction()
-        print "aaa"
-
-    def list_view_drag_event(self,event):
-        pass
+        print "11111"
+        # if event.mimeData().hasUrls():
+        #     for url in event.mimeData().urls():
+        #         self.__list_model.append(url.toString()[8:])
+        #     event.acceptProposedAction()
 
     def mouse_double_clicked_event(self, event):
         print "double_clicked"
+        print event
 
     def mouse_release_event(self, event):
         print "release_event"
+        print event
 
-    def mouse_grabber_event(self):
-        print "mouse_grabber_event"
+    # def mouse_grabber_event(self):
+    #     print "mouse_grabber_event"
+
+    # def mouse_press_event(self, event):
+    #     print "mouse_Press_event"
+    #     print event
 
     def get_sel_item(self, event):
         print self.__list_model.sel_item(self.list_view.selectedIndexes()[0])
         # print self.list_view.selectedIndexes()[0].text()
-
 
     @QtCore.Slot(bool)
     def on_list_view_selectedIndexes(self, qModelIndex):
@@ -91,7 +102,6 @@ class ShaderIO(shaderIOQt.Ui_list_window, QtWidgets.QMainWindow):
     @QtCore.Slot(bool)
     def on_btn_delete_select_clicked(self, event):
         self.__list_model.removeRow(sel_items=self.list_view.selectedIndexes())
-
 
     @QtCore.Slot(bool)
     def on_btn_clear_all_clicked(self, event):
@@ -107,3 +117,8 @@ class ShaderIO(shaderIOQt.Ui_list_window, QtWidgets.QMainWindow):
     def show_win(self, args=None):
         uiTool.windowExists(uiTool.get_maya_window(), win_name)
         return True
+
+
+if __name__ == "__main__":
+    pass
+
