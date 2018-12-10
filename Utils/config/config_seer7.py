@@ -24,17 +24,19 @@ def setData(data=None):
     """
     if not data:
         data = {
-            "shader_source_path": "D:/Repo/seer7/cacheIO/Chars/Rig",
-            "cacheIO_an": "D:/Repo/seer7/cacheIO/Animation"
-
+            "shader_source_path": r"D:/Repo/seer7/cacheIO/Chars/Rig",
+            "cacheIO": r"Z:\SEER7\Work\Shot_work\cacheIO",
+            "cacheIO_an": r"Z:\SEER7\Work\Shot_work\cacheIO\Animation",
+            "cacheIO_fx": r"Z:\SEER7\Work\Shot_work\cacheIO\Fx",
+            "cacheIO_lt": r"Z:\SEER7\Work\Shot_work\cacheIO\Lighting",
+            "cacheIO_shader": r"Z:\SEER7\Work\Shot_work\cacheIO\Shader",
         }
         ioTool.writeData(seer7_json, data)
     return True
 
 
-def readData():
-    data = ioTool.readData(seer7_json)
-    return data
+def seer7_data():
+    return ioTool.readData(seer7_json)
 
 
 def split_cam(cam="Sc003_054_001_035_cam"):
@@ -121,7 +123,6 @@ def import_sel_shader(file_path, geo_namespace=None):
     return True
 
 def import_all_shader(file_path, geo_namespace=None):
-    reload(shaderCore)
     json_path = ioTool.convert_ma_to_json(file_path)
     shaderCore.reference_shader_file(file_path)
     sg_namespace = os.path.basename(file_path)[:os.path.basename(file_path).rfind(".")]
@@ -134,4 +135,4 @@ def aoto_import_shader():
 
 
 if __name__ == '__main__':
-    pass
+    setData()

@@ -3,11 +3,11 @@ How To Use
 ```python
 import sys
 
-path = 'D:/Repo'
+path = 'D:/shaderIO1'
 path in sys.path or sys.path.append(path)
 
-import shaderIO
-reload(shaderIO)
+import shaderUI
 
-shaderIO.shaderUI.ShaderIO()
+shaderUI.ShaderIO()
+
 ```

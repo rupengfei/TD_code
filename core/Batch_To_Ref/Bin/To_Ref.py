@@ -8,7 +8,6 @@ from Qt import QtWidgets, QtCompat, QtCore
 import Tools
 import re
 
-reload(Tools)
 
 
 class ToRef(QtWidgets.QWidget):

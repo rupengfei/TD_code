@@ -1,0 +1,5 @@
+python("import sys");
+python("sys.path.append('Z:/SEER7/bin/rupengfei/TD_code')");
+python("import seer7_setup");
+python("seer7 = seer7_setup.Setup()");
+python("seer7.show_win()");

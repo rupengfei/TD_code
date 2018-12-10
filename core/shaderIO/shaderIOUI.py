@@ -4,15 +4,12 @@
 #         mail: a773849069@gmail.com
 #         time: 2018/12/3
 # ==========================================
-# import sys
 import os
 import maya.cmds as mc
 from PySide2 import QtCore, QtGui, QtWidgets
 from Utils import uiTool, scriptTool, mayaTool
 from core.shaderIO import shader_mvc_model, shaderIOQt
 
-reload(shader_mvc_model)
-# reload(shaderIOQt)
 
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 # script_path = scriptTool.getScriptPath()

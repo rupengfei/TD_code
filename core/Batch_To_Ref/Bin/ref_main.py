@@ -5,7 +5,6 @@ __time__ = '2018/11/1 22:10'
 import maya.cmds as mc
 import To_Ref
 
-reload(To_Ref)
 
 
 def onMayaDroppedPythonFile(*args):

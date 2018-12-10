@@ -4,13 +4,10 @@
 #         mail: a773849069@gmail.com
 #         time: 2018/12/9
 # ==========================================
-import sys
-import os
 import maya.cmds as mc
-import pymel.core as pm
-from Utils import uiTool, scriptTool, mayaTool, config_seer7
+from Utils import uiTool, scriptTool
+from Utils.config import config_seer7
 from PySide2 import QtWidgets, QtCore
-reload(config_seer7)
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 script_path = scriptTool.getScriptPath()
 form_class, base_class = uiTool.loadUiType(script_path + "/seer7_setup.ui")
