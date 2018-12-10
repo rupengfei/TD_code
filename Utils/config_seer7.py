@@ -5,7 +5,7 @@
 #         time: 2018/12/9
 # ==========================================
 import json
-from Utils import scriptTool, ioTool, mayaTool
+from Utils import scriptTool, ioTool, mayaTool, pathTool
 import os
 import maya.cmds as mc
 from core.shaderIO import shaderCore
@@ -71,12 +71,14 @@ def seer7_shader_format_path():
     """
     """
     source_file = mayaTool.get_scene_path()
-
-    path = os.path.dirname(source_file)
-    if path[-3:] == "Rig":
-        path = path[:-3] + "shader"  # path
-        if not os.path.exists(path):
-            os.makedirs(path)
+    path = pathTool.recombine_path(source_file, "Rig", "shader")
+    # path = os.path.dirname(source_file)
+    if not os.path.exists(path):
+        os.makedirs(path)
+    # if path[-3:] == "Rig":
+    #     path = path[:-3] + "shader"  # path
+    #     if not os.path.exists(path):
+    #         os.makedirs(path)
     name = os.path.basename(source_file)
     scene_name = path + "/" + name.split(".")[0] + "_SG." + name.split(".")[1]  # atieda_SG.ma
     json_name = path + "/" + name.split(".")[0] + "_SG.json"  # atieda_SG.json
