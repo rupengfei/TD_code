@@ -147,7 +147,7 @@ alternate-background-color: rgb(255, 255, 127);</string>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="btn_export_all">
+           <widget class="QPushButton" name="btn_export_shader">
             <property name="minimumSize">
              <size>
               <width>80</width>
@@ -158,7 +158,7 @@ alternate-background-color: rgb(255, 255, 127);</string>
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;导出场景里所有的材质&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>Export all</string>
+             <string>Export Shader</string>
             </property>
            </widget>
           </item>
@@ -170,7 +170,7 @@ alternate-background-color: rgb(255, 255, 127);</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;导入路径 写全名！！！&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;例：&amp;quot;D:\Rig\shader.ma&amp;quot;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
-           <string>D:/Repo/seer7/cacheIO/Chars/shaderIO/mery_shader_SG.ma</string>
+           <string>导入路径</string>
           </property>
          </widget>
         </item>
@@ -228,7 +228,7 @@ p, li { white-space: pre-wrap; }
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="btn_import_all">
+           <widget class="QPushButton" name="btn_import_shader">
             <property name="minimumSize">
              <size>
               <width>80</width>
@@ -239,7 +239,7 @@ p, li { white-space: pre-wrap; }
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;导入场景里所有的材质&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>Import All</string>
+             <string>Import Shader</string>
             </property>
            </widget>
           </item>
