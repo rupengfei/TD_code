@@ -61,7 +61,7 @@ class ShaderIO(shaderIOQt.Ui_list_window, QtWidgets.QMainWindow):
             event.acceptProposedAction()
 
     def list_view_dragMoveEvent(self, event):
-        event.ionge
+        event.ignore()
         # print dir(event)
         # print event.pos().x(), event.pos().y()
         # if event.mimeData().hasUrls():

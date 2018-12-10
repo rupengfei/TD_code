@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>424</width>
-    <height>387</height>
+    <width>294</width>
+    <height>250</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -23,7 +23,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">font: 25 12pt &quot;Bahnschrift Light&quot;;
+   <string notr="true">font: 25 9pt &quot;Bahnschrift Light&quot;;
 alternate-background-color: rgb(255, 255, 127);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -45,8 +45,8 @@ alternate-background-color: rgb(255, 255, 127);</string>
          <widget class="QPushButton" name="btn2">
           <property name="minimumSize">
            <size>
-            <width>120</width>
-            <height>40</height>
+            <width>80</width>
+            <height>20</height>
            </size>
           </property>
           <property name="toolTip">
@@ -77,8 +77,8 @@ alternate-background-color: rgb(255, 255, 127);</string>
          <widget class="QPushButton" name="btn3">
           <property name="minimumSize">
            <size>
-            <width>120</width>
-            <height>40</height>
+            <width>80</width>
+            <height>20</height>
            </size>
           </property>
           <property name="text">
@@ -93,12 +93,12 @@ alternate-background-color: rgb(255, 255, 127);</string>
           </property>
           <property name="minimumSize">
            <size>
-            <width>120</width>
-            <height>40</height>
+            <width>80</width>
+            <height>20</height>
            </size>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;haha&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="whatsThis">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;this is haha&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -134,8 +134,8 @@ alternate-background-color: rgb(255, 255, 127);</string>
            <widget class="QPushButton" name="btn_export_sel_shader">
             <property name="minimumSize">
              <size>
-              <width>120</width>
-              <height>40</height>
+              <width>80</width>
+              <height>20</height>
              </size>
             </property>
             <property name="toolTip">
@@ -150,8 +150,8 @@ alternate-background-color: rgb(255, 255, 127);</string>
            <widget class="QPushButton" name="btn_export_all">
             <property name="minimumSize">
              <size>
-              <width>120</width>
-              <height>40</height>
+              <width>80</width>
+              <height>20</height>
              </size>
             </property>
             <property name="toolTip">
@@ -210,10 +210,13 @@ p, li { white-space: pre-wrap; }
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
            <widget class="QPushButton" name="btn_import_sel_shader">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="minimumSize">
              <size>
-              <width>120</width>
-              <height>40</height>
+              <width>80</width>
+              <height>20</height>
              </size>
             </property>
             <property name="toolTip">
@@ -228,8 +231,8 @@ p, li { white-space: pre-wrap; }
            <widget class="QPushButton" name="btn_import_all">
             <property name="minimumSize">
              <size>
-              <width>120</width>
-              <height>40</height>
+              <width>80</width>
+              <height>20</height>
              </size>
             </property>
             <property name="toolTip">
@@ -246,8 +249,8 @@ p, li { white-space: pre-wrap; }
          <widget class="QPushButton" name="btn_aoto_export">
           <property name="minimumSize">
            <size>
-            <width>120</width>
-            <height>40</height>
+            <width>80</width>
+            <height>20</height>
            </size>
           </property>
           <property name="toolTip">
@@ -268,8 +271,8 @@ p, li { white-space: pre-wrap; }
           </property>
           <property name="minimumSize">
            <size>
-            <width>120</width>
-            <height>40</height>
+            <width>80</width>
+            <height>20</height>
            </size>
           </property>
           <property name="toolTip">

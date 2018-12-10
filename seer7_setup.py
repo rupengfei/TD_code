@@ -10,11 +10,12 @@ import maya.cmds as mc
 import pymel.core as pm
 from Utils import uiTool, scriptTool, mayaTool, config_seer7
 from PySide2 import QtWidgets, QtCore
-
+reload(config_seer7)
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 script_path = scriptTool.getScriptPath()
 form_class, base_class = uiTool.loadUiType(script_path + "/seer7_setup.ui")
 win_name = "Seer7 Tool"
+
 
 class Setup(base_class, form_class):
     def __init__(self, parent=uiTool.get_maya_window()):
@@ -36,12 +37,11 @@ class Setup(base_class, form_class):
 
     @QtCore.Slot(bool)
     def on_btn_export_sel_shader_clicked(self, args=None):
-        print "1111"
+        config_seer7.export_sel_shader(self.lin_export.text())
 
     @QtCore.Slot(bool)
-    def on_btn_export_all_clicked(self, args=None):
-        print "2222"
-
+    def on_btn_export_shader_clicked(self, args=None):
+        config_seer7.export_all_shader(self.lin_export.text())
 
     def lin_import_dragEnterEvent(self, event):
         if event.mimeData().hasUrls():
@@ -56,18 +56,21 @@ class Setup(base_class, form_class):
                 self.lin_import.setText(url.toString()[8:])
             event.acceptProposedAction()
 
-    @QtCore.Slot(bool)
-    def on_btn_import_sel_shader_clicked(self, args=None):
-        config_seer7.import_sel_shader(self.lin_import.text(), self.lin_namespace.text())
+    # @QtCore.Slot(bool)
+    # def on_btn_import_sel_shader_clicked(self, args=None):
+    #     config_seer7.import_sel_shader(self.lin_import.text(), self.lin_namespace.text())
 
     @QtCore.Slot(bool)
-    def on_btn_import_all_clicked(self, args=None):
-        print "4444"
+    def on_btn_import_shader_clicked(self, args=None):
+        if self.lin_namespace.text():
+            config_seer7.import_all_shader(self.lin_import.text(), self.lin_namespace.text())
+        else:
+            config_seer7.import_all_shader(self.lin_import.text())
+
 
     @QtCore.Slot(bool)
     def on_btn_aoto_export_clicked(self, args=None):
         config_seer7.aoto_export_shader()
-
 
     # @QtCore.Slot(bool)
     # def on_btn1_clicked(self, args=None):

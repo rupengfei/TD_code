@@ -21,6 +21,22 @@ def get_sg_nodes(args=None):
     sg_nodes = list()
     for geo in args:
         # print geo
+        shapes = mc.listRelatives(geo, children=True, path=True) or list()
+        # print shapes
+        for shp in shapes:
+            sg_node = mc.listConnections(shp, destination=True, t="shadingEngine")
+            if not sg_node:
+                continue
+            sg_nodes.extend(sg_node)
+
+    return scriptTool.arrayRemoveDuplicates(sg_nodes)
+
+
+def aoto_get_sg_nodes(args=None):
+    print args
+    sg_nodes = list()
+    for geo in args:
+        # print geo
         shapes = mc.listRelatives(geo, children=True, shapes=True, path=True) or list()
         # print shapes
         for shp in shapes:
@@ -35,7 +51,7 @@ def get_sg_nodes(args=None):
 def get_sel_sg_nodes(args=None):
     # print args
     if args:
-        return get_sg_nodes(args)
+        return aoto_get_sg_nodes(args)
     else:
         args = mc.ls(sl=True)
         return get_sg_nodes(args)
@@ -70,7 +86,7 @@ def get_sg_members(sg_nodes=tuple()):
         filter_members = list()
         for m in members:
             obj = m.split(".")
-            if mc.nodeType(obj[0]) != "transfrom":
+            if mc.nodeType(obj[0]) != "transform":
                 obj[0] = mc.listRelatives(obj[0], p=True)[0]
             filter_members.append(".".join(obj))
         data[sg] = filter_members
@@ -115,20 +131,20 @@ def assign_data_to_all(data_path, sg_namespace=None, geo_namespace=None):
     # data = dict()
     with open(data_path, "r") as f:
         data = json.load(f)
-
     for sg, geos in data.iteritems():
         if sg_namespace:
             sg = "{0}:{1}".format(sg_namespace, sg)
         if not mc.objExists(sg):
             continue
-
         filter_item = list()
         for geo in geos:
             if geo_namespace:
-                geo = "{0}:{1}".format(geo_namespace, sg)
+                geo = "{0}:{1}".format(geo_namespace, geo)
             if mc.objExists(geo.split(".")[0]):
                 filter_item.append(geo)
-
-        mc.sets(filter_item, e=True, forceElement=sg)
+        try:
+            mc.sets(filter_item, e=True, forceElement=sg)
+        except Exception as e:
+            print e
     return True
 

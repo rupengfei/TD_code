@@ -13,6 +13,8 @@ from core.shaderIO import shaderCore
 
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 seer7_json = os.path.join(scriptTool.getScriptPath(), "config_seer7.json")
+
+
 def setData(data=None):
     """
     data = {
@@ -29,17 +31,10 @@ def setData(data=None):
         ioTool.writeData(seer7_json, data)
     return True
 
+
 def readData():
     data = ioTool.readData(seer7_json)
     return data
-
-def rig_to_shader(rig_path="D:/Repo/seer7/cacheIO/Chars/Rig"):
-    """
-    D:/Repo/seer7/cacheIO/Chars/shader
-    """
-    data = rig_path.split("Rig")
-    return os.path.join(data[0], "shader")
-    # print data
 
 
 def split_cam(cam="Sc003_054_001_035_cam"):
@@ -63,14 +58,23 @@ def an_makedir(an_path="D:/Repo/seer7/cacheIO/Animation", scene="sc003", shot_na
     return an_path
 
 
-def format_path():
+def format_path(source_pathName=""):
+    path = os.path.dirname(source_pathName)
+    name = os.path.basename(source_pathName)
+    scene_name = path + "/" + name.split(".")[0] + "_SG." + name.split(".")[1]  # atieda_SG.ma
+    json_name = path + "/" + name.split(".")[0] + "_SG.json"  # atieda_SG.json
+    fix_name = name.split(".")[1]  # ma or mb
+    return scene_name, json_name, fix_name
+
+
+def seer7_shader_format_path():
     """
     """
     source_file = mayaTool.get_scene_path()
 
     path = os.path.dirname(source_file)
     if path[-3:] == "Rig":
-        path = path[:-3] + "shaderIO"  # path
+        path = path[:-3] + "shader"  # path
         if not os.path.exists(path):
             os.makedirs(path)
     name = os.path.basename(source_file)
@@ -80,8 +84,9 @@ def format_path():
 
     return scene_name, json_name, fix_name
 
+
 def aoto_export_shader():
-    scene_name, json_name, fix_name = format_path()
+    scene_name, json_name, fix_name = seer7_shader_format_path()
     geos = mc.ls("*_Geo") or list()
     for geo in geos:
         # print geo
@@ -93,13 +98,17 @@ def aoto_export_shader():
 
     return True
 
-def export_sel_shader():
-    scene_name, json_name, fix_name = format_path()
+
+def export_sel_shader(file_path):
+    sels = mc.ls(sl=True)
+    scene_name, json_name, fix_name = format_path(file_path)
     shaderCore.export_sel_sg_nodes(scene_name, fix_name)
+    mc.select(sels, r=True)
     shaderCore.export_sel_sg_members(json_name)
 
-def export_all_shader():
-    scene_name, json_name, fix_name = format_path()
+
+def export_all_shader(file_path):
+    scene_name, json_name, fix_name = format_path(file_path)
     shaderCore.export_all_sg_nodes(scene_name, fix_name)
     shaderCore.export_all_sg_members(json_name)
 
@@ -109,12 +118,18 @@ def import_sel_shader(file_path, geo_namespace=None):
     shaderCore.assign_data_to_all(json_path)
     return True
 
-def import_all_shader():
+def import_all_shader(file_path, geo_namespace=None):
+    reload(shaderCore)
+    json_path = ioTool.convert_ma_to_json(file_path)
+    shaderCore.reference_shader_file(file_path)
+    sg_namespace = os.path.basename(file_path)[:os.path.basename(file_path).rfind(".")]
+    shaderCore.assign_data_to_all(json_path, sg_namespace, geo_namespace)
+    return True
+
+
+def aoto_import_shader():
     pass
 
 
-
 if __name__ == '__main__':
-    print rig_to_shader()
-    print split_cam()
-    print an_makedir()
+    pass
