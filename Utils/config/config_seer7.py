@@ -14,6 +14,11 @@ from core.shaderIO import shaderCore
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 seer7_json = os.path.join(scriptTool.getScriptPath(), "config_seer7.json")
 
+# for mab in mc.file(q=1,l=1):  # 查询场景里所有的参考文件  返回的第一个值是当前文件 长名
+#     if mab[-2:] == "mb" or mab[-2:] == "ma":
+#         print mab
+
+
 
 def setData(data=None):
     """
@@ -30,6 +35,7 @@ def setData(data=None):
             "cacheIO_fx": r"Z:\SEER7\Work\Shot_work\cacheIO\Fx",
             "cacheIO_lt": r"Z:\SEER7\Work\Shot_work\cacheIO\Lighting",
             "cacheIO_shader": r"Z:\SEER7\Work\Shot_work\cacheIO\Shader",
+            "test_scene": r"Z:\SEER7\Work\Shot_work\Layout\sc003\sc003_shot007\work",
         }
         ioTool.writeData(seer7_json, data)
     return True
@@ -39,32 +45,33 @@ def seer7_data():
     return ioTool.readData(seer7_json)
 
 
-def split_cam(cam="Sc003_054_001_035_cam"):
+def split_cam(cam="cam_sc003_shot007_101_268"):
     """
-    ('Sc003', '054', 'Sc003_054', '001', '035')
+    data = ['cam', 'sc003', 'shot007', sc003_shot007, '001', '035']
     """
     data = cam.split("_")
-    scene = data[0]
-    shot = data[1]
+    scene = data[1]
+    shot = data[2]
     shot_name = "{0}_{1}".format(scene, shot)
     start_frame = data[2]
     end_frame = data[3]
     return scene, shot, shot_name, start_frame, end_frame
 
 
-def an_makedir(an_path="D:/Repo/seer7/cacheIO/Animation", scene="sc003", shot_name="sc003_054"):
-    """
-    D:/Repo/seer7/cacheIO/Animation\sc003\sc003_054
-    """
-    an_path = os.path.join(an_path, scene, shot_name)
-    return an_path
+def seer7_cam_name():
+    return mayaTool.filter_camera("cam_*_*")
+
+def file_name_space():
+    file_names = mayaTool.link_file_name()
+
+    return
 
 
-def format_path(source_pathName=""):
+def format_path(source_pathName="", proxy_name="_SG"):
     path = os.path.dirname(source_pathName)
     name = os.path.basename(source_pathName)
-    scene_name = path + "/" + name.split(".")[0] + "_SG." + name.split(".")[1]  # atieda_SG.ma
-    json_name = path + "/" + name.split(".")[0] + "_SG.json"  # atieda_SG.json
+    scene_name = path + "/" + name.split(".")[0] + proxy_name + "." + name.split(".")[1]  # atieda_SG.ma
+    json_name = path + "/" + name.split(".")[0] + proxy_name + ".json"  # atieda_SG.json
     fix_name = name.split(".")[1]  # ma or mb
     return scene_name, json_name, fix_name
 
@@ -89,7 +96,7 @@ def seer7_shader_format_path():
     return scene_name, json_name, fix_name
 
 
-def aoto_export_shader():
+def auto_export_shader():
     scene_name, json_name, fix_name = seer7_shader_format_path()
     geos = mc.ls("*_Geo") or list()
     for geo in geos:
@@ -130,7 +137,7 @@ def import_all_shader(file_path, geo_namespace=None):
     return True
 
 
-def aoto_import_shader():
+def auto_import_shader():
     pass
 
 

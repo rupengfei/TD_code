@@ -11,6 +11,30 @@ import maya.mel as mel
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 
 
+def link_file_name():
+    # 返回场景里所有的有关联的 ma mb 文件
+    file_names = list()
+    for mab in mc.file(q=1, list=1):
+        if mab[-2:] == "mb" or mab[-2:] == "ma":
+            file_names.append(mab)
+    return file_names
+
+
+def filter_camera(cam_name="cam_*_*"):
+    sels_cam = mc.ls(cam_name) or list()
+    cams = mc.listCameras()
+    cam = list()
+    for sel in sels_cam:
+        if sel in cams:
+            cam.append(sel)
+    if len(cam) == 1:
+        print cam[0]
+        return cam[0]
+    else:
+        print "have too many camera"
+        return False
+
+
 def get_scene_name():
     return mc.file(q=True, ns=True)
 

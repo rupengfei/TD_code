@@ -4,7 +4,9 @@
 #         mail: a773849069@gmail.com
 #         time: 2018/12/7
 # ==========================================
-from PySide2 import QtCore, QtGui
+# from PySide2 import QtCore, QtGui, QtWidgets
+from PySide2.QtCore import *
+from PySide2.QtWidgets import *
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 
 
@@ -19,35 +21,35 @@ class DnDListWidget(QListWidget):
 
     def dragEnterEvent(self, event):
         print "dragEnterEvent"
-        # if event.mimeData().hasFormat("application/x-icon-and-text"):
-        #     event.accept()
-        # else:
-        #     event.ignore()
+        if event.mimeData().hasFormat("application/x-icon-and-text"):
+            event.accept()
+        else:
+            event.ignore()
 
     def dragMoveEvent(self, event):
         print "dragMoveEvent"
-        # if event.mimeData().hasFormat("application/x-icon-and-text"):
-        #     event.setDropAction(Qt.MoveAction)
-        #     event.accept()
-        # else:
-        #     event.ignore()
+        if event.mimeData().hasFormat("application/x-icon-and-text"):
+            event.setDropAction(Qt.MoveAction)
+            event.accept()
+        else:
+            event.ignore()
 
     def dropEvent(self, event):
         print "dropEvent"
-        # if event.mimeData().hasFormat("application/x-icon-and-text"):
-        #     data = event.mimeData().data("application/x-icon-and-text")
-        #     stream = QDataStream(data, QIODevice.ReadOnly)
-        #     text = stream.readQString()
-        #     # text=""
-        #     # stream>>text
-        #     icon = QIcon()
-        #     stream >> icon
-        #     item = QListWidgetItem(text, self)
-        #     item.setIcon(icon)
-        #     event.setDropAction(Qt.MoveAction)
-        #     event.accept()
-        # else:
-        #     event.ignore()
+        if event.mimeData().hasFormat("application/x-icon-and-text"):
+            data = event.mimeData().data("application/x-icon-and-text")
+            stream = QDataStream(data, QIODevice.ReadOnly)
+            text = stream.readQString()
+            # text=""
+            # stream>>text
+            icon = QIcon()
+            stream >> icon
+            item = QListWidgetItem(text, self)
+            item.setIcon(icon)
+            event.setDropAction(Qt.MoveAction)
+            event.accept()
+        else:
+            event.ignore()
 
     def startDrag(self, dropActions):
         print "111"

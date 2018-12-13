@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'shaderIOQt.ui'
+# Form implementation generated from reading ui file 'shaderIO_batch.ui'
 #
 # Created: Fri Dec 07 15:12:21 2018
 #      by: pyside2-uic  running on PySide2 2.0.0~alpha0

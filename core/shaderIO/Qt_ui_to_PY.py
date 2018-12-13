@@ -8,7 +8,7 @@ import pyside2uic
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 
 
-with open("shaderIOQt.py", "w") as f:
-    pyside2uic.compileUi("shaderIOQt.ui", f)
+with open("shaderIO_batch.py", "w") as f:
+    pyside2uic.compileUi("shaderIO.ui", f)
     print "ok"
 

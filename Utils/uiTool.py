@@ -20,6 +20,7 @@ elif Qt.__binding__ == 'PySide2':
 
 
 def loadUiType(uiFile):
+    # 加载 ui 文件
     parsed = xml.parse(uiFile)
     widget_class = parsed.find('widget').get('class')
     form_class = parsed.find('class').text

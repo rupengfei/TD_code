@@ -7,10 +7,12 @@ author: Jan Bodnar
 website: zetcode.com
 last edited: January 2015
 """
-import sys, random
-from PySide2.QtWidgets import QMainWindow, QFrame, QDesktopWidget, QApplication
+import random
+import sys
+
 from PySide2.QtCore import Qt, QBasicTimer, Signal
 from PySide2.QtGui import QPainter, QColor
+from PySide2.QtWidgets import QMainWindow, QFrame, QDesktopWidget, QApplication
 
 
 class Tetris(QMainWindow):

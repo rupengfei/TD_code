@@ -1,7 +1,5 @@
-# toturial folder
-tutorail
-ToolIndex
 
+window_test
 
 # Python
 *.pyc
@@ -14,7 +12,6 @@ ToolIndex
 
 # pyCharm projectFiles
 .idea
-PYQT_UI
 
 
 # windows dataBase

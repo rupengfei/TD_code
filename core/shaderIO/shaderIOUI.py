@@ -2,120 +2,90 @@
 # ==========================================
 #       author: Pengfei.Ru
 #         mail: a773849069@gmail.com
-#         time: 2018/12/3
+#         time: 2018/12/13
 # ==========================================
-import os
 import maya.cmds as mc
-from PySide2 import QtCore, QtGui, QtWidgets
-from Utils import uiTool, scriptTool, mayaTool
-from core.shaderIO import shader_mvc_model, shaderIOQt
-
-
+from Utils import uiTool, scriptTool
+from Utils.config import config_seer7
+from PySide2 import QtWidgets, QtCore
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
-# script_path = scriptTool.getScriptPath()
-# form_class, base_class = uiTool.loadUiType(script_path + "/shaderIOQt.ui")
-win_name = "shaderIO"
+# reload(scriptTool)
+script_path = scriptTool.getScriptPath()
+form_class, base_class = uiTool.loadUiType(script_path + "/shaderIO.ui")
 
 
-# class ShaderIO(base_class, form_class):
-class ShaderIO(shaderIOQt.Ui_list_window, QtWidgets.QMainWindow):
+class ShaderIO(base_class, form_class):
     def __init__(self, parent=uiTool.get_maya_window()):
-        self.__drag_pos = (0, 0)
-        self.window_name = win_name
-        if mc.window(self.window_name, exists=True):
-            mc.deleteUI(self.window_name)
+        print "shaderIOUI start"
+        self.win_name = "Shader Tool"
+        self.object_name = "shader_tool"
+        # self.dockControl_object_name = self.object_name + "dockControl"
+        if mc.window(self.object_name, exists=True):
+            mc.deleteUI(self.object_name)
         super(ShaderIO, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowTitle("......")
-        self.setObjectName(win_name)
+        self.setWindowTitle(self.win_name)
+        self.setObjectName(self.object_name)
         desktop = QtWidgets.QApplication.desktop().availableGeometry()
         size = self.geometry()
         self.move((desktop.width() - size.width()) / 2, (desktop.height() - size.height()) / 2)
+        self.lin_import.setAcceptDrops(True)  # 拖拽接收开启
+        self.lin_import.setDragEnabled(True)  # 拖拽反馈开启
+        self.lin_import.dragEnterEvent = self.lin_import_dragEnterEvent  # 拖拽启动事件
+        # self.lin_import.dragMoveEvent = self.lin_import_dragMoveEvent  # 拖拽移动事件
+        self.lin_import.dropEvent = self.lin_import_dropEvent  # 拖拽松开事件
+        # mc.dockControl(self.dockControl_object_name,
+        #                area='right',
+        #                label=self.win_name,
+        #                content=str(self.objectName()), allowedArea=('left', 'right'),
+        #                vis=True)
 
-        self.__list_model = shader_mvc_model.MVC_List_Model(self.list_view)
-        self.list_view.setModel(self.__list_model)
-        self.list_view.setAcceptDrops(True)  # 拖拽接收开启
-        self.list_view.setDragEnabled(True)  # 拖拽反馈开启
-        self.list_view.dragEnterEvent = self.list_view_dragEnterEvent  # 拖拽启动事件
-        self.list_view.dragMoveEvent = self.list_view_dragMoveEvent  # 拖拽移动事件
-        self.list_view.dropEvent = self.list_view_dropEvent  # 拖拽松开事件
+    @QtCore.Slot(bool)
+    def on_btn_export_sel_shader_clicked(self, args=None):
+        config_seer7.export_sel_shader(self.lin_export.text())
 
-        # self.list_view.mouseMoveEvent = self.mouse_double_clicked_event  # 鼠标移动事件
-        self.list_view.mouseDoubleClickEvent = self.get_sel_item  # 鼠标双击事件
-        self.list_view.mouseReleaseEvent = self.mouse_release_event
-        self.list_view.releaseMouse()
-        # self.list_view.mouseGrabber = self.mouse_grabber_event
-        # self.list_view.mousePressEvent = self.mouse_press_event
-        # self.__current_dir = ''
-        self.__list_model = shader_mvc_model.DnDListWidget(self.list_view)
-        self.list_view.setModel(self.__list_model)
+    @QtCore.Slot(bool)
+    def on_btn_export_shader_clicked(self, args=None):
+        config_seer7.export_all_shader(self.lin_export.text())
 
-    def list_view_dragEnterEvent(self, event):
-        print "dragEnterEvent"
-        # self.__drag_pos = (event.pos().x(), event.pos().y())
+    def lin_import_dragEnterEvent(self, event):
         if event.mimeData().hasUrls():
-            print event.pos().x(), event.pos().y()
             event.acceptProposedAction()
 
-    def list_view_dragMoveEvent(self, event):
-        event.ignore()
-        # print dir(event)
-        # print event.pos().x(), event.pos().y()
-        # if event.mimeData().hasUrls():
-        #     print event.pos().x(), event.pos().y()
-        #     event.acceptProposedAction()
+    # def lin_import_dragMoveEvent(self, event):
+    #     print "11122"
 
-    def list_view_dropEvent(self, event):
-        print "11111"
-        # if event.mimeData().hasUrls():
-        #     for url in event.mimeData().urls():
-        #         self.__list_model.append(url.toString()[8:])
-        #     event.acceptProposedAction()
+    def lin_import_dropEvent(self, event):
+        if event.mimeData().hasUrls():
+            for url in event.mimeData().urls():
+                self.lin_import.setText(url.toString()[8:])
+            event.acceptProposedAction()
 
-    def mouse_double_clicked_event(self, event):
-        print "double_clicked"
-        print event
-
-    def mouse_release_event(self, event):
-        print "release_event"
-        print event
-
-    # def mouse_grabber_event(self):
-    #     print "mouse_grabber_event"
-
-    # def mouse_press_event(self, event):
-    #     print "mouse_Press_event"
-    #     print event
-
-    def get_sel_item(self, event):
-        print self.__list_model.sel_item(self.list_view.selectedIndexes()[0])
-        # print self.list_view.selectedIndexes()[0].text()
+    # @QtCore.Slot(bool)
+    # def on_btn_import_sel_shader_clicked(self, args=None):
+    #     config_seer7.import_sel_shader(self.lin_import.text(), self.lin_namespace.text())
 
     @QtCore.Slot(bool)
-    def on_list_view_selectedIndexes(self, qModelIndex):
-        print "aaa"
-        # QMessageBox.information(self, 'ListWidget', '你选择了：' + self.qList[qModelIndex.row()])
+    def on_btn_import_shader_clicked(self, args=None):
+        if self.lin_namespace.text():
+            config_seer7.import_all_shader(self.lin_import.text(), self.lin_namespace.text())
+        else:
+            config_seer7.import_all_shader(self.lin_import.text())
+
 
     @QtCore.Slot(bool)
-    def on_btn_delete_select_clicked(self, event):
-        self.__list_model.removeRow(sel_items=self.list_view.selectedIndexes())
+    def on_btn_auto_export_clicked(self, args=None):
+        config_seer7.auto_export_shader()
 
     @QtCore.Slot(bool)
-    def on_btn_clear_all_clicked(self, event):
-        self.__list_model.fanhui_index()
-
-    @QtCore.Slot(bool)
-    def on_export_all_clicked(self, event):
-        print "export_all"
-        print self.__list_model.data(list1=True)
-        print self.__list_model.my_sel()
-        print self.__list_model.currentText()
+    def on_btn_batch_export_clicked(self, args=None):
+        print "aaaaa"
+        from core.shaderIO import shaderIO_batchUI
+        reload(shaderIO_batchUI)
+        batch_IO = shaderIO_batchUI.ShaderIO()
+        batch_IO.show_win()
 
     def show_win(self, args=None):
-        uiTool.windowExists(uiTool.get_maya_window(), win_name)
+        uiTool.windowExists(uiTool.get_maya_window(), self.object_name)
         return True
-
-
-if __name__ == "__main__":
-    pass
 

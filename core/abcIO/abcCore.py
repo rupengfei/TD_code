@@ -10,6 +10,7 @@ import maya.cmds as mc
 
 
 def seer7_export_Geo():
+    mc.select(Face_RenderMesh)
     pass
 
 def export_color_sets():
