@@ -10,7 +10,7 @@ import maya.cmds as mc
 
 
 def get_path_key(key="char"):
-
+    pass
 
 def RN_have_char(char):
     print
