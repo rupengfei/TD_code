@@ -12,13 +12,14 @@ from core.shaderIO import shaderCore
 
 
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
-seer7_json = os.path.join(scriptTool.getScriptPath(), "config_seer7.json")
 
-# for mab in mc.file(q=1,l=1):  # 查询场景里所有的参考文件  返回的第一个值是当前文件 长名
-#     if mab[-2:] == "mb" or mab[-2:] == "ma":
-#         print mab
-
-
+"""
+[u'Z:/SEER7/Work/Asset_work/Env/BaiMuXingFeiChuanShiShiDiZhi/Mod/Layout_Env/Seer7_Env_to_layout.ma',
+ u'Z:/SEER7/Work/Asset_work/Chars/ATieDa_ShengJi/Rig/approve/Seer7_char_RIG_ATieDa_ShengJi.ma',
+ u'Z:/SEER7/Work/Asset_work/Props/ATieDa_BeiBao/Rig/approve/Seer7_Props_RIG_ATieDa_BeiBao.ma',
+ u'D:/cloth/scenes/seer7_test/atieda_v03.ma',
+ u'D:/cloth/scenes/seer7_test/atieda_v03.ma{1}'] 
+ """
 
 def setData(data=None):
     """
@@ -30,23 +31,25 @@ def setData(data=None):
     if not data:
         data = {
             "shader_source_path": r"D:/Repo/seer7/cacheIO/Chars/Rig",
-            "cacheIO": r"Z:\SEER7\Work\Shot_work\cacheIO",
-            "cacheIO_an": r"Z:\SEER7\Work\Shot_work\cacheIO\Animation",
-            "cacheIO_fx": r"Z:\SEER7\Work\Shot_work\cacheIO\Fx",
-            "cacheIO_lt": r"Z:\SEER7\Work\Shot_work\cacheIO\Lighting",
-            "cacheIO_shader": r"Z:\SEER7\Work\Shot_work\cacheIO\Shader",
-            "test_scene": r"Z:\SEER7\Work\Shot_work\Layout\sc003\sc003_shot007\work",
+            "cacheIO": r"Z:/SEER7/Work/Shot_work/cacheIO",
+            "cacheIO_an": r"Z:/SEER7/Work/Shot_work/cacheIO/Animation",
+            "cacheIO_fx": r"Z:/SEER7/Work/Shot_work/cacheIO/Fx",
+            "cacheIO_lt": r"Z:/SEER7/Work/Shot_work/cacheIO/Lighting",
+            "cacheIO_shader": r"Z:/SEER7/Work/Shot_work/cacheIO/Shader",
+            "test_scene": r"Z:/SEER7/Work/Shot_work/Layout/sc003/sc003_shot007/work",
         }
-        ioTool.writeData(seer7_json, data)
+        ioTool.writeData(os.path.join(scriptTool.getScriptPath(), "config_seer7.json"), data)
     return True
 
 
 def seer7_data():
-    return ioTool.readData(seer7_json)
+    """返回 seer 项目的配置"""
+    return ioTool.readData(os.path.join(scriptTool.getScriptPath(), "config_seer7.json"))
 
 
-def split_cam(cam="cam_sc003_shot007_101_268"):
+def seer7_split_cam(cam="cam_sc003_shot007_101_268"):
     """
+    相机名称过滤镜头号 时间帧信息
     data = ['cam', 'sc003', 'shot007', sc003_shot007, '001', '035']
     """
     data = cam.split("_")
@@ -58,13 +61,19 @@ def split_cam(cam="cam_sc003_shot007_101_268"):
     return scene, shot, shot_name, start_frame, end_frame
 
 
-def seer7_cam_name():
-    return mayaTool.filter_camera("cam_*_*")
+def seer7_cam_get_path():
+    """用相机匹配路径"""
+    cam_name = mayaTool.filter_camera("cam_*_*")
+    short_name = seer7_split_cam(cam_name)
+    path_animation = seer7_data()["cacheIO_an"]
+    export_path = os.path.join(path_animation, short_name[0], short_name[2])
+    if not os.path.isdir(export_path):
+        os.makedirs(export_path)
+    return export_path
 
-def file_name_space():
-    file_names = mayaTool.link_file_name()
-
-    return
+def file_reference():
+    references = mc.file(q=True, reference=True)
+    return references
 
 
 def format_path(source_pathName="", proxy_name="_SG"):
@@ -74,6 +83,28 @@ def format_path(source_pathName="", proxy_name="_SG"):
     json_name = path + "/" + name.split(".")[0] + proxy_name + ".json"  # atieda_SG.json
     fix_name = name.split(".")[1]  # ma or mb
     return scene_name, json_name, fix_name
+
+
+
+
+def
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def seer7_shader_format_path():

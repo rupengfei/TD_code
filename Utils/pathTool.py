@@ -9,6 +9,18 @@ import maya.cmds as mc
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 
 
+def get_path_key(key="char"):
+
+
+def RN_have_char(char):
+    print
+
+def RN_have_Env(char):
+    print
+
+def RN_have_Props(char):
+    print
+
 def recombine_path(path="", find_str=None, append_str=None):
     """
 
@@ -30,8 +42,7 @@ def recombine_path(path="", find_str=None, append_str=None):
                 return path
         else:
             return path
-    else:
-        return False
+    return False
 
 
 def get_start_dir(start_dir):

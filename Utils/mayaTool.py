@@ -11,16 +11,21 @@ import maya.mel as mel
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 
 
-def link_file_name():
-    # 返回场景里所有的有关联的 ma mb 文件
-    file_names = list()
-    for mab in mc.file(q=1, list=1):
-        if mab[-2:] == "mb" or mab[-2:] == "ma":
-            file_names.append(mab)
-    return file_names
+def get_current_frame():
+    """返回场景当前选择的帧"""
+    return mc.currentTime(q=True)
+
+def get_time_slider():
+    """返回时间滑条的信息"""
+    min_time = mc.playbackOptions(q=True, minTime=True)  # 开始时间帧
+    max_time = mc.playbackOptions(q=True, maxTime=True)  # 结束时间帧
+    ast_time = mc.playbackOptions(q=True, ast=True)  # 动画开始帧
+    aet_time = mc.playbackOptions(q=True, aet=True)  # 动画结束帧
+    return min_time, max_time, ast_time, aet_time
 
 
 def filter_camera(cam_name="cam_*_*"):
+    """按名称过滤相机"""
     sels_cam = mc.ls(cam_name) or list()
     cams = mc.listCameras()
     cam = list()
@@ -28,10 +33,8 @@ def filter_camera(cam_name="cam_*_*"):
         if sel in cams:
             cam.append(sel)
     if len(cam) == 1:
-        print cam[0]
         return cam[0]
     else:
-        print "have too many camera"
         return False
 
 
@@ -44,7 +47,6 @@ def get_scene_path():
 def sel_Geo():
     return mc.ls("*_Geo")
 
-# noinspection PyPep8Naming
 def getBlendShapeInfo(blendShape):
     """Return blendShape's ID and attributes dict.."""
     attribute_dict = {}
@@ -63,11 +65,8 @@ def getBlendShapeInfo(blendShape):
     return attribute_dict
 
 
-# noinspection PyPep8Naming
 def getBlendShapeAttributes(blendShape):
-    """
-    Return blendShape attributes..
-    """
+    """返回 BlendShape 属性"""
     attribute_dict = getBlendShapeInfo(blendShape)
     bs_idList = attribute_dict.keys()
     bs_idList.sort()
@@ -76,7 +75,8 @@ def getBlendShapeAttributes(blendShape):
     return attributes
 
 
-def get_start_dir(start_dir):
+def get_start_dir(start_dir):  # 1111111111dir
+    """返回一个默认的路径"""
     if os.path.isfile(start_dir):
         start_dir = os.path.dirname(start_dir)
 
@@ -89,28 +89,28 @@ def get_start_dir(start_dir):
     return start_dir
 
 
-def get_output_path(filter_format='Maya ASCII (*.ma)', start_dir=None):
+def get_output_path(filter_format='Maya ASCII (*.ma)', start_dir=None):  # 1111111111dir
     start_dir = get_start_dir(start_dir)
     filePath = mc.fileDialog2(ff=filter_format, startingDirectory=start_dir)
     return filePath
 
 
-def get_input_path(filter_format='Maya ASCII (*.ma)', start_dir=None):
+def get_input_path(filter_format='Maya ASCII (*.ma)', start_dir=None):  # 1111111111dir
     start_dir = get_start_dir(start_dir)
     filePath = mc.fileDialog2(ff=filter_format, fm=4, okc='Select', startingDirectory=start_dir)
     return filePath
 
 
-PROGRESSBAR = mel.eval('string $temp = $gMainProgressBar;')
+PROGRESSBAR = mel.eval('string $temp = $gMainProgressBar;')  # PROGRESSBAR
 
 
-def startProgress(count):
+def startProgress(count):  # PROGRESSBAR
     mc.progressBar(PROGRESSBAR, e=True, bp=True, maxValue=max(count, 1))
 
 
-def moveProgress(message):
+def moveProgress(message):  # PROGRESSBAR
     mc.progressBar(PROGRESSBAR, e=True, step=1, st=message)
 
 
-def endProgress():
+def endProgress():  # PROGRESSBAR
     mc.progressBar(PROGRESSBAR, e=True, ep=True)
