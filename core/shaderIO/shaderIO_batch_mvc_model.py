@@ -4,8 +4,8 @@
 #         mail: a773849069@gmail.com
 #         time: 2018/12/7
 # ==========================================
-# from PySide2 import QtCore, QtGui, QtWidgets
-from PySide2.QtCore import *
+from PySide2 import QtCore, QtGui, QtWidgets
+# from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 
@@ -91,9 +91,7 @@ class MVC_List_Model(QtCore.QAbstractListModel):
     #         return self.__data[index.row()]
 
     def rowCount(self, index=QtCore.QModelIndex()):
-        """
-        返回列表的长度  是个整数
-        """
+        """返回列表的长度  是个整数"""
         return len(self.__data)
 
     def data(self, index=QtCore.QModelIndex(), role=QtCore.Qt.EditRole, list1=None):

@@ -34,6 +34,8 @@ class ShaderIO(base_class, form_class):
         self.lin_import.dragEnterEvent = self.lin_import_dragEnterEvent  # 拖拽启动事件
         # self.lin_import.dragMoveEvent = self.lin_import_dragMoveEvent  # 拖拽移动事件
         self.lin_import.dropEvent = self.lin_import_dropEvent  # 拖拽松开事件
+        self.btn_import_sel_shader.setEnabled(False)
+        self.btn_auto_import.setEnabled(False)
         # mc.dockControl(self.dockControl_object_name,
         #                area='right',
         #                label=self.win_name,

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>268</width>
-    <height>245</height>
+    <width>326</width>
+    <height>250</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,7 +41,7 @@
         <property name="minimumSize">
          <size>
           <width>80</width>
-          <height>20</height>
+          <height>25</height>
          </size>
         </property>
         <property name="toolTip">
@@ -57,7 +57,7 @@
         <property name="minimumSize">
          <size>
           <width>80</width>
-          <height>20</height>
+          <height>25</height>
          </size>
         </property>
         <property name="toolTip">
@@ -123,12 +123,12 @@ p, li { white-space: pre-wrap; }
       <item>
        <widget class="QPushButton" name="btn_import_sel_shader">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="minimumSize">
          <size>
           <width>80</width>
-          <height>20</height>
+          <height>25</height>
          </size>
         </property>
         <property name="toolTip">
@@ -144,7 +144,7 @@ p, li { white-space: pre-wrap; }
         <property name="minimumSize">
          <size>
           <width>80</width>
-          <height>20</height>
+          <height>25</height>
          </size>
         </property>
         <property name="toolTip">
@@ -158,53 +158,66 @@ p, li { white-space: pre-wrap; }
      </layout>
     </item>
     <item>
-     <widget class="QPushButton" name="btn_auto_export">
-      <property name="minimumSize">
-       <size>
-        <width>250</width>
-        <height>20</height>
-       </size>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <property name="topMargin">
+       <number>0</number>
       </property>
-      <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;导出所有_Geo组底下的模型的材质&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;范例：atieda_Geo&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;只导出大写G的&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="whatsThis">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="text">
-       <string>Aoto Export</string>
-      </property>
-     </widget>
+      <item>
+       <widget class="QPushButton" name="btn_auto_export">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;导出所有_Geo组底下的模型的材质&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;范例：atieda_Geo&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;只导出大写G的&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="whatsThis">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Aoto Export</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btn_auto_import">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;自动搜索并导入&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;所有_Geo组的模型的材质&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="whatsThis">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Aoto Import</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <widget class="QPushButton" name="btn_batch_export">
       <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>batch export</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="btn_auto_import">
-      <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="minimumSize">
        <size>
-        <width>80</width>
-        <height>20</height>
+        <width>0</width>
+        <height>25</height>
        </size>
       </property>
-      <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;自动搜索并导入&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;所有_Geo组的模型的材质&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="whatsThis">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
       <property name="text">
-       <string>Aoto Import</string>
+       <string>batch export</string>
       </property>
      </widget>
     </item>

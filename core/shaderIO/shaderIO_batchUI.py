@@ -9,30 +9,31 @@ import maya.cmds as mc
 from PySide2 import QtCore, QtGui, QtWidgets
 from Utils import uiTool, scriptTool  # , mayaTool
 # from core.shaderIO import shader_mvc_model  # , shaderIO_batch
-from core.shaderIO import shader_mvc_model
-
+from core.shaderIO import shaderIO_batch_mvc_model
+reload(shaderIO_batch_mvc_model)
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 script_path = scriptTool.getScriptPath()
 form_class, base_class = uiTool.loadUiType(script_path + "/shaderIO_batch.ui")
-win_name = "shaderIO"
+
 
 
 class ShaderIO(base_class, form_class):
     # class ShaderIO(shaderIO_batch.Ui_list_window, QtWidgets.QMainWindow):
     def __init__(self, parent=uiTool.get_maya_window()):
         self.__drag_pos = (0, 0)
-        self.window_name = win_name
+        self.window_name = "shaderIO"
+        self.obj_name = "shaderIO"
         if mc.window(self.window_name, exists=True):
             mc.deleteUI(self.window_name)
         super(ShaderIO, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowTitle("......")
-        self.setObjectName(win_name)
+        self.setWindowTitle(self.window_name)
+        self.setObjectName(self.obj_name)
         desktop = QtWidgets.QApplication.desktop().availableGeometry()
         size = self.geometry()
         self.move((desktop.width() - size.width()) / 2, (desktop.height() - size.height()) / 2)
 
-        self.__list_model = shader_mvc_model.MVC_List_Model(self.list_view)
+        self.__list_model = shaderIO_batch_mvc_model.MVC_List_Model(self.list_view)
         self.list_view.setModel(self.__list_model)
         self.list_view.setAcceptDrops(True)  # 拖拽接收开启
         self.list_view.setDragEnabled(True)  # 拖拽反馈开启
@@ -58,19 +59,20 @@ class ShaderIO(base_class, form_class):
             event.acceptProposedAction()
 
     def list_view_dragMoveEvent(self, event):
-        event.ignore()
-        # print dir(event)
+        print event.type().name
+        print event.type().values
         # print event.pos().x(), event.pos().y()
-        # if event.mimeData().hasUrls():
-        #     print event.pos().x(), event.pos().y()
-        #     event.acceptProposedAction()
+        if event.mimeData().hasUrls():
+            event.ignore()
+            # print event.pos().x(), event.pos().y()
+            event.acceptProposedAction()
 
     def list_view_dropEvent(self, event):
-        print "11111"
-        # if event.mimeData().hasUrls():
-        #     for url in event.mimeData().urls():
-        #         self.__list_model.append(url.toString()[8:])
-        #     event.acceptProposedAction()
+        # print "11111"
+        if event.mimeData().hasUrls():
+            for url in event.mimeData().urls():
+                self.__list_model.append(url.toString()[8:])
+            event.acceptProposedAction()
 
     def mouse_double_clicked_event(self, event):
         print "double_clicked"
@@ -88,6 +90,7 @@ class ShaderIO(base_class, form_class):
     #     print event
 
     def get_sel_item(self, event):
+        print self.list_view.selectedIndexes()
         print self.__list_model.sel_item(self.list_view.selectedIndexes()[0])
         # print self.list_view.selectedIndexes()[0].text()
 
@@ -112,7 +115,7 @@ class ShaderIO(base_class, form_class):
         print self.__list_model.currentText()
 
     def show_win(self, args=None):
-        uiTool.windowExists(uiTool.get_maya_window(), win_name)
+        uiTool.windowExists(uiTool.get_maya_window(), self.obj_name)
         return True
 
 
