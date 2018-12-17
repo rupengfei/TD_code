@@ -64,9 +64,11 @@ def seer7_split_cam(cam="cam_sc003_shot007_101_268"):
 def seer7_cam_get_path():
     """用相机匹配路径"""
     cam_name = mayaTool.filter_camera("cam_*_*")
+    if not cam_name:
+        return "D:/"
     short_name = seer7_split_cam(cam_name)
     path_animation = seer7_data()["cacheIO_an"]
-    export_path = os.path.join(path_animation, short_name[0], short_name[2])
+    export_path = os.path.join(path_animation, short_name[0], short_name[2]).replace("\\", "/")
     if not os.path.isdir(export_path):
         os.makedirs(export_path)
     return export_path
@@ -86,12 +88,17 @@ def format_path(source_pathName="", proxy_name="_SG"):
 
 
 
+def sel_Geo():
+    return mc.ls("*_Geo")
 
-# def
+def sel_rn_Geo():
+    return mc.ls("*:*_Geo")
 
 
-
-
+def sel_all_Geo():
+    geo_grp = sel_Geo()
+    geo_grp.extend(sel_rn_Geo())
+    return geo_grp
 
 
 

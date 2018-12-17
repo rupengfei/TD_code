@@ -1,14 +1,17 @@
-# -*- coding:utf-8 -*-  
+# -*- coding:GBK -*-
 # ==========================================
 #       author: Pengfei.Ru
 #         mail: a773849069@gmail.com
 #         time: 2018/12/10
 # ==========================================
 import maya.cmds as mc
-from Utils import uiTool, scriptTool
-# from Utils.config import config_seer7
+from Utils import uiTool, scriptTool, mayaTool
+from Utils.config import config_seer7
 from PySide2 import QtWidgets, QtCore, QtGui
+from core.abcIO import Abc_mvc_mode, Abc_Core
 
+# reload(Abc_mvc_mode)
+# reload(config_seer7)
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 # reload(scriptTool)
 script_path = scriptTool.getScriptPath()
@@ -25,7 +28,12 @@ class Setup(base_class, form_class):
         self.setupUi(self)
         self.setWindowTitle(self.win_name)
         self.setObjectName(self.object_name)
+        self.__list_model = Abc_mvc_mode.MVC_List_Model(self.list_view, config_seer7.sel_all_Geo())
+        self.list_view.setModel(self.__list_model)
+        self.list_view.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode(3))
+
         self.btn_sel_path.setIcon(QtGui.QIcon(script_path + "/icon/file.png"))
+        self.on_btn_refresh_setting_clicked()
 
     def show_win(self, args=None):
         uiTool.windowExists(uiTool.get_maya_window(), self.object_name)
@@ -42,26 +50,36 @@ class Setup(base_class, form_class):
             return False
 
     @QtCore.Slot(bool)
-    def on_check_vis_path_clicked(self, event):
-        if event:
-            self.lin_export_path.setText("test_cam_sc003_shot007_101_268")
+    def on_btn_refresh_setting_clicked(self, args=None):
+        cam_path = config_seer7.seer7_cam_get_path()
+        self.lin_export_path.setText(cam_path)
+        playblast_time = mayaTool.get_time_slider()
+        self.float_start.setValue(playblast_time[0])
+        self.float_end.setValue(playblast_time[1])
+        self.float_step.setValue(playblast_time[-1])
+        print "ÉèÖÃË¢ĞÂ³É¹¦"
 
     @QtCore.Slot(bool)
-    def on_btn_cjjc_clicked(self, event):
-        print self.lin_export_path.text()  # è¾“å‡ºè·¯å¾„
-        print self.radio_cf.isChecked()  # å½“å‰å¸§ bool
-        print self.radio_ts.isChecked()  # æ—¶é—´æ»‘æ¡ bool
-        print self.radio_se.isChecked()  # å¼€å§‹ç»“æŸ bool
-        print self.float_start.value()  # èµ·å§‹å¸§
-        print self.float_end.value()  # ç»“æŸå¸§
-        print self.float_step.value()  # å­æ­¥å€¼
-        print self.check_cam.isChecked()  # ç›¸æœº bool
-        print self.check_body.isChecked()  # äººç‰© bool
-        print self.check_color_set.isChecked()  # é¢œè‰²é›† bool
-        print self.check_BG.isChecked()  # BG bool
-        print self.check_prop.isChecked()  # é“å…· bool
-        print self.check_export_sel.isChecked()  # æ˜¯å¦é€‰æ‹©å¯¼å‡º bool
+    def on_btn_refresh_list_clicked(self, args=None):
+        geo_name = config_seer7.sel_all_Geo()
+        self.__list_model.replace_row(geo_name)
+        # self.__list_model.append(geo_name)
+        print "ÁĞ±íË¢ĞÂ³É¹¦"
 
     @QtCore.Slot(bool)
-    def on_btn_export_clicked():
+    def on_btn_del_sel_clicked(self, args=None):
+        self.__list_model.removeRow(sel_items=self.list_view.selectedIndexes())
+
+    @QtCore.Slot(bool)
+    def on_btn_export_clicked(self, args=None):
         print "btn_export"
+
+    @QtCore.Slot(bool)
+    def on_btn_test_clicked(self, args=None):
+        path = self.lin_export_path.text()  # Êä³öÂ·¾¶
+        start = self.float_start.value()  # ÆğÊ¼Ö¡
+        end = self.float_end.value()  # ½áÊøÖ¡
+        step = self.float_step.value()  # ×Ó²½Öµ
+        geos = self.__list_model.data(list1=True)  # ÁĞ±íÊı¾İ
+        print path, "\n", start, "\n", end, "\n", step, "\n", geos
+        Abc_Core.abc_export(path, start, end, step, geos)

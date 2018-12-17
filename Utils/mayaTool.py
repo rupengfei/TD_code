@@ -21,7 +21,8 @@ def get_time_slider():
     max_time = mc.playbackOptions(q=True, maxTime=True)  # 结束时间帧
     ast_time = mc.playbackOptions(q=True, ast=True)  # 动画开始帧
     aet_time = mc.playbackOptions(q=True, aet=True)  # 动画结束帧
-    return min_time, max_time, ast_time, aet_time
+    by_time = mc.playbackOptions(q=True, by=True)  # step
+    return min_time, max_time, ast_time, aet_time, by_time
 
 
 def filter_camera(cam_name="cam_*_*"):
@@ -46,6 +47,7 @@ def get_scene_path():
 
 def sel_Geo():
     return mc.ls("*_Geo")
+
 
 def getBlendShapeInfo(blendShape):
     """Return blendShape's ID and attributes dict.."""

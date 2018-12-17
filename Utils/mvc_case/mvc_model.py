@@ -9,7 +9,6 @@ from PySide2 import QtCore, QtGui
 class MVC_List_Model(QtCore.QAbstractListModel):
     """
     """
-
     def __init__(self, parent=None, data=None):
         """
         """
