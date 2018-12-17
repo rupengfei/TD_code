@@ -94,10 +94,22 @@ def sel_Geo():
 def sel_rn_Geo():
     return mc.ls("*:*_Geo")
 
+def sel_color_sets():
+    return mc.ls("*:Face_RenderMesh")
 
-def sel_all_Geo():
-    geo_grp = sel_Geo()
-    geo_grp.extend(sel_rn_Geo())
+def sel_all_Geo(cam, color_set, body, BG, other):
+    geo_grp = list()
+    if cam:
+        geo_grp.extend([mayaTool.filter_camera("cam_*_*")])
+    if color_set:
+        geo_grp.extend(sel_color_sets())
+    if body:
+        geo_grp.extend(sel_rn_Geo())
+    if BG:
+        geo_grp.extend("BG1")
+    if other:
+        geo_grp.extend(sel_Geo())
+
     return geo_grp
 
 

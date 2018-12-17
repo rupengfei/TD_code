@@ -28,12 +28,13 @@ class Setup(base_class, form_class):
         self.setupUi(self)
         self.setWindowTitle(self.win_name)
         self.setObjectName(self.object_name)
-        self.__list_model = Abc_mvc_mode.MVC_List_Model(self.list_view, config_seer7.sel_all_Geo())
+        self.__list_model = Abc_mvc_mode.MVC_List_Model(self.list_view)
         self.list_view.setModel(self.__list_model)
         self.list_view.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode(3))
 
         self.btn_sel_path.setIcon(QtGui.QIcon(script_path + "/icon/file.png"))
         self.on_btn_refresh_setting_clicked()
+        self.on_btn_refresh_list_clicked()
 
     def show_win(self, args=None):
         uiTool.windowExists(uiTool.get_maya_window(), self.object_name)
@@ -57,14 +58,21 @@ class Setup(base_class, form_class):
         self.float_start.setValue(playblast_time[0])
         self.float_end.setValue(playblast_time[1])
         self.float_step.setValue(playblast_time[-1])
-        print "设置刷新成功"
+        print "重置参数 ok"
 
     @QtCore.Slot(bool)
     def on_btn_refresh_list_clicked(self, args=None):
-        geo_name = config_seer7.sel_all_Geo()
+        # print
+        reload(config_seer7)
+        geo_name = config_seer7.sel_all_Geo(self.check_cam.isChecked(),  # 多选框 相机
+                                            self.check_color_set.isChecked(),  # _颜色集
+                                            self.check_body.isChecked(),  # ______Geo
+                                            self.check_BG.isChecked(),  # ________BG
+                                            self.check_other.isChecked(),  # _____其他
+                                            )
         self.__list_model.replace_row(geo_name)
         # self.__list_model.append(geo_name)
-        print "列表刷新成功"
+        print "重置列表 ok"
 
     @QtCore.Slot(bool)
     def on_btn_del_sel_clicked(self, args=None):
@@ -81,5 +89,10 @@ class Setup(base_class, form_class):
         end = self.float_end.value()  # 结束帧
         step = self.float_step.value()  # 子步值
         geos = self.__list_model.data(list1=True)  # 列表数据
+        print "------------------------------------"
         print path, "\n", start, "\n", end, "\n", step, "\n", geos
+        print "------------------------------------"
         Abc_Core.abc_export(path, start, end, step, geos)
+
+
+
