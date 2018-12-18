@@ -14,9 +14,14 @@ def export_mod():
 def abc_export(path, start, end, step, geos):
     # abc_members = dict()
     for geo in geos:
-        pm.select(geo)
+        # print geo
+        if pm.objExists(geo):
+            pm.select(geo)
+        else:
+            continue
         if "Face_RenderMesh" in geo:
             print "color_set"
+            export_color_set(start, end, step, geo, path)
             continue
         pynode_geo = pm.PyNode(geo)
         if pynode_geo.getShapes():
@@ -25,9 +30,11 @@ def abc_export(path, start, end, step, geos):
                 continue
             if pynode_geo.getShapes()[0].nodeType() == "mesh":
                 print "mesh"
+                export_geo(start, end, step, geo, path)
                 continue
         else:
-            print "Geo"
+            # print "Geo"
+            export_geo(start, end, step, geo, path)
     return True
 
 
@@ -41,13 +48,23 @@ def export_geo(start, end, step, geo, path):
     mel_str += "-dataFormat ogawa "
     mel_str += "-root {0} ".format(geo)
     mel_str += "-file {0}.abc\";".format(path)
-
+    print geo.split(":")[-1]
     print mel_str
     # pm.mel.eval()
     # AbcExport - j "-frameRange 101 110 -uvWrite -worldSpace -writeVisibility -dataFormat ogawa -root |Seer7_char_RIG_ATieDa_GangGuanChaRu1:Atieda_Mod_Rig|Seer7_char_RIG_ATieDa_GangGuanChaRu1:atieda_Geo -file Z:/SEER7/Work/Shot_work/cacheIO/Animation/sc003/sc003_shot007/atieda.abc";
 
-def export_color_set():
-    pass
+
+def export_color_set(start, end, step, geo, path):
+    mel_str = "AbcExport - j \""
+    mel_str += "-frameRange {0} {1} ".format(start, end)
+    mel_str += "-step {0} ".format(step)
+    mel_str += "-writeColorSets "
+    mel_str += "-worldSpace "
+    mel_str += "-dataFormat ogawa "
+    mel_str += "-root {0} ".format(geo)
+    mel_str += "-file {0}.abc\";".format(path)
+    print geo.split(":")[-1]
+    print mel_str
     # AbcExport - j "-frameRange 101 110 -writeColorSets -worldSpace -dataFormat ogawa -root |Seer7_char_RIG_ATieDa_GangGuanChaRu1:Atieda_Mod_Rig|Seer7_char_RIG_ATieDa_GangGuanChaRu1:Face_RenderMesh -file Z:/SEER7/Work/Shot_work/cacheIO/Animation/sc003/sc003_shot007/face_atieda1.abc";
 
 
@@ -55,8 +72,18 @@ def export_cam():
     print "cam"
 
 
-def get_members(geo=(u'pSphere1_Geo', u'Seer7_Props_RIG_ATieDa_BeiBao1:MD_ATieDaBeiBao_Geo')):
+def get_cam_members():
+    pass
+
+
+def get_geo_members(geo=(u'pSphere1_Geo', u'Seer7_Props_RIG_ATieDa_BeiBao1:MD_ATieDaBeiBao_Geo')):
     """返回嵌套字典   {"geo":{"namespace":"Seer7_char_RIG_ATieDa_ShengJi2"}, "geo2":{"name":"aa"}}"""
+    """
+    1 abc路径
+    2 材质路径
+    3 命名空间
+    4 
+    """
     pynode_geo = pm.PyNode(geo)
     if pynode_geo.isReferenced():
         NameSpace = pynode_geo.namespace()

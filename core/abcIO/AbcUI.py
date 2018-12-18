@@ -4,6 +4,7 @@
 #         mail: a773849069@gmail.com
 #         time: 2018/12/10
 # ==========================================
+import os
 import maya.cmds as mc
 from Utils import uiTool, scriptTool, mayaTool
 from Utils.config import config_seer7
@@ -64,12 +65,13 @@ class Setup(base_class, form_class):
     def on_btn_refresh_list_clicked(self, args=None):
         # print
         reload(config_seer7)
-        geo_name = config_seer7.sel_all_Geo(self.check_cam.isChecked(),  # 多选框 相机
-                                            self.check_color_set.isChecked(),  # _颜色集
-                                            self.check_body.isChecked(),  # ______Geo
-                                            self.check_BG.isChecked(),  # ________BG
-                                            self.check_other.isChecked(),  # _____其他
-                                            )
+        geo_name = config_seer7.sel_mod(self.check_cam.isChecked(),  # 多选框 相机
+                                        self.check_color_set.isChecked(),  # _颜色集
+                                        self.check_body.isChecked(),  # ______Geo
+                                        self.check_prop.isChecked(),  # ______Prop
+                                        self.check_BG.isChecked(),  # ________BG
+                                        self.check_other.isChecked(),  # _____其他
+                                        )
         self.__list_model.replace_row(geo_name)
         # self.__list_model.append(geo_name)
         print "重置列表 ok"
@@ -85,6 +87,8 @@ class Setup(base_class, form_class):
     @QtCore.Slot(bool)
     def on_btn_test_clicked(self, args=None):
         path = self.lin_export_path.text()  # 输出路径
+        if not os.path.exists(path):
+            os.makedirs(path)
         start = self.float_start.value()  # 起始帧
         end = self.float_end.value()  # 结束帧
         step = self.float_step.value()  # 子步值

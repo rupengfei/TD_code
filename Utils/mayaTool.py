@@ -45,9 +45,6 @@ def get_scene_name():
 def get_scene_path():
     return mc.file(q=True, sn=True)
 
-def sel_Geo():
-    return mc.ls("*_Geo")
-
 
 def getBlendShapeInfo(blendShape):
     """Return blendShape's ID and attributes dict.."""

@@ -8,6 +8,7 @@ import json
 from Utils import scriptTool, ioTool, mayaTool, pathTool
 import os
 import maya.cmds as mc
+import pymel.core as pm
 from core.shaderIO import shaderCore
 
 
@@ -91,22 +92,42 @@ def format_path(source_pathName="", proxy_name="_SG"):
 def sel_Geo():
     return mc.ls("*_Geo")
 
-def sel_rn_Geo():
-    return mc.ls("*:*_Geo")
+def sel_rn_Geo(rn="Prop"):
+    prop_geo = list()
+    geos = mc.ls("*:*_Geo")
+    try:
+        for geo in geos:
+            g = pm.PyNode(geo)
+            if rn in str(g.referenceFile()):
+                prop_geo.append(geo)
+    except:
+        pass
+    return prop_geo
+
+def sel_props_Geo():
+    return sel_rn_Geo("Props")
+
+def sel_env_Geo():
+    return sel_rn_Geo("Env")
+
+def sel_char_Geo():
+    return sel_rn_Geo("Chars")
 
 def sel_color_sets():
     return mc.ls("*:Face_RenderMesh")
 
-def sel_all_Geo(cam, color_set, body, BG, other):
+def sel_mod(cam, color_set, body, prop, BG, other):
     geo_grp = list()
     if cam:
-        geo_grp.extend([mayaTool.filter_camera("cam_*_*")])
+        geo_grp.extend([mayaTool.filter_camera("cam_*_*"), ])
     if color_set:
         geo_grp.extend(sel_color_sets())
     if body:
-        geo_grp.extend(sel_rn_Geo())
+        geo_grp.extend(sel_char_Geo())
+    if prop:
+        geo_grp.extend(sel_props_Geo())
     if BG:
-        geo_grp.extend("BG1")
+        geo_grp.extend(sel_env_Geo())
     if other:
         geo_grp.extend(sel_Geo())
 
