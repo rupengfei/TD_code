@@ -33,7 +33,17 @@ class Setup(base_class, form_class):
 
     @QtCore.Slot(bool)
     def on_btn_export_abc_clicked(self, args=None):
-        print "on_btn_export_clicked"
+        from core.abcIO import Abc_export_UI
+        reload(Abc_export_UI)
+        abc1 = Abc_export_UI.Setup()
+        abc1.show_win()
+
+    @QtCore.Slot(bool)
+    def on_btn_import_abc_clicked(self, args=None):
+        from core.abcIO import Abc_import_UI
+        reload(Abc_import_UI)
+        abc1 = Abc_import_UI.Setup()
+        abc1.show_win()
 
     @QtCore.Slot(bool)
     def on_btn_shaderIOTool_clicked(self, args=None):

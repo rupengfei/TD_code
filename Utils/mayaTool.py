@@ -38,12 +38,29 @@ def filter_camera(cam_name="cam_*_*"):
     else:
         return False
 
+def reference_name_restructuring(rn_name=""):
+    names = rn_name.split(":")
+    if len(names) == 1:
+        return names[0]
+    elif len(names) == 2:
+        return names[0] + "_" + names[1]
+    return False
+
 
 def get_scene_name():
     return mc.file(q=True, ns=True)
 
 def get_scene_path():
     return mc.file(q=True, sn=True)
+
+
+def format_path(source_pathName="", proxy_name="_SG"):
+    path = os.path.dirname(source_pathName)
+    name = os.path.basename(source_pathName)
+    scene_name = path + "/" + name.split(".")[0] + proxy_name + "." + name.split(".")[1]  # atieda_SG.ma
+    json_name = path + "/" + name.split(".")[0] + proxy_name + ".json"  # atieda_SG.json
+    fix_name = name.split(".")[1]  # ma or mb
+    return scene_name, json_name, fix_name
 
 
 def getBlendShapeInfo(blendShape):

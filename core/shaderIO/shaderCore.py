@@ -7,7 +7,7 @@
 import json
 import os
 import maya.cmds as mc
-from Utils import scriptTool
+from Utils import scriptTool, mayaTool, ioTool
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 
 
@@ -66,7 +66,8 @@ def export_sg_nodes(sg_nodes, file_path, fix_name="ma"):
     if fix_name == "mb":
         fix_name = "mayaBinary"
     mc.select(sg_nodes, r=True, ne=True)
-    mc.file(file_path, options="v=0;", typ=fix_name, pr=True, es=True, force=True)
+    mc.file(file_path, options="v=0;", typ=fix_name, es=True, force=True)  #  pr=True,
+
     return True
 
 
@@ -117,6 +118,30 @@ def export_sel_sg_members(file_path, args=None):
     return export_sg_members(get_sel_sg_members(args), file_path)
 
 
+def export_sel_shader(file_path):
+    scene_name, json_name, fix_name = mayaTool.format_path(file_path)
+    export_sel_sg_members(json_name)
+    export_sel_sg_nodes(scene_name, fix_name)
+
+def export_all_shader(file_path):
+    scene_name, json_name, fix_name = mayaTool.format_path(file_path)
+    export_all_sg_nodes(scene_name, fix_name)
+    export_all_sg_members(json_name)
+
+def import_sel_shader(file_path, geo_namespace=None):
+    # json_path = ioTool.convert_ma_to_json(file_path)
+    # reference_shader_file(file_path)
+    # assign_data_to_all(json_path)
+    return True
+
+def import_all_shader(file_path, geo_namespace=None):
+    json_path = ioTool.convert_ma_to_json(file_path)
+    reference_shader_file(file_path)
+    sg_namespace = os.path.basename(file_path)[:os.path.basename(file_path).rfind(".")]
+    assign_data_to_all(json_path, sg_namespace, geo_namespace)
+    return True
+
+
 def reference_shader_file(file_path):
     file_path = file_path.replace('\\', '/')
     ref_file = mc.file(query=True, reference=True)
@@ -144,7 +169,7 @@ def assign_data_to_all(data_path, sg_namespace=None, geo_namespace=None):
                 filter_item.append(geo)
         try:
             mc.sets(filter_item, e=True, forceElement=sg)
-        except Exception as e:
-            print e
+        except:
+            pass
     return True
 

@@ -16,7 +16,7 @@ from core.abcIO import Abc_mvc_mode, Abc_Core
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 # reload(scriptTool)
 script_path = scriptTool.getScriptPath()
-form_class, base_class = uiTool.loadUiType(script_path + "/Abc.ui")
+form_class, base_class = uiTool.loadUiType(script_path + "/Abc_export.ui")
 
 
 class Setup(base_class, form_class):

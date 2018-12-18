@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'D:/___________TD____________/TD_code/core/abcIO/Abc.ui'
+# Form implementation generated from reading ui file 'D:/___________TD____________/TD_code/core/abcIO/Abc_export.ui'
 #
 # Created: Sat Dec 15 09:44:36 2018
 #      by: pyside2-uic  running on PySide2 2.0.0~alpha0

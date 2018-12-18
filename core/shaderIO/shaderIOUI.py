@@ -8,6 +8,7 @@ import maya.cmds as mc
 from Utils import uiTool, scriptTool
 from Utils.config import config_seer7
 from PySide2 import QtWidgets, QtCore
+from core.shaderIO import shaderCore
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 # reload(scriptTool)
 script_path = scriptTool.getScriptPath()
@@ -44,11 +45,11 @@ class ShaderIO(base_class, form_class):
 
     @QtCore.Slot(bool)
     def on_btn_export_sel_shader_clicked(self, args=None):
-        config_seer7.export_sel_shader(self.lin_export.text())
+        shaderCore.export_sel_shader(self.lin_export.text())
 
     @QtCore.Slot(bool)
     def on_btn_export_shader_clicked(self, args=None):
-        config_seer7.export_all_shader(self.lin_export.text())
+        shaderCore.export_all_shader(self.lin_export.text())
 
     def lin_import_dragEnterEvent(self, event):
         if event.mimeData().hasUrls():
@@ -70,9 +71,9 @@ class ShaderIO(base_class, form_class):
     @QtCore.Slot(bool)
     def on_btn_import_shader_clicked(self, args=None):
         if self.lin_namespace.text():
-            config_seer7.import_all_shader(self.lin_import.text(), self.lin_namespace.text())
+            shaderCore.import_all_shader(self.lin_import.text(), self.lin_namespace.text())
         else:
-            config_seer7.import_all_shader(self.lin_import.text())
+            shaderCore.import_all_shader(self.lin_import.text())
 
 
     @QtCore.Slot(bool)

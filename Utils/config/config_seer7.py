@@ -4,13 +4,11 @@
 #         mail: a773849069@gmail.com
 #         time: 2018/12/9
 # ==========================================
-import json
 from Utils import scriptTool, ioTool, mayaTool, pathTool
 import os
 import maya.cmds as mc
 import pymel.core as pm
 from core.shaderIO import shaderCore
-
 
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 
@@ -66,31 +64,14 @@ def seer7_cam_get_path():
     """用相机匹配路径"""
     cam_name = mayaTool.filter_camera("cam_*_*")
     if not cam_name:
-        return "D:/"
+        return "D:/Cache"
     short_name = seer7_split_cam(cam_name)
     path_animation = seer7_data()["cacheIO_an"]
-    export_path = os.path.join(path_animation, short_name[0], short_name[2]).replace("\\", "/")
+    export_path = os.path.join(path_animation, short_name[0], short_name[2], "Cache").replace("\\", "/")
     if not os.path.isdir(export_path):
         os.makedirs(export_path)
     return export_path
 
-def file_reference():
-    references = mc.file(q=True, reference=True)
-    return references
-
-
-def format_path(source_pathName="", proxy_name="_SG"):
-    path = os.path.dirname(source_pathName)
-    name = os.path.basename(source_pathName)
-    scene_name = path + "/" + name.split(".")[0] + proxy_name + "." + name.split(".")[1]  # atieda_SG.ma
-    json_name = path + "/" + name.split(".")[0] + proxy_name + ".json"  # atieda_SG.json
-    fix_name = name.split(".")[1]  # ma or mb
-    return scene_name, json_name, fix_name
-
-
-
-def sel_Geo():
-    return mc.ls("*_Geo")
 
 def sel_rn_Geo(rn="Prop"):
     prop_geo = list()
@@ -100,51 +81,30 @@ def sel_rn_Geo(rn="Prop"):
             g = pm.PyNode(geo)
             if rn in str(g.referenceFile()):
                 prop_geo.append(geo)
-    except:
-        pass
+    except Exception as exp:
+        print exp
     return prop_geo
 
-def sel_props_Geo():
-    return sel_rn_Geo("Props")
-
-def sel_env_Geo():
-    return sel_rn_Geo("Env")
-
-def sel_char_Geo():
-    return sel_rn_Geo("Chars")
-
-def sel_color_sets():
-    return mc.ls("*:Face_RenderMesh")
 
 def sel_mod(cam, color_set, body, prop, BG, other):
     geo_grp = list()
     if cam:
         geo_grp.extend([mayaTool.filter_camera("cam_*_*"), ])
     if color_set:
-        geo_grp.extend(sel_color_sets())
+        geo_grp.extend(mc.ls("*:Face_RenderMesh"))
     if body:
-        geo_grp.extend(sel_char_Geo())
+        geo_grp.extend(sel_rn_Geo("Chars"))
     if prop:
-        geo_grp.extend(sel_props_Geo())
+        geo_grp.extend(sel_rn_Geo("Props"))
     if BG:
-        geo_grp.extend(sel_env_Geo())
+        geo_grp.extend(sel_rn_Geo("Env"))
     if other:
-        geo_grp.extend(sel_Geo())
+        geo_grp.extend(mc.ls("*_Geo"))
 
     return geo_grp
 
-
-
-
-
-
-
-
-
-
-
-
-
+def refresh_list():
+    return list("abcdefjhijklmnopqrstuvwxyz")
 
 
 def seer7_shader_format_path():
@@ -152,13 +112,8 @@ def seer7_shader_format_path():
     """
     source_file = mayaTool.get_scene_path()
     path = pathTool.recombine_path(source_file, "Rig", "shader")
-    # path = os.path.dirname(source_file)
     if not os.path.exists(path):
         os.makedirs(path)
-    # if path[-3:] == "Rig":
-    #     path = path[:-3] + "shader"  # path
-    #     if not os.path.exists(path):
-    #         os.makedirs(path)
     name = os.path.basename(source_file)
     scene_name = path + "/" + name.split(".")[0] + "_SG." + name.split(".")[1]  # atieda_SG.ma
     json_name = path + "/" + name.split(".")[0] + "_SG.json"  # atieda_SG.json
@@ -179,34 +134,6 @@ def auto_export_shader():
         shaderCore.export_sel_sg_members(json_name, sels2)
 
     return True
-
-
-def export_sel_shader(file_path):
-    sels = mc.ls(sl=True)
-    scene_name, json_name, fix_name = format_path(file_path)
-    shaderCore.export_sel_sg_nodes(scene_name, fix_name)
-    mc.select(sels, r=True)
-    shaderCore.export_sel_sg_members(json_name)
-
-
-def export_all_shader(file_path):
-    scene_name, json_name, fix_name = format_path(file_path)
-    shaderCore.export_all_sg_nodes(scene_name, fix_name)
-    shaderCore.export_all_sg_members(json_name)
-
-def import_sel_shader(file_path, geo_namespace=None):
-    json_path = ioTool.convert_ma_to_json(file_path)
-    shaderCore.reference_shader_file(file_path)
-    shaderCore.assign_data_to_all(json_path)
-    return True
-
-def import_all_shader(file_path, geo_namespace=None):
-    json_path = ioTool.convert_ma_to_json(file_path)
-    shaderCore.reference_shader_file(file_path)
-    sg_namespace = os.path.basename(file_path)[:os.path.basename(file_path).rfind(".")]
-    shaderCore.assign_data_to_all(json_path, sg_namespace, geo_namespace)
-    return True
-
 
 def auto_import_shader():
     pass
