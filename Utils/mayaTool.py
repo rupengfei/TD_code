@@ -38,7 +38,7 @@ def filter_camera(cam_name="cam_*_*"):
     else:
         return False
 
-def reference_name_restructuring(rn_name=""):
+def name_rest(rn_name=""):
     names = rn_name.split(":")
     if len(names) == 1:
         return names[0]

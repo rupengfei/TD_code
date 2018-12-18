@@ -73,7 +73,7 @@ def seer7_cam_get_path():
     return export_path
 
 
-def sel_rn_Geo(rn="Prop"):
+def sel_rn_Geo(rn="Chars"):
     prop_geo = list()
     geos = mc.ls("*:*_Geo")
     try:
