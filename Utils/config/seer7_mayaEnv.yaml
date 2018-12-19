@@ -1,6 +1,6 @@
 Softeare: Maya
 Version: 2017
-Exec: 'C:/Program Files/Autodesk/Maya2017/bin/maya.exe -script "Z:/SEER7/bin/rupengfei/TD_code/seer7_start.mel"'
+Exec: 'C:/Program Files/Autodesk/Maya2017/bin/maya.exe'
 
 Env:
   - name: MAYA_UI_LANGUAGE
