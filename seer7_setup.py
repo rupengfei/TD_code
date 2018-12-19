@@ -19,17 +19,17 @@ class Setup(base_class, form_class):
         self.win_name = "Seer7 Tool"
         self.object_name = "seer7_tool"
         self.dockControl_object_name = self.object_name + "dockControl"
-        if mc.dockControl(self.dockControl_object_name, q=True, exists=True):
-            mc.deleteUI(self.dockControl_object_name)
+        # if mc.dockControl(self.dockControl_object_name, q=True, exists=True):
+        #     mc.deleteUI(self.dockControl_object_name)
         super(Setup, self).__init__(parent)
         self.setupUi(self)
         self.setWindowTitle(self.win_name)
         self.setObjectName(self.object_name)
-        mc.dockControl(self.dockControl_object_name,
-                       area='right',
-                       label=self.win_name,
-                       content=self.object_name, allowedArea=('left', 'right'),
-                       vis=True)
+        # mc.dockControl(self.dockControl_object_name,
+        #                area='right',
+        #                label=self.win_name,
+        #                content=self.object_name, allowedArea=('left', 'right'),
+        #                vis=True)
 
     @QtCore.Slot(bool)
     def on_btn_export_abc_clicked(self, args=None):
