@@ -8,12 +8,55 @@ import maya.cmds as mc
 import re
 import os
 import maya.mel as mel
+
+
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
+
+
+def reference_file(file_path, name_space=None, typ="ma"):
+    """导入参考文件"""
+    file_path = file_path.replace('\\', '/')
+    ref_file = mc.file(query=True, reference=True)
+    if file_path in ref_file:
+        return mc.file(file_path, query=True, namespace=True)
+    if not name_space:
+        name_space = os.path.splitext(os.path.basename(file_path))[0]
+    if typ == "fbx":
+        mc.file(file_path,
+                r=True,
+                type="FBX",
+                ignoreVersion=True,
+                gl=True,
+                mergeNamespacesOnClash=False,
+                namespace=name_space,
+                options="fbx"
+                )
+    if typ == "ma":
+        mc.file(file_path,
+                r=True,
+                type="mayaAscii",
+                ignoreVersion=True,
+                gl=True,
+                mergeNamespacesOnClash=False,
+                namespace=name_space,
+                options="v=0;"
+                )
+    if typ == "abc":
+        mc.file(file_path,
+                r=True,
+                type="Alembic",
+                ignoreVersion=True,
+                gl=True,
+                mergeNamespacesOnClash=False,
+                namespace=name_space,
+                )
+    return name_space
 
 
 def get_current_frame():
     """返回场景当前选择的帧"""
     return mc.currentTime(q=True)
+
 
 def get_time_slider():
     """返回时间滑条的信息"""
@@ -38,6 +81,7 @@ def filter_camera(cam_name="cam_*_*"):
     else:
         return False
 
+
 def name_rest(rn_name=""):
     names = rn_name.split(":")
     if len(names) == 1:
@@ -49,6 +93,7 @@ def name_rest(rn_name=""):
 
 def get_scene_name():
     return mc.file(q=True, ns=True)
+
 
 def get_scene_path():
     return mc.file(q=True, sn=True)

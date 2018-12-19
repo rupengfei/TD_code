@@ -134,22 +134,24 @@ def import_sel_shader(file_path, geo_namespace=None):
     # assign_data_to_all(json_path)
     return True
 
-def import_all_shader(file_path, geo_namespace=None):
+def import_all_shader(file_path, geo_namespace=None, sg_namespace=None):
+    if not sg_namespace:
+        sg_namespace = os.path.basename(file_path)[:os.path.basename(file_path).rfind(".")]
     json_path = ioTool.convert_ma_to_json(file_path)
-    reference_shader_file(file_path)
-    sg_namespace = os.path.basename(file_path)[:os.path.basename(file_path).rfind(".")]
+    sg_namespace = reference_shader_file(file_path, sg_namespace)
     assign_data_to_all(json_path, sg_namespace, geo_namespace)
     return True
 
 
-def reference_shader_file(file_path):
+def reference_shader_file(file_path, sg_namespace=None):
     file_path = file_path.replace('\\', '/')
     ref_file = mc.file(query=True, reference=True)
     if file_path in ref_file:
         return mc.file(file_path, query=True, namespace=True)
-    name_space = os.path.splitext(os.path.basename(file_path))[0]
-    mc.file(file_path, r=True, ns=name_space)
-    return name_space
+    if not sg_namespace:
+        sg_namespace = os.path.splitext(os.path.basename(file_path))[0]
+    mc.file(file_path, r=True, ns=sg_namespace)
+    return sg_namespace
 
 
 def assign_data_to_all(data_path, sg_namespace=None, geo_namespace=None):

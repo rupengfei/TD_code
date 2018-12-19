@@ -28,7 +28,7 @@ class Setup(base_class, form_class):
         mc.dockControl(self.dockControl_object_name,
                        area='right',
                        label=self.win_name,
-                       content=str(self.objectName()), allowedArea=('left', 'right'),
+                       content=self.object_name, allowedArea=('left', 'right'),
                        vis=True)
 
     @QtCore.Slot(bool)

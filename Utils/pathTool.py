@@ -9,6 +9,8 @@ import maya.cmds as mc
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 
 
+def base_name(path):
+    return os.path.basename(path)
 
 def recombine_path(path="", find_str=None, append_str=None):
     """

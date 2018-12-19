@@ -107,6 +107,33 @@ def refresh_list():
     return list("abcdefjhijklmnopqrstuvwxyz")
 
 
+def seer7_find_files(path, fix="json", take_fix=True):
+    """从 Cache 下找一层文件"""
+    r_json = list()
+    for cwd in os.listdir(path):
+        if cwd == "Cache":
+            cache_path = os.path.join(path, cwd)
+            for geo in os.listdir(cache_path):
+                if os.path.splitext(geo)[-1] == ("." + fix):
+                    if take_fix:
+                        r_json.append("Cache/" + geo)
+                    else:
+                        r_json.append(os.path.splitext("Cache/" + geo)[0])
+        if os.path.splitext(cwd)[-1] == ("." + fix):
+            if take_fix:
+                r_json.append(cwd)
+            else:
+                r_json.append(os.path.splitext(cwd)[0])
+    return r_json
+    #     if os.path.isdir(names):
+    #         r_json.extend(find_file1(names, take_fix))
+    #     if os.path.splitext(names)[-1] == ("." + fix):
+    #         if take_fix:
+    #             r_json.append(cwd)
+    #         else:
+    #             r_json.append(os.path.splitext(names)[0])
+    # return r_json
+
 def seer7_shader_format_path():
     """
     """

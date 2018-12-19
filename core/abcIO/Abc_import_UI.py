@@ -30,9 +30,7 @@ class Setup(base_class, form_class):
         self.__list_model = Abc_mvc_mode.MVC_List_Model(self.list_view)
         self.list_view.setModel(self.__list_model)
         self.list_view.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode(3))
-
         self.btn_sel_path.setIcon(QtGui.QIcon(script_path + "/icon/file.png"))
-
 
     def show_win(self, args=None):
         uiTool.windowExists(uiTool.get_maya_window(), self.object_name)
@@ -40,29 +38,32 @@ class Setup(base_class, form_class):
 
     @QtCore.Slot(bool)
     def on_btn_sel_path_clicked(self, event):
-        dir_path = QtWidgets.QFileDialog.getExistingDirectory(self, "选择文件夹", "Z:/SEER7/Work/Shot_work/cacheIO/Animation")
+        dir_path = QtWidgets.QFileDialog.getExistingDirectory(self, "选择镜头文件夹",
+                                                              "Z:/SEER7/Work/Shot_work/cacheIO/Animation")
         if dir_path:
             self.lin_path.setText(dir_path)
             # reload(config_seer7)
-            self.__list_model.replace_row(config_seer7.refresh_list())
+            self.__list_model.replace_row(config_seer7.seer7_find_files(self.lin_path.text(), take_fix=False))
             return dir_path
-        else:
-            return False
 
     @QtCore.Slot(bool)
     def on_btn_import_sel_clicked(self, args=None):
         sels = list()
         for sel in self.list_view.selectedIndexes():
             sels.append(sel.data())
-        print sels
+        if sels:
+            reload(Abc_Core)
+            Abc_Core.abc_import(self.lin_path.text(), sels)
 
     @QtCore.Slot(bool)
     def on_btn_import_all_clicked(self, args=None):
-        print self.__list_model.data(list1=True)
+        Abc_Core.abc_import(self.lin_path.text(), self.__list_model.data(list1=True))
 
     @QtCore.Slot(bool)
     def on_btn_test_clicked(self, args=None):
+        reload(config_seer7)
         print "------------------------------------"
-        print "test"
+        print self.lin_path.text()
+        print config_seer7.seer7_find_files(self.lin_path.text())
+        print
         print "------------------------------------"
-
