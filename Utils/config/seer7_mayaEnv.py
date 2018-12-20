@@ -7,15 +7,21 @@
 import subprocess
 import os
 import sys
-# path = 'D:/___________TD____________/TD_Code'
-# path in sys.path or sys.path.append(path)
 path = 'Z:/SEER7/bin/rupengfei/TD_code'
 path in sys.path or sys.path.append(path)
 from Utils import yaml
+import shutil
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
+shelf_name = "/shelf_seer7_Tools.mel"
+shelf_path = __file__[:__file__.rfind("/")] + shelf_name
+# print shelf_path
+# print os.path.expanduser('~')
+shelf_to_path = os.path.expanduser('~') + "/Documents/maya/2017/prefs/shelves" + shelf_name
+if not os.path.isfile(shelf_to_path):
+    shutil.copy(shelf_path, shelf_to_path)
+
 yaml_name = __file__[:__file__.rfind(".")] + ".yaml"
 mel_name = __file__[:__file__.rfind(".")] + ".mel"
-# print file_name
 
 def load_yaml_file(files=str(), mels=str()):
     with open(files, "r") as f:
@@ -36,8 +42,9 @@ def load_yaml_file(files=str(), mels=str()):
             pass
     to_open = data["Exec"] + ' -script "' + mels + '"'
     # -script "Z:/SEER7/bin/rupengfei/TD_code/seer7_start.mel"
-    # print to_open
     subprocess.Popen(to_open, env=_env)
+
+
 
 
 load_yaml_file(yaml_name, mel_name)

@@ -10,9 +10,13 @@ last edited: January 2015
 import random
 import sys
 
+path = "C:/cgteamwork/bin/lib/pyside"
+path in sys.path or sys.path.append(path)
 from PySide2.QtCore import Qt, QBasicTimer, Signal
 from PySide2.QtGui import QPainter, QColor
 from PySide2.QtWidgets import QMainWindow, QFrame, QDesktopWidget, QApplication
+
+QApplication.addLibraryPath("C:/cgteamwork/bin/lib/pyside/PySide2/plugins")
 
 
 class Tetris(QMainWindow):
@@ -337,6 +341,6 @@ class Shape(object):
 
 
 if __name__ == '__main__':
-    app = QApplication([])
+    app = QApplication(sys.argv)
     tetris = Tetris()
     sys.exit(app.exec_())

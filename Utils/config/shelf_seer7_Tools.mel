@@ -7,12 +7,12 @@ global proc shelf_seer7_Tools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
-        -annotation "Tool" 
+        -annotation "Seer7 Tool" 
         -enableBackground 0
         -highlightColor 0.321569 0.521569 0.65098 
         -align "center" 
@@ -23,15 +23,14 @@ global proc shelf_seer7_Tools () {
         -flipY 0
         -useAlpha 1
         -font "plainLabelFont" 
-        -imageOverlayLabel "Tool" 
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
-        -image "pythonFamily.png" 
-        -image1 "pythonFamily.png" 
+        -image "Z:/SEER7/bin/rupengfei/TD_code/icons/bullet-7-l-b.png" 
+        -image1 "Z:/SEER7/bin/rupengfei/TD_code/icons/bullet-7-l-b.png" 
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
-        -command "import sys\npath = 'Z:/SEER7/bin/rupengfei/TD_code'\npath in sys.path or sys.path.append(path)\n\nimport seer7_setup\nseer7_setup.show_win()\n"
+        -command "import sys\npath = 'Z:/SEER7/bin/rupengfei/TD_code'\npath in sys.path or sys.path.append(path)\n\nimport seer7_setup\nseer7_setup.show_win()\n" 
         -sourceType "python" 
         -commandRepeatable 1
         -flat 1

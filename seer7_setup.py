@@ -48,16 +48,17 @@ class Setup(base_class, form_class):
 
 
 def show_win():
-    Control_object_name = "seer7_toolControl"
-    if not omui.MQtUtil.findControl(Control_object_name):
-        seer7 = Setup()
-        element = mel.eval('getUIComponentDockControl("Channel Box / Layer Editor", false);')
-        mc.workspaceControl(Control_object_name, label="Seer7 Tool",
-                            tabToControl=(element, -1),
-                            retain=True,
-                            r=True, vis=True)
-        workspace_ctrl = omui.MQtUtil.findControl(Control_object_name)
-        qt_ui = omui.MQtUtil.findControl(seer7.objectName())
-        omui.MQtUtil.addWidgetToMayaLayout(long(qt_ui), long(workspace_ctrl))
-    else:
-        mc.workspaceControl(Control_object_name, e=True, r=True, vis=True)
+    Control_object_name = "seer7_toolControl"  # 窗口名
+    if not omui.MQtUtil.findControl(Control_object_name):  # 如果窗口不存在
+        seer7 = Setup()  # 初始化任何一个qt的窗口，里边写啥都行能出窗口就行
+        element = mel.eval('getUIComponentDockControl("Channel Box / Layer Editor", false);')  # 找到侧边栏位置
+        mc.workspaceControl(Control_object_name, label="Seer7 Tool",  # 创建一个maya窗口布局用于接收Qt窗口
+                            tabToControl=(element, -1),  # 窗口位置  侧边栏
+                            retain=True,  # 关闭窗口之后是否保留  False就是杀死窗口下次还得创建
+                            r=True,  # 显示到前边
+                            vis=True)  # 显示
+        workspace_ctrl = omui.MQtUtil.findControl(Control_object_name)  # 获取 maya 窗口控件的对象
+        qt_ui = omui.MQtUtil.findControl(seer7.objectName())  # 获取 Qt 窗口控件的对象
+        omui.MQtUtil.addWidgetToMayaLayout(long(qt_ui), long(workspace_ctrl))  # 把Qt的窗口添加到maya的窗口
+    else:  # 窗口存在的话
+        mc.workspaceControl(Control_object_name, e=True, r=True, vis=True)  # 显示窗口
