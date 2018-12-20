@@ -84,7 +84,7 @@ class ShaderIO(base_class, form_class):
     def on_btn_batch_export_clicked(self, args=None):
         print "aaaaa"
         from core.shaderIO import shaderIO_batchUI
-        reload(shaderIO_batchUI)
+        # reload(shaderIO_batchUI)
         batch_IO = shaderIO_batchUI.ShaderIO()
         batch_IO.show_win()
 

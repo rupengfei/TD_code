@@ -10,7 +10,7 @@ from PySide2 import QtCore, QtGui, QtWidgets
 from Utils import uiTool, scriptTool  # , mayaTool
 # from core.shaderIO import shader_mvc_model  # , shaderIO_batch
 from core.shaderIO import shaderIO_batch_mvc_model
-reload(shaderIO_batch_mvc_model)
+# reload(shaderIO_batch_mvc_model)
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 script_path = scriptTool.getScriptPath()
 form_class, base_class = uiTool.loadUiType(script_path + "/shaderIO_batch.ui")

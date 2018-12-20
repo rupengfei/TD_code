@@ -29,7 +29,7 @@ path in sys.path or sys.path.append(path)
 import core.shaderIO.shaderIO_batchUI as shaderIOUI
 
 
-reload(shaderIOUI)
+# reload(shaderIOUI)
 sd = shaderIOUI.ShaderIO()
 sd.show_win()
 

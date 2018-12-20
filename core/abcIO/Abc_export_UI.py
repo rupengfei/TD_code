@@ -64,7 +64,7 @@ class Setup(base_class, form_class):
     @QtCore.Slot(bool)
     def on_btn_refresh_list_clicked(self, args=None):
         # print
-        reload(config_seer7)
+        # reload(config_seer7)
         geo_name = config_seer7.sel_mod(self.check_cam.isChecked(),  # 多选框 相机
                                         self.check_color_set.isChecked(),  # _颜色集
                                         self.check_body.isChecked(),  # ______Geo

@@ -228,7 +228,7 @@ def abc_import(path="D:/Repo", geos=tuple()):
 
 def import_cam(path, data):
     """导入 fbx 的相机"""
-    reload(mayaTool)
+    # reload(mayaTool)
     path = path + ".fbx"
     mayaTool.reference_file(path, name_space="camera", typ="fbx")
     mc.playbackOptions(e=True, min=data["start_frame"],
@@ -250,7 +250,7 @@ def import_face(path, data):
 def import_geo(path, data):
     """导入 参考文件 并附上材质"""
     path = path + ".abc"
-    reload(shaderCore)
+    # reload(shaderCore)
     name_space = mayaTool.reference_file(path, name_space=data["namespace"], typ="abc")
     shaderCore.import_all_shader(data["shader_file"], name_space, data["namespace"])
     return name_space

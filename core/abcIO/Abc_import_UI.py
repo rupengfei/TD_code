@@ -52,7 +52,7 @@ class Setup(base_class, form_class):
         for sel in self.list_view.selectedIndexes():
             sels.append(sel.data())
         if sels:
-            reload(Abc_Core)
+            # reload(Abc_Core)
             Abc_Core.abc_import(self.lin_path.text(), sels)
 
     @QtCore.Slot(bool)
@@ -61,7 +61,7 @@ class Setup(base_class, form_class):
 
     @QtCore.Slot(bool)
     def on_btn_test_clicked(self, args=None):
-        reload(config_seer7)
+        # reload(config_seer7)
         print "------------------------------------"
         print self.lin_path.text()
         print config_seer7.seer7_find_files(self.lin_path.text())
