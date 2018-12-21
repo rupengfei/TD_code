@@ -15,6 +15,7 @@ from core.abcIO import Abc_mvc_mode, Abc_Core
 # reload(config_seer7)
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 # reload(scriptTool)
+
 script_path = scriptTool.getScriptPath()
 form_class, base_class = uiTool.loadUiType(script_path + "/Abc_export.ui")
 
@@ -81,11 +82,23 @@ class Setup(base_class, form_class):
         self.__list_model.removeRow(sel_items=self.list_view.selectedIndexes())
 
     @QtCore.Slot(bool)
-    def on_btn_export_clicked(self, args=None):
-        print "btn_export"
+    def on_btn_export_sel_clicked(self, args=None):
+        reload(Abc_Core)
+        path = self.lin_export_path.text()  # 输出路径
+        if not os.path.exists(path):
+            os.makedirs(path)
+        start = self.float_start.value()  # 起始帧
+        end = self.float_end.value()  # 结束帧
+        step = self.float_step.value()  # 子步值
+        # TODO:geos
+        geos = self.__list_model.selectRow(sel_items=self.list_view.selectedIndexes())  # 列表数据
+        print "------------------------------------"
+        print path, "\n", start, "\n", end, "\n", step, "\n", geos
+        print "------------------------------------"
+        Abc_Core.abc_export(path, start, end, step, geos)
 
     @QtCore.Slot(bool)
-    def on_btn_test_clicked(self, args=None):
+    def on_btn_export_clicked(self, args=None):
         path = self.lin_export_path.text()  # 输出路径
         if not os.path.exists(path):
             os.makedirs(path)
@@ -93,10 +106,9 @@ class Setup(base_class, form_class):
         end = self.float_end.value()  # 结束帧
         step = self.float_step.value()  # 子步值
         geos = self.__list_model.data(list1=True)  # 列表数据
-        print "------------------------------------"
-        print path, "\n", start, "\n", end, "\n", step, "\n", geos
-        print "------------------------------------"
         Abc_Core.abc_export(path, start, end, step, geos)
+
+
 
 
 

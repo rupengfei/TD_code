@@ -46,18 +46,29 @@ def seer7_data():
     return ioTool.readData(os.path.join(scriptTool.getScriptPath(), "config_seer7.json"))
 
 
+def seer7_setting_render():
+    geos = list()
+    geos.extend(mc.ls("*:*_LVL"))
+    geos.extend(mc.ls("*_LVL"))
+    for geo in geos:
+        try:
+            mc.setAttr(geo + ".LvL", 3)
+        except RuntimeError:
+            mc.setAttr(geo + ".LvL", 2)
+    return True
+
+
 def seer7_split_cam(cam="cam_sc003_shot007_101_268"):
     """
     相机名称过滤镜头号 时间帧信息
-    data = ['cam', 'sc003', 'shot007', sc003_shot007, '001', '035']
+    data = ['sc003', 'shot007', sc003_shot007]
+    Returns: data
     """
     data = cam.split("_")
     scene = data[1]
     shot = data[2]
     shot_name = "{0}_{1}".format(scene, shot)
-    start_frame = data[2]
-    end_frame = data[3]
-    return scene, shot, shot_name, start_frame, end_frame
+    return scene, shot, shot_name
 
 
 def seer7_cam_get_path():

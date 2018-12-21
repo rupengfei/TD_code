@@ -4,7 +4,7 @@
 #         mail: a773849069@gmail.com
 #         time: 2018/12/3
 # ==========================================
-import maya.OpenMayaUI as OpenMayaUI
+
 from cStringIO import StringIO
 from PySide2 import QtWidgets
 import xml.etree.ElementTree as xml
@@ -41,6 +41,7 @@ def loadUiType(uiFile):
 
 def get_maya_window():
     # 获取maya主界面窗口名称
+    import maya.OpenMayaUI as OpenMayaUI
     window = OpenMayaUI.MQtUtil.mainWindow()
     return wrapInstance(long(window), QtWidgets.QWidget)
 

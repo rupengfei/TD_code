@@ -4,27 +4,24 @@
 #         mail: a773849069@gmail.com
 #         time: 2018/12/3
 # ==========================================
-import os
-import maya.cmds as mc
+import sys
+path = "D:/___________TD____________/TD_Code"
+path in sys.path or sys.path.append(path)
 from PySide2 import QtCore, QtGui, QtWidgets
-from Utils import uiTool, scriptTool  # , mayaTool
-# from core.shaderIO import shader_mvc_model  # , shaderIO_batch
-from core.shaderIO import shaderIO_batch_mvc_model
-# reload(shaderIO_batch_mvc_model)
+from Utils import uiTool, scriptTool
+import shaderIO_batch_mvc_model
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
-script_path = scriptTool.getScriptPath()
-form_class, base_class = uiTool.loadUiType(script_path + "/shaderIO_batch.ui")
 
+# form_class, base_class = uiTool.loadUiType(__file__[:__file__.rfind("/")] + "/shaderIO_batch.ui")
 
+# print form_class
 
 class ShaderIO(base_class, form_class):
     # class ShaderIO(shaderIO_batch.Ui_list_window, QtWidgets.QMainWindow):
-    def __init__(self, parent=uiTool.get_maya_window()):
-        self.__drag_pos = (0, 0)
+    def __init__(self, parent=None):
+        # self.__drag_pos = (0, 0)
         self.window_name = "shaderIO"
         self.obj_name = "shaderIO"
-        if mc.window(self.window_name, exists=True):
-            mc.deleteUI(self.window_name)
         super(ShaderIO, self).__init__(parent)
         self.setupUi(self)
         self.setWindowTitle(self.window_name)
@@ -119,6 +116,9 @@ class ShaderIO(base_class, form_class):
         return True
 
 
-if __name__ == "__main__":
-    pass
+# if __name__ == "__main__":
+#     app = QtWidgets.QApplication(sys.argv)
+#     window = ShaderIO()
+#     window.show()
+#     sys.exit(app.exec_())
 

@@ -20,6 +20,8 @@ class Setup(base_class, form_class):
     def __init__(self, parent=uiTool.get_maya_window()):
         self.win_name = "Seer7 Tool"
         self.object_name = "seer7_tool"
+        if mc.window(self.object_name, q=True, exists=True):
+            mc.deleteUI(self.object_name)
         super(Setup, self).__init__(parent)
         self.setupUi(self)
         self.setWindowTitle(self.win_name)
@@ -28,7 +30,7 @@ class Setup(base_class, form_class):
     @QtCore.Slot(bool)
     def on_btn_export_abc_clicked(self, args=None):
         from core.abcIO import Abc_export_UI
-        # reload(Abc_export_UI)
+        reload(Abc_export_UI)
         abc1 = Abc_export_UI.Setup()
         abc1.show_win()
 
@@ -62,3 +64,9 @@ def show_win():
         omui.MQtUtil.addWidgetToMayaLayout(long(qt_ui), long(workspace_ctrl))  # 把Qt的窗口添加到maya的窗口
     else:  # 窗口存在的话
         mc.workspaceControl(Control_object_name, e=True, r=True, vis=True)  # 显示窗口
+
+def test_win():
+    seer7_wins = Setup()
+    seer7_wins.show()
+    seer7_wins.showNormal()
+    seer7_wins.activateWindow()

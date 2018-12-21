@@ -44,6 +44,13 @@ class MVC_List_Model(QtCore.QAbstractListModel):
         self.endRemoveRows()
         return True
 
+    def selectRow(self, sel_items=None):
+        sel_items.sort()
+        sels_data = list()
+        for item in sel_items:
+            sels_data.append(self.__data[item.row()])
+        return sels_data
+
     def append(self, value, index=QtCore.QModelIndex()):
         self.__data.extend(value)
         self.dataChanged.emit(index, index)
