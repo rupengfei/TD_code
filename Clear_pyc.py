@@ -6,8 +6,8 @@
 # ==========================================
 import os
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
-on_path = __file__[:__file__.rfind("/")]
-
+this_file = __file__.replace("\\", "/")
+on_path = this_file[:this_file.rfind("/")]
 def find_files(path, fix=str(), take_fix=True, take_path=True):
     """
     递归找文件，深度搜索模式
@@ -37,7 +37,7 @@ def find_files(path, fix=str(), take_fix=True, take_path=True):
     return finds
 
 def main():
-    files = find_files(on_path, "pyc", False) or list()
+    files = find_files(on_path, "pyc", True) or list()
     for f in files:
         os.remove(f)
 
