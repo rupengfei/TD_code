@@ -35,17 +35,11 @@
           <height>25</height>
          </size>
         </property>
-        <property name="styleSheet">
-         <string notr="true">border:none</string>
-        </property>
         <property name="inputMask">
          <string/>
         </property>
         <property name="text">
-         <string>D:/Repo</string>
-        </property>
-        <property name="dragEnabled">
-         <bool>false</bool>
+         <string>Z:/SEER7/Work/Shot_work/cacheIO/Animation</string>
         </property>
        </widget>
       </item>
@@ -101,13 +95,6 @@
      <widget class="QPushButton" name="btn_import_all">
       <property name="text">
        <string>导入全部</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="btn_test">
-      <property name="text">
-       <string>test</string>
       </property>
      </widget>
     </item>

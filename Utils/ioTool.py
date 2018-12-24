@@ -9,19 +9,33 @@ import os
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 
 
-def find_files(path, fix="json", take_fix=True):
-    """递归找文件，深度搜索模式"""
-    r_json = list()
-    for cwd in os.listdir(path):
-        names = os.path.join(path, cwd)
+def find_files(path, fix=str(), take_fix=True, take_path=True):
+    """
+    递归找文件，深度搜索模式
+    参数
+        fix        str
+        take_fix   True False
+        take_path  True False
+    Returns: All
+    """
+    finds = list()
+    for dir_name in os.listdir(path):
+        names = os.path.join(path, dir_name)
         if os.path.isdir(names):
-            r_json.extend(find_files(names, take_fix))
+            # print names
+            finds.extend(find_files(names, fix=fix, take_fix=take_fix, take_path=take_path))
         if os.path.splitext(names)[-1] == ("." + fix):
-            if take_fix:
-                r_json.append(cwd)
+            if take_path:
+                if take_fix:
+                    finds.append(names)
+                else:
+                    finds.append(os.path.splitext(names)[0])
             else:
-                r_json.append(os.path.splitext(names)[0])
-    return r_json
+                if take_fix:
+                    finds.append(dir_name)
+                else:
+                    finds.append(os.path.splitext(dir_name)[0])
+    return finds
 
 def convert_ma_to_json(file_path):
     return file_path.split(".")[0] + ".json"

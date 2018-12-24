@@ -7,7 +7,7 @@
 import json
 import os
 import maya.cmds as mc
-from Utils import scriptTool, mayaTool, ioTool
+from Utils import scriptTool, mayaTool
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 
 
@@ -129,29 +129,39 @@ def export_all_shader(file_path):
     export_all_sg_members(json_name)
 
 def import_sel_shader(file_path, geo_namespace=None):
-    # json_path = ioTool.convert_ma_to_json(file_path)
+    # json_path = convert_ma_to_json(file_path)
     # reference_shader_file(file_path)
     # assign_data_to_all(json_path)
     return True
 
+def convert_ma_to_json(file_path):
+    return file_path.split(".")[0] + ".json"
+
 def import_all_shader(file_path, geo_namespace=None, sg_namespace=None):
-    if not sg_namespace:
-        sg_namespace = os.path.basename(file_path)[:os.path.basename(file_path).rfind(".")]
-    json_path = ioTool.convert_ma_to_json(file_path)
+    json_path = convert_ma_to_json(file_path)
     sg_namespace = reference_shader_file(file_path, sg_namespace)
     assign_data_to_all(json_path, sg_namespace, geo_namespace)
     return True
 
 
-def reference_shader_file(file_path, sg_namespace=None):
+def reference_shader_file(file_path, name_space=None):
+    """导入参考文件"""
     file_path = file_path.replace('\\', '/')
     ref_file = mc.file(query=True, reference=True)
     if file_path in ref_file:
         return mc.file(file_path, query=True, namespace=True)
-    if not sg_namespace:
-        sg_namespace = os.path.splitext(os.path.basename(file_path))[0]
-    mc.file(file_path, r=True, ns=sg_namespace)
-    return sg_namespace
+    if not name_space:
+        name_space = os.path.splitext(os.path.basename(file_path))[0]
+    mc.file(file_path,
+            r=True,
+            type="mayaAscii",
+            ignoreVersion=True,
+            gl=True,
+            mergeNamespacesOnClash=False,
+            namespace=name_space,
+            options="v=0;"
+            )
+    return mc.file(file_path, query=True, namespace=True)
 
 
 def assign_data_to_all(data_path, sg_namespace=None, geo_namespace=None):
@@ -171,7 +181,7 @@ def assign_data_to_all(data_path, sg_namespace=None, geo_namespace=None):
                 filter_item.append(geo)
         try:
             mc.sets(filter_item, e=True, forceElement=sg)
-        except:
-            pass
+        except RuntimeError as e:
+            print e
     return True
 

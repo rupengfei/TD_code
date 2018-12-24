@@ -83,7 +83,7 @@ class Setup(base_class, form_class):
 
     @QtCore.Slot(bool)
     def on_btn_export_sel_clicked(self, args=None):
-        reload(Abc_Core)
+        # reload(Abc_Core)
         path = self.lin_export_path.text()  # Êä³öÂ·¾¶
         if not os.path.exists(path):
             os.makedirs(path)

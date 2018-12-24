@@ -30,15 +30,14 @@ def seer7_setting_render():
 def abc_export(path, starts, ends, step, geos):
     """export 分配函数"""
     seer7_setting_render()
-    print "11111111111111111111111111111111111111111111111111"
     start = starts - 2
     end = ends + 2
     mc.playbackOptions(e=True, min=start, max=end)
     for geo in geos:
         # print geo
         if pm.objExists(geo):
-            pass
-            # pm.select(geo)
+            # pass
+            pm.select(geo)
         else:
             continue
         out_file_name = path + "/" + mayaTool.name_rest(geo)
@@ -48,26 +47,26 @@ def abc_export(path, starts, ends, step, geos):
             pynode_geo = pm.PyNode(geo)
             if "Face_RenderMesh" in geo:
                 print "Face_RenderMesh"
-                # ioTool.writeData(out_json_name, get_face_members(pynode_geo))
-                # export_color_set(start, end, step, geo, out_file_name)
+                ioTool.writeData(out_json_name, get_face_members(pynode_geo))
+                export_color_set(start, end, step, geo, out_file_name)
                 continue
             if pynode_geo.getShapes():
                 if pynode_geo.getShapes()[0].nodeType() == "camera":
                     print "cam"
-                    # ioTool.writeData(out_json_name,
-                    #                  get_cam_members(pynode_geo, starts, ends, step, out_file_name, path))
-                    # export_cam(path, geo)
+                    ioTool.writeData(out_json_name,
+                                     get_cam_members(pynode_geo, starts, ends, step, out_file_name, path))
+                    export_cam(path, geo)
                     continue
                 if pynode_geo.getShapes()[0].nodeType() == "mesh":
                     print "mesh"  # 其他的 Geo
-                    # ioTool.writeData(out_json_name, get_mesh_members(pynode_geo))
-                    # export_geo(start, end, step, geo, out_file_name)
+                    ioTool.writeData(out_json_name, get_mesh_members(pynode_geo))
+                    export_geo(start, end, step, geo, out_file_name)
                     continue
             else:
                 print "Geo"  # 人物道具场景等 Geo, 有的geo可能不在Rig路径下
                 # path  路径 geo名 .json
-                # ioTool.writeData(out_json_name, get_geo_members(pynode_geo))
-                # export_geo(start, end, step, geo, out_file_name)
+                ioTool.writeData(out_json_name, get_geo_members(pynode_geo))
+                export_geo(start, end, step, geo, out_file_name)
         except Exception as e:
             print e
     mc.playbackOptions(e=True, min=starts, max=ends)
@@ -265,6 +264,7 @@ def import_geo(path, data):
     """导入 参考文件 并附上材质"""
     path = path + ".abc"
     # reload(shaderCore)
+    # reload(mayaTool)
     name_space = mayaTool.reference_file(path, name_space=data["namespace"], typ="abc")
     shaderCore.import_all_shader(data["shader_file"], name_space, data["namespace"])
     return name_space

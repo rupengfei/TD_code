@@ -1,0 +1,18 @@
+
+window_test
+
+# Python
+*.pyc
+
+
+# wingIDE projFiles
+*.wpr
+*.wpu
+
+
+# pyCharm projectFiles
+.idea
+
+
+# windows dataBase
+*.db

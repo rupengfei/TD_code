@@ -30,7 +30,7 @@ class Setup(base_class, form_class):
     @QtCore.Slot(bool)
     def on_btn_export_abc_clicked(self, args=None):
         from core.abcIO import Abc_export_UI
-        reload(Abc_export_UI)
+        # reload(Abc_export_UI)
         abc1 = Abc_export_UI.Setup()
         abc1.show_win()
 

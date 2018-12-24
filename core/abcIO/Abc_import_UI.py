@@ -4,9 +4,9 @@
 #         mail: a773849069@gmail.com
 #         time: 2018/12/18
 # ==========================================
-import os
+import os.path
 import maya.cmds as mc
-from Utils import uiTool, scriptTool, mayaTool
+from Utils import uiTool, scriptTool
 from Utils.config import config_seer7
 from PySide2 import QtWidgets, QtCore, QtGui
 from core.abcIO import Abc_mvc_mode, Abc_Core
@@ -36,15 +36,21 @@ class Setup(base_class, form_class):
         uiTool.windowExists(uiTool.get_maya_window(), self.object_name)
         return True
 
+    @QtCore.Slot()
+    def on_lin_path_returnPressed(self):
+        dir_path = self.lin_path.text()
+        # reload(config_seer7)
+        if os.path.exists(dir_path):
+            self.__list_model.replace_row(config_seer7.seer7_find_files(dir_path, take_fix=False))
+
     @QtCore.Slot(bool)
     def on_btn_sel_path_clicked(self, event):
         dir_path = QtWidgets.QFileDialog.getExistingDirectory(self, "选择镜头文件夹",
-                                                              "Z:/SEER7/Work/Shot_work/cacheIO/Animation")
+                                                              self.lin_path.text())
         if dir_path:
             self.lin_path.setText(dir_path)
             # reload(config_seer7)
-            self.__list_model.replace_row(config_seer7.seer7_find_files(self.lin_path.text(), take_fix=False))
-            return dir_path
+            self.__list_model.replace_row(config_seer7.seer7_find_files(dir_path, take_fix=False))
 
     @QtCore.Slot(bool)
     def on_btn_import_sel_clicked(self, args=None):

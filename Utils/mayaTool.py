@@ -50,7 +50,7 @@ def reference_file(file_path, name_space=None, typ="ma"):
                 mergeNamespacesOnClash=False,
                 namespace=name_space,
                 )
-    return name_space
+    return mc.file(file_path, query=True, namespace=True)
 
 
 def get_current_frame():
