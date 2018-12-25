@@ -21,9 +21,15 @@ def seer7_setting_render():
     for geo in geos:
         mc.select(geo)
         try:
-            mc.setAttr(geo + ".LvL", 3)
-        except RuntimeError:
-            mc.setAttr(geo + ".LvL", 2)
+            try:
+                mc.setAttr(geo + ".LvL", 3)
+            except RuntimeError:
+                mc.setAttr(geo + ".LvL", 2)
+        except:
+            try:
+                mc.setAttr(geo + ".LVL", 3)
+            except RuntimeError:
+                mc.setAttr(geo + ".LVL", 2)
     return True
 
 
