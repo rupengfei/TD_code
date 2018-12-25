@@ -102,7 +102,7 @@ def sel_mod(cam, color_set, body, prop, BG, other):
     if cam:
         geo_grp.extend([mayaTool.filter_camera("cam_*_*"), ])
     if color_set:
-        geo_grp.extend(mc.ls("*:Face_RenderMesh"))
+        geo_grp.extend(mc.ls("*:Face_RenderMes*"))
     if body:
         geo_grp.extend(sel_rn_Geo("Chars"))
     if prop:
@@ -149,7 +149,7 @@ def seer7_shader_format_path():
     """
     """
     source_file = mayaTool.get_scene_path()
-    path = pathTool.recombine_path(source_file, "Rig", "shader")
+    path = pathTool.recombine_path(source_file, "Rig", "Rig/shader")
     if not os.path.exists(path):
         os.makedirs(path)
     name = os.path.basename(source_file)
@@ -163,13 +163,12 @@ def seer7_shader_format_path():
 def auto_export_shader():
     scene_name, json_name, fix_name = seer7_shader_format_path()
     geos = mc.ls("*_Geo") or list()
+    print scene_name
     for geo in geos:
-        # print geo
         sels = mc.ls(geo, dag=True, typ="mesh")
         sels1 = mc.listRelatives(sels, p=True)
-        sels2 = sels1[:]
-        shaderCore.export_sel_sg_nodes(scene_name, fix_name, sels1)
-        shaderCore.export_sel_sg_members(json_name, sels2)
+        shaderCore.export_sel_sg_nodes(scene_name, fix_name, sels1[:])
+        shaderCore.export_sel_sg_members(json_name, sels1[:])
 
     return True
 

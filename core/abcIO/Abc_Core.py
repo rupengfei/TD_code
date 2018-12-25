@@ -47,7 +47,7 @@ def abc_export(path, starts, ends, step, geos):
         else:
             continue
         out_file_name = path + "/" + mayaTool.name_rest(geo)
-        # Gang:a_Geo To Gang_a_Geo
+        # name_rest is Gang:a_Geo To Gang_a_Geo
         out_json_name = out_file_name + ".json"
         try:
             pynode_geo = pm.PyNode(geo)
