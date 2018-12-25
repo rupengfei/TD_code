@@ -25,7 +25,7 @@ def seer7_setting_render():
                 mc.setAttr(geo + ".LvL", 3)
             except RuntimeError:
                 mc.setAttr(geo + ".LvL", 2)
-        except:
+        except RuntimeError:
             try:
                 mc.setAttr(geo + ".LVL", 3)
             except RuntimeError:
@@ -112,6 +112,8 @@ def export_color_set(start, end, step, geo, path):
 
 def export_cam(path, geo):
     """导出相机"""
+    mel_str = "FBXExportCameras - v true;FBXExportBakeComplexAnimation - v true;"
+    pm.mel.eval(mel_str)
     path = (path + "/" + geo + ".fbx")
     mc.file(path, force=True, options="v=0", typ="FBX export", pr=True, es=True)
     return True
