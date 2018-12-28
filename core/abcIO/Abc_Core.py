@@ -35,7 +35,7 @@ def seer7_setting_render(opened=True):
             try:
                 mc.setAttr(geo + ".LvL", 1)
             except RuntimeError:
-                pass
+                mc.setAttr(geo + ".LVL", 1)
     return True
 
 
@@ -274,10 +274,11 @@ def import_face(path, data):
     path = path + ".abc"
     # name_space = data["namespace"]
     name_space = "render"
+    shader_namespace = "shader_RN"
     name_space = mayaTool.reference_file(path, name_space=name_space, typ="abc")
     mc.setAttr(name_space + ":Face_RenderMeshShape.aiExportColors", 1)
     if os.path.exists(data["shader_file"]):
-        shaderCore.import_all_shader(data["shader_file"], name_space, data["namespace"])
+        shaderCore.import_all_shader(data["shader_file"], name_space, shader_namespace)
     return True
 
 
@@ -288,13 +289,14 @@ def import_geo(path, data):
     # reload(mayaTool)
     # name_space = data["namespace"]
     name_space = "render"
+    shader_namespace = "shader_RN"
     name_space = mayaTool.reference_file(path, name_space=name_space, typ="abc")
     if "{" in data["shader_file"]:
         shader_file = data["shader_file"][:data["shader_file"].rfind("{")]
     else:
         shader_file = data["shader_file"]
     if os.path.exists(data["shader_file"]):
-        shaderCore.import_all_shader(data["shader_file"], name_space, data["namespace"])
+        shaderCore.import_all_shader(data["shader_file"], name_space, shader_namespace)
     return name_space
 
 def import_mesh(path, data):
