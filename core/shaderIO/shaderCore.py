@@ -181,7 +181,7 @@ def assign_data_to_all(data_path, sg_namespace=None, geo_namespace=None):
                 filter_item.append(geo)
         try:
             mc.sets(filter_item, e=True, forceElement=sg)
-        except RuntimeError as e:
+        except ValueError as e:
             print e
     return True
 
