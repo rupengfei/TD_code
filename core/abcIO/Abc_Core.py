@@ -14,28 +14,33 @@ import os
 # reload(mayaTool)
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 
-def seer7_setting_render():
+def seer7_setting_render(opened=True):
     geos = list()
     geos.extend(mc.ls("*:*_LVL"))
     geos.extend(mc.ls("*_LVL"))
-    for geo in geos:
-        mc.select(geo)
-        try:
+    if opened:
+        for geo in geos:
             try:
-                mc.setAttr(geo + ".LvL", 3)
+                try:
+                    mc.setAttr(geo + ".LvL", 3)
+                except RuntimeError:
+                    mc.setAttr(geo + ".LvL", 2)
             except RuntimeError:
-                mc.setAttr(geo + ".LvL", 2)
-        except RuntimeError:
+                try:
+                    mc.setAttr(geo + ".LVL", 3)
+                except RuntimeError:
+                    mc.setAttr(geo + ".LVL", 2)
+    else:
+        for geo in geos:
             try:
-                mc.setAttr(geo + ".LVL", 3)
+                mc.setAttr(geo + ".LvL", 1)
             except RuntimeError:
-                mc.setAttr(geo + ".LVL", 2)
+                pass
     return True
 
 
 def abc_export(path, starts, ends, step, geos):
     """export 分配函数"""
-    seer7_setting_render()
     start = starts - 2
     end = ends + 2
     mc.playbackOptions(e=True, min=start, max=end)
@@ -54,8 +59,10 @@ def abc_export(path, starts, ends, step, geos):
             pynode_geo = pm.PyNode(geo)
             if "Face_RenderMesh" in geo:
                 print "Face_RenderMesh"
+                seer7_setting_render(True)
                 ioTool.writeData(out_json_name, get_face_members(pynode_geo))
                 export_color_set(start, end, step, geo, out_file_name)
+                seer7_setting_render(False)
                 continue
             if pynode_geo.getShapes():
                 if pynode_geo.getShapes()[0].nodeType() == "camera":
@@ -174,8 +181,8 @@ def get_geo_members(geo="PyNode", typ="geo_abc", *args):
         2
     """
     if geo.isReferenced():
-        file_path = str(
-            geo.referenceFile())  # 'Z:/SEER7/Work/Asset_work/Chars/ATieDa_ShengJi/Rig/approve/Seer7_char_RIG_ATieDa_ShengJi.ma'
+        file_path_more = geo.referenceFile()  # 'Z:/ATieDa_ShengJi.ma{1}'
+        file_path = str(file_path_more.path)  # 'Z:/ATieDa_ShengJi.ma'
         shader_name = file_path.split("/")[-1].split(".")  # ["Seer7_char_RIG_ATieDa_ShengJi", "ma"]
         shader_name = shader_name[0] + "_SG." + shader_name[1]  # file_name is Seer7_char_RIG_ATieDa_ShengJi_SG.ma
         shader_path = file_path.split("Rig")
@@ -186,7 +193,8 @@ def get_geo_members(geo="PyNode", typ="geo_abc", *args):
 
     data = dict()
     data["namespace"] = str(geo.namespace())[:-1]
-    data["reference_file"] = str(geo.referenceFile())
+    data["reference_file"] = str(file_path)
+    data["reference_file_more"] = str(file_path_more)
     data["shader_file"] = shader_path
     data["type"] = typ
     data["link_name"] = mayaTool.name_rest(str(geo.name())) + ".abc"
@@ -198,8 +206,8 @@ def get_face_members(geo):
     """获取面部颜色集信息"""
     # return get_geo_members(geo, typ="face_abc")
     if geo.isReferenced():
-        file_path = str(
-            geo.referenceFile())  # 'Z:/SEER7/Work/Asset_work/Chars/ATieDa_ShengJi/Rig/approve/Seer7_char_RIG_ATieDa_ShengJi.ma'
+        file_path_more = geo.referenceFile()  # 'Z:/ATieDa_ShengJi.ma{1}'
+        file_path = str(file_path_more.path)  # 'Z:/ATieDa_ShengJi.ma'
         shader_name = file_path.split("/")[-1].split(".")  # ["Seer7_char_RIG_ATieDa_ShengJi", "ma"]
         shader_name = shader_name[0] + "_Face_RenderMesh_SG." + shader_name[
             1]  # file_name is Seer7_char_RIG_ATieDa_ShengJi_SG.ma
@@ -211,7 +219,8 @@ def get_face_members(geo):
 
     data = dict()
     data["namespace"] = str(geo.namespace())[:-1]
-    data["reference_file"] = str(geo.referenceFile())
+    data["reference_file"] = str(file_path)
+    data["reference_file_more"] = str(file_path_more)
     data["shader_file"] = shader_path
     data["type"] = "face_abc"
     data["link_name"] = mayaTool.name_rest(str(geo.name())) + ".abc"
@@ -263,7 +272,9 @@ def import_cam(path, data):
 def import_face(path, data):
     """导入 面部颜色集"""
     path = path + ".abc"
-    name_space = mayaTool.reference_file(path, name_space=data["namespace"], typ="abc")
+    # name_space = data["namespace"]
+    name_space = "render"
+    name_space = mayaTool.reference_file(path, name_space=name_space, typ="abc")
     mc.setAttr(name_space + ":Face_RenderMeshShape.aiExportColors", 1)
     if os.path.exists(data["shader_file"]):
         shaderCore.import_all_shader(data["shader_file"], name_space, data["namespace"])
@@ -275,7 +286,13 @@ def import_geo(path, data):
     path = path + ".abc"
     # reload(shaderCore)
     # reload(mayaTool)
-    name_space = mayaTool.reference_file(path, name_space=data["namespace"], typ="abc")
+    # name_space = data["namespace"]
+    name_space = "render"
+    name_space = mayaTool.reference_file(path, name_space=name_space, typ="abc")
+    if "{" in data["shader_file"]:
+        shader_file = data["shader_file"][:data["shader_file"].rfind("{")]
+    else:
+        shader_file = data["shader_file"]
     if os.path.exists(data["shader_file"]):
         shaderCore.import_all_shader(data["shader_file"], name_space, data["namespace"])
     return name_space
@@ -283,5 +300,7 @@ def import_geo(path, data):
 def import_mesh(path, data):
     """导入道具等几何体缓存"""
     path = path + ".abc"
-    name_space = mayaTool.reference_file(path, name_space=data["namespace"], typ="abc")
+    # name_space = data["namespace"]
+    name_space = "render"
+    name_space = mayaTool.reference_file(path, name_space=name_space, typ="abc")
     return name_space
