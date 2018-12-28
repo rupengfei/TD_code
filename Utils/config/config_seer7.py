@@ -102,7 +102,8 @@ def sel_mod(cam, color_set, body, prop, BG, other):
     if cam:
         geo_grp.extend([mayaTool.filter_camera("cam_*_*"), ])
     if color_set:
-        geo_grp.extend(mc.ls("*:Face_RenderMes*"))
+        geo_grp.extend(mc.ls("*:Face_RenderMesh"))
+        geo_grp.extend(mc.ls("*:Face_RenderMesh?"))
     if body:
         geo_grp.extend(sel_rn_Geo("Chars"))
     if prop:
