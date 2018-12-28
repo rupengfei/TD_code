@@ -9,7 +9,7 @@ import pymel.core as pm
 import json
 from Utils import mayaTool, ioTool
 from core.shaderIO import shaderCore
-
+import os
 
 # reload(mayaTool)
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
@@ -39,6 +39,7 @@ def abc_export(path, starts, ends, step, geos):
     start = starts - 2
     end = ends + 2
     mc.playbackOptions(e=True, min=start, max=end)
+
     for geo in geos:
         # print geo
         if pm.objExists(geo):
@@ -264,7 +265,8 @@ def import_face(path, data):
     path = path + ".abc"
     name_space = mayaTool.reference_file(path, name_space=data["namespace"], typ="abc")
     mc.setAttr(name_space + ":Face_RenderMeshShape.aiExportColors", 1)
-    shaderCore.import_all_shader(data["shader_file"], name_space, data["namespace"])
+    if os.path.exists(data["shader_file"]):
+        shaderCore.import_all_shader(data["shader_file"], name_space, data["namespace"])
     return True
 
 
@@ -274,7 +276,8 @@ def import_geo(path, data):
     # reload(shaderCore)
     # reload(mayaTool)
     name_space = mayaTool.reference_file(path, name_space=data["namespace"], typ="abc")
-    shaderCore.import_all_shader(data["shader_file"], name_space, data["namespace"])
+    if os.path.exists(data["shader_file"]):
+        shaderCore.import_all_shader(data["shader_file"], name_space, data["namespace"])
     return name_space
 
 def import_mesh(path, data):
