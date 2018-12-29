@@ -247,7 +247,7 @@ def abc_import(path="D:/Repo", geos=tuple()):
             import_cam(geo_path, data)
         if data["type"] == "face_abc":
             print "face_abc"
-            import_face(geo_path, data)
+            face_render_mesh_Grp(import_face(geo_path, data))
         if data["type"] == "geo_abc":
             print "geo_abc"
             import_geo(geo_path, data)
@@ -269,6 +269,24 @@ def import_cam(path, data):
     # print data
 
 
+def face_render_mesh_Grp(name_space):
+    """把面部颜色集整理分类"""
+    sels = list()
+    try:
+        type(mtoa)
+    except NameError:
+        pm.loadPlugin("C:/solidangle/mtoadeploy/2017/plug-ins/mtoa.mll")
+    sels.extend(mc.ls(name_space + ":Face_RenderMesh"))
+    sels.extend(mc.ls(name_space + ":Face_RenderMesh?"))
+    for sel in sels:
+        mc.setAttr(mc.listRelatives(sel, s=True)[0]+".aiExportColors", 1)
+    if pm.objExists("Face_RenderMesh_Grp"):
+        pm.parent(sels, "Face_RenderMesh_Grp")
+    else:
+        pm.group(name="Face_RenderMesh_Grp")
+        pm.parent(sels, "Face_RenderMesh_Grp")
+
+
 def import_face(path, data):
     """导入 面部颜色集"""
     path = path + ".abc"
@@ -276,10 +294,9 @@ def import_face(path, data):
     name_space = "render"
     shader_namespace = "shader_RN"
     name_space = mayaTool.reference_file(path, name_space=name_space, typ="abc")
-    mc.setAttr(name_space + ":Face_RenderMeshShape.aiExportColors", 1)
     if os.path.exists(data["shader_file"]):
         shaderCore.import_all_shader(data["shader_file"], name_space, shader_namespace)
-    return True
+    return name_space
 
 
 def import_geo(path, data):
