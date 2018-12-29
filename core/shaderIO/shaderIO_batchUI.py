@@ -4,17 +4,35 @@
 #         mail: a773849069@gmail.com
 #         time: 2018/12/3
 # ==========================================
+# import os
 import sys
-path = "D:/___________TD____________/TD_Code"
-path in sys.path or sys.path.append(path)
-from PySide2 import QtCore, QtGui, QtWidgets
-from Utils import uiTool, scriptTool
+# os.path.abspath(os.path.dirname(__file__)),
+paths = ["C:/cgteamwork/bin/lib/pyside",
+         "C:/cgteamwork/bin/lib/pyside/PySide2",
+         "D:/___________TD____________/TD_Code",
+         "D:/___________TD____________/TD_Code/core",
+         "C:/cgteamwork/bin/lib/pyside/PySide2/plugins"
+         ".."
+         ]  # CG Team Work python packages
+# paths = ["C:\Python27\Lib\site-packages\PySide2",
+#          ]  # PC python packages
+for path in paths:
+    path in sys.path or sys.path.append(path)
+
+from PySide2 import QtGui, QtWidgets, QtCore
+import TW_Code.uiTool as uiTool
 import shaderIO_batch_mvc_model
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
+script_path = uiTool.getScriptPath()
+form_class, base_class = uiTool.loadUiType(script_path + "/shaderIO_batch.ui")
+QtWidgets.QApplication.addLibraryPath("C:/cgteamwork/bin/lib/pyside/PySide2/plugins")
 
-# form_class, base_class = uiTool.loadUiType(__file__[:__file__.rfind("/")] + "/shaderIO_batch.ui")
 
-# print form_class
+
+
+
+
+
 
 class ShaderIO(base_class, form_class):
     # class ShaderIO(shaderIO_batch.Ui_list_window, QtWidgets.QMainWindow):
@@ -115,10 +133,12 @@ class ShaderIO(base_class, form_class):
         uiTool.windowExists(uiTool.get_maya_window(), self.obj_name)
         return True
 
+def main():
+    app = QtWidgets.QApplication(sys.argv)
+    window = ShaderIO()
+    window.show()
+    sys.exit(app.exec_())
 
-# if __name__ == "__main__":
-#     app = QtWidgets.QApplication(sys.argv)
-#     window = ShaderIO()
-#     window.show()
-#     sys.exit(app.exec_())
+if __name__ == "__main__":
+    main()
 

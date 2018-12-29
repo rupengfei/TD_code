@@ -11,10 +11,8 @@ import Qt
 import os
 import inspect
 if Qt.__binding__ == 'PySide':
-    from shiboken import wrapInstance
     import pysideuic as uic
 elif Qt.__binding__ == 'PySide2':
-    from shiboken2 import wrapInstance
     import pyside2uic as uic
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 
