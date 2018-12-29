@@ -49,6 +49,13 @@ def readData(path):
     f.close()
     return data
 
+def user_log(data=""):
+    user_logs = os.path.expanduser('~') + "/user_log.log"
+    if not os.path.exists(user_logs):
+        with open(user_logs, "w"):
+            pass
+    with open(user_logs, "a") as f:
+        f.write(data)
 
 def writeData(path, data):
     """
