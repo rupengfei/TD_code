@@ -18,11 +18,11 @@ print paths
 for path in paths:
     path in sys.path or sys.path.append(path)
 from PySide2 import QtGui, QtWidgets, QtCore
-import uiTool
+import utilTool
 import subprocess
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
-script_path = uiTool.getScriptPath()
-form_class, base_class = uiTool.loadUiType(script_path + "/TW_code.ui")
+script_path = utilTool.getScriptPath()
+form_class, base_class = utilTool.loadUiType(script_path + "/TW_code.ui")
 QtWidgets.QApplication.addLibraryPath("C:/cgteamwork/bin/lib/pyside/PySide2/plugins")
 tw_python = "C:/cgteamwork/python/pythonw.exe"
 
@@ -37,12 +37,15 @@ class Setup(base_class, form_class):
         self.center()
         self.setWindowTitle(self.win_name)
         self.setObjectName(self.object_name)
+        self.setWindowIcon(QtGui.QIcon(script_path + "/icons/R.png"))
+        print script_path
+        # print dir(self)
 
     def center(self):
         screen = QtWidgets.QDesktopWidget().screenGeometry()
         size = self.geometry()
-        self.move((screen.width() - size.width()) / 2,
-                  (screen.height() - size.height()) / 2)
+        self.move((screen.width() - size.width()) / 5,
+                  (screen.height() - size.height()) / 5)
 
     @QtCore.Slot(bool)
     def on_btn_abc_export_clicked(self, args=None):

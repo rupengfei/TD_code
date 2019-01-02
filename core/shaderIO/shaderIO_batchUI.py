@@ -4,7 +4,7 @@
 #         mail: a773849069@gmail.com
 #         time: 2018/12/3
 # ==========================================
-# import os
+import os
 import sys
 # os.path.abspath(os.path.dirname(__file__)),
 paths = ["C:/cgteamwork/bin/lib/pyside",
@@ -20,11 +20,11 @@ for path in paths:
     path in sys.path or sys.path.append(path)
 
 from PySide2 import QtGui, QtWidgets, QtCore
-import TW_Code.uiTool as uiTool
+import TW_Code.utilTool as utilTool
 import shaderIO_batch_mvc_model
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
-script_path = uiTool.getScriptPath()
-form_class, base_class = uiTool.loadUiType(script_path + "/shaderIO_batch.ui")
+script_path = utilTool.getScriptPath()
+form_class, base_class = utilTool.loadUiType(script_path + "/shaderIO_batch.ui")
 QtWidgets.QApplication.addLibraryPath("C:/cgteamwork/bin/lib/pyside/PySide2/plugins")
 
 
@@ -37,7 +37,6 @@ QtWidgets.QApplication.addLibraryPath("C:/cgteamwork/bin/lib/pyside/PySide2/plug
 class ShaderIO(base_class, form_class):
     # class ShaderIO(shaderIO_batch.Ui_list_window, QtWidgets.QMainWindow):
     def __init__(self, parent=None):
-        # self.__drag_pos = (0, 0)
         self.window_name = "shaderIO"
         self.obj_name = "shaderIO"
         super(ShaderIO, self).__init__(parent)
@@ -55,31 +54,19 @@ class ShaderIO(base_class, form_class):
         self.list_view.dragEnterEvent = self.list_view_dragEnterEvent  # 拖拽启动事件
         self.list_view.dragMoveEvent = self.list_view_dragMoveEvent  # 拖拽移动事件
         self.list_view.dropEvent = self.list_view_dropEvent  # 拖拽松开事件
+        self.list_view.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode(3))
 
         # self.list_view.mouseMoveEvent = self.mouse_double_clicked_event  # 鼠标移动事件
-        self.list_view.mouseDoubleClickEvent = self.get_sel_item  # 鼠标双击事件
-        self.list_view.mouseReleaseEvent = self.mouse_release_event
-        self.list_view.releaseMouse()
-        # self.list_view.mouseGrabber = self.mouse_grabber_event
-        # self.list_view.mousePressEvent = self.mouse_press_event
-        # self.__current_dir = ''
-        # self.__list_model = shader_mvc_model.DnDListWidget(self.list_view)
-        # self.list_view.setModel(self.__list_model)
+        # self.list_view.mouseDoubleClickEvent = self.get_sel_item  # 鼠标双击事件
 
     def list_view_dragEnterEvent(self, event):
-        print "dragEnterEvent"
-        # self.__drag_pos = (event.pos().x(), event.pos().y())
         if event.mimeData().hasUrls():
-            print event.pos().x(), event.pos().y()
+            event.ignore()
             event.acceptProposedAction()
 
     def list_view_dragMoveEvent(self, event):
-        print event.type().name
-        print event.type().values
-        # print event.pos().x(), event.pos().y()
         if event.mimeData().hasUrls():
             event.ignore()
-            # print event.pos().x(), event.pos().y()
             event.acceptProposedAction()
 
     def list_view_dropEvent(self, event):
@@ -89,30 +76,15 @@ class ShaderIO(base_class, form_class):
                 self.__list_model.append(url.toString()[8:])
             event.acceptProposedAction()
 
-    def mouse_double_clicked_event(self, event):
-        print "double_clicked"
-        print event
-
-    def mouse_release_event(self, event):
-        print "release_event"
-        print event
-
-    # def mouse_grabber_event(self):
-    #     print "mouse_grabber_event"
-
-    # def mouse_press_event(self, event):
-    #     print "mouse_Press_event"
-    #     print event
-
     def get_sel_item(self, event):
         print self.list_view.selectedIndexes()
         print self.__list_model.sel_item(self.list_view.selectedIndexes()[0])
         # print self.list_view.selectedIndexes()[0].text()
 
-    @QtCore.Slot(bool)
-    def on_list_view_selectedIndexes(self, qModelIndex):
-        print "aaa"
-        # QMessageBox.information(self, 'ListWidget', '你选择了：' + self.qList[qModelIndex.row()])
+    # @QtCore.Slot(bool)
+    # def on_list_view_selectedIndexes(self, event):
+    #     print "aaa"
+    #     # QMessageBox.information(self, 'ListWidget', '你选择了：' + self.qList[qModelIndex.row()])
 
     @QtCore.Slot(bool)
     def on_btn_delete_select_clicked(self, event):
@@ -120,18 +92,24 @@ class ShaderIO(base_class, form_class):
 
     @QtCore.Slot(bool)
     def on_btn_clear_all_clicked(self, event):
-        self.__list_model.fanhui_index()
+        self.__list_model.replace_row()
 
     @QtCore.Slot(bool)
     def on_export_all_clicked(self, event):
-        print "export_all"
-        print self.__list_model.data(list1=True)
-        print self.__list_model.my_sel()
-        print self.__list_model.currentText()
+        # self.__list_model.selectRow(sel_items=self.list_view.selectedIndexes())
+        list_all = self.__list_model.data(list1=True)
+        # utilTool.open_mayabatch(list_all)
+        child_process = int(self.comboBox_child.currentText())
+        print child_process
 
-    def show_win(self, args=None):
-        uiTool.windowExists(uiTool.get_maya_window(), self.obj_name)
-        return True
+        if self.comboBox_project.currentText() == "Seer7":
+            for _file in list_all:
+                if os.path.isfile(_file):
+                    utilTool.open_mayabatch(file=_file,
+                                            mel_script=r"D:/___________TD____________/TD_Code/Utils/config/seer7_shader_batch.mel")
+
+        if self.comboBox_project.currentText() == "None":
+            print "nothing"
 
 def main():
     app = QtWidgets.QApplication(sys.argv)

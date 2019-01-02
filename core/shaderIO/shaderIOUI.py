@@ -17,7 +17,6 @@ form_class, base_class = uiTool.loadUiType(script_path + "/shaderIO.ui")
 
 class ShaderIO(base_class, form_class):
     def __init__(self, parent=uiTool.get_maya_window()):
-        print "shaderIOUI start"
         self.win_name = "Shader Tool"
         self.object_name = "shader_tool"
         # self.dockControl_object_name = self.object_name + "dockControl"

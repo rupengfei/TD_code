@@ -33,7 +33,7 @@ def get_sg_nodes(args=None):
 
 
 def aoto_get_sg_nodes(args=None):
-    print args
+    # print args
     sg_nodes = list()
     for geo in args:
         # print geo

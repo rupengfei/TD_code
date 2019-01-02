@@ -10,6 +10,7 @@ import xml.etree.ElementTree as xml
 import Qt
 import os
 import inspect
+import subprocess
 if Qt.__binding__ == 'PySide':
     import pysideuic as uic
 elif Qt.__binding__ == 'PySide2':
@@ -70,3 +71,37 @@ def getModulesPath(moudle):
     moduleFile = inspect.getfile(moudle)
     modulePath = os.path.dirname(moduleFile)
     return modulePath
+
+def open_mayabatch(version="2017", file=None, command=None, py_command=None, mel_script=None, py_script=None):
+    """
+    Args:
+        version: 2017
+        file: r"D:/aaa.ma"
+        command: r"file -save"
+        py_command: r"print 'happy-----------'"
+        mel_script:
+        py_script: r"C:\mel.py"
+
+    Returns:subprocess.Popen()
+    """
+    batch = "C:/Program Files/Autodesk/Maya" + version + "/bin/mayabatch.exe "
+    if not file:
+        return False
+    batch += "-file " + file + " "
+    if command:
+        batch += "-command \"" + command + "\" "
+    if py_command:
+        batch += '-command \"python(\\"' + py_command + '\\")\" '
+    if mel_script:
+        batch += "-script " + mel_script + " "
+    if py_script:
+        if "\\" in py_script:
+            py_script = py_script.replace("\\", "/")
+        batch += "-command \"python(\\\"execfile('" + py_script + "')\\\"\") "
+    print batch
+    subprocess.check_call(batch)
+
+
+if __name__ == '__main__':
+    pass
+

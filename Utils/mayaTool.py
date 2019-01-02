@@ -161,8 +161,10 @@ def get_input_path(filter_format='Maya ASCII (*.ma)', start_dir=None):  # 111111
     filePath = mc.fileDialog2(ff=filter_format, fm=4, okc='Select', startingDirectory=start_dir)
     return filePath
 
-
-PROGRESSBAR = mel.eval('string $temp = $gMainProgressBar;')  # PROGRESSBAR
+try:
+    PROGRESSBAR = mel.eval('string $temp = $gMainProgressBar;')  # PROGRESSBAR
+except:
+    pass
 
 
 def startProgress(count):  # PROGRESSBAR
