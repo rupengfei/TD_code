@@ -150,6 +150,8 @@ def seer7_shader_format_path():
     """
     """
     source_file = mayaTool.get_scene_path()
+    if source_file == "":
+        source_file = mc.internalVar(uwd=True) + "Rig/untitled.ma"
     path = pathTool.recombine_path(source_file, "Rig", "Rig/shader")
     if not os.path.exists(path):
         os.makedirs(path)

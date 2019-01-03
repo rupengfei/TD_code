@@ -72,7 +72,7 @@ def getModulesPath(moudle):
     modulePath = os.path.dirname(moduleFile)
     return modulePath
 
-def open_mayabatch(version="2017", file=None, command=None, py_command=None, mel_script=None, py_script=None):
+def open_mayabatch(version="2017", file=None, tracking=False, command=None, py_command=None, mel_script=None, py_script=None):
     """
     Args:
         version: 2017
@@ -84,7 +84,7 @@ def open_mayabatch(version="2017", file=None, command=None, py_command=None, mel
 
     Returns:subprocess.Popen()
     """
-    batch = "C:/Program Files/Autodesk/Maya" + version + "/bin/mayabatch.exe "
+    batch = "\"C:/Program Files/Autodesk/Maya" + version + "/bin/mayabatch.exe\" "
     if not file:
         return False
     batch += "-file " + file + " "
@@ -99,7 +99,15 @@ def open_mayabatch(version="2017", file=None, command=None, py_command=None, mel
             py_script = py_script.replace("\\", "/")
         batch += "-command \"python(\\\"execfile('" + py_script + "')\\\"\") "
     print batch
-    subprocess.check_call(batch)
+    # "C:\Program Files\Autodesk\Maya2017\Python\DLLs"
+    _env = os.environ.copy()
+    if version == "2017":
+        _env["PYTHONPATH"] = "C:/Program Files/Autodesk/Maya2017/Python/DLLs"
+
+    if tracking:
+        subprocess.check_call(batch, env=_env)
+    else:
+        subprocess.Popen(batch, env=_env)
 
 
 if __name__ == '__main__':

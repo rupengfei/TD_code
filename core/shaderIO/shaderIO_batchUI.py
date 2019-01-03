@@ -7,12 +7,15 @@
 import os
 import sys
 # os.path.abspath(os.path.dirname(__file__)),
+# paths = ["C:\Program Files\Autodesk\Maya2017\Python\Lib\site-packages",
 paths = ["C:/cgteamwork/bin/lib/pyside",
+         # "C:\Program Files\Autodesk\Maya2017\Python\Lib\site-packages\PySide2",
          "C:/cgteamwork/bin/lib/pyside/PySide2",
-         "D:/___________TD____________/TD_Code",
-         "D:/___________TD____________/TD_Code/core",
+         # "D:/___________TD____________/TD_Code",
+         # "D:/___________TD____________/TD_Code/core",
+         "Z:/SEER7/bin/rupengfei/TD_code",
+         "Z:/SEER7/bin/rupengfei/TD_code/core",
          "C:/cgteamwork/bin/lib/pyside/PySide2/plugins"
-         ".."
          ]  # CG Team Work python packages
 # paths = ["C:\Python27\Lib\site-packages\PySide2",
 #          ]  # PC python packages
@@ -22,6 +25,7 @@ for path in paths:
 from PySide2 import QtGui, QtWidgets, QtCore
 import TW_Code.utilTool as utilTool
 import shaderIO_batch_mvc_model
+
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 script_path = utilTool.getScriptPath()
 form_class, base_class = utilTool.loadUiType(script_path + "/shaderIO_batch.ui")
@@ -100,14 +104,22 @@ class ShaderIO(base_class, form_class):
         list_all = self.__list_model.data(list1=True)
         # utilTool.open_mayabatch(list_all)
         child_process = int(self.comboBox_child.currentText())
-        print child_process
-
+        B_child = int(self.comboBox_child.currentText())
         if self.comboBox_project.currentText() == "Seer7":
             for _file in list_all:
                 if os.path.isfile(_file):
-                    utilTool.open_mayabatch(file=_file,
-                                            mel_script=r"D:/___________TD____________/TD_Code/Utils/config/seer7_shader_batch.mel")
-
+                    print "opening on python child %s" % B_child
+                    if B_child == 1:
+                        B_child = child_process
+                        utilTool.open_mayabatch(file=_file,
+                                                tracking=True,
+                                                mel_script=r"Z:/SEER7/bin/rupengfei/TD_code/Utils/config/seer7_shader_batch.mel")
+                    else:
+                        B_child -= 1
+                        utilTool.open_mayabatch(file=_file,
+                                                mel_script=r"Z:/SEER7/bin/rupengfei/TD_code/Utils/config/seer7_shader_batch.mel")
+                else:
+                    print "{0} <<<<<----- is not file".format(_file)
         if self.comboBox_project.currentText() == "None":
             print "nothing"
 
