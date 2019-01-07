@@ -34,11 +34,11 @@ alternate-background-color: rgb(255, 255, 127);</string>
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab1">
        <attribute name="title">
-        <string>动画</string>
+        <string>cacheIO</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>

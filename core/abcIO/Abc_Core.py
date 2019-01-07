@@ -33,9 +33,9 @@ def seer7_setting_render(opened=True):
     else:
         for geo in geos:
             try:
-                mc.setAttr(geo + ".LvL", 1)
+                mc.setAttr(geo + ".LvL", 0)
             except RuntimeError:
-                mc.setAttr(geo + ".LVL", 1)
+                mc.setAttr(geo + ".LVL", 0)
     return True
 
 
