@@ -12,7 +12,7 @@ path in sys.path or sys.path.append(path)
 from Utils import yaml
 import shutil
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
-shelf_name = "/shelf_seer7_Tools.mel"
+shelf_name = "/shelf_Tools.mel"
 shelf_path = __file__[:__file__.rfind("/")] + shelf_name
 # print shelf_path
 # print os.path.expanduser('~')

@@ -44,7 +44,7 @@ class Setup(base_class, form_class):
     @QtCore.Slot(bool)
     def on_btn_shaderIOTool_clicked(self, args=None):
         from core.shaderIO import shaderIOUI
-        # reload(shaderIOUI)
+        reload(shaderIOUI)
         shaderIO = shaderIOUI.ShaderIO()
         shaderIO.show_win()
 

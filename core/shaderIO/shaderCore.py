@@ -128,14 +128,18 @@ def export_all_shader(file_path):
     export_all_sg_nodes(scene_name, fix_name)
     export_all_sg_members(json_name)
 
-def import_sel_shader(file_path, geo_namespace=None):
-    # json_path = convert_ma_to_json(file_path)
-    # reference_shader_file(file_path)
-    # assign_data_to_all(json_path)
-    return True
 
 def convert_ma_to_json(file_path):
     return file_path.split(".")[0] + ".json"
+
+
+def import_sel_shader(file_path, geo_namespace=None, sg_namespace=None):
+    sels = mc.ls(sl=True)
+    json_path = convert_ma_to_json(file_path)
+    sg_namespace = reference_shader_file(file_path, sg_namespace)
+    assign_data_to_all(json_path, sg_namespace, geo_namespace, sels)
+    return True
+
 
 def import_all_shader(file_path, geo_namespace=None, sg_namespace=None):
     json_path = convert_ma_to_json(file_path)
@@ -164,7 +168,7 @@ def reference_shader_file(file_path, name_space=None):
     return mc.file(file_path, query=True, namespace=True)
 
 
-def assign_data_to_all(data_path, sg_namespace=None, geo_namespace=None):
+def assign_data_to_all(data_path, sg_namespace=None, geo_namespace=None, selects=None):
     # data = dict()
     with open(data_path, "r") as f:
         data = json.load(f)
@@ -177,8 +181,12 @@ def assign_data_to_all(data_path, sg_namespace=None, geo_namespace=None):
         for geo in geos:
             if geo_namespace:
                 geo = "{0}:{1}".format(geo_namespace, geo)
-            if mc.objExists(geo.split(".")[0]):
-                filter_item.append(geo)
+            if mc.objExists(geo.split(".")[0]):  # 面材质带点  .f[8]
+                if selects:
+                    if geo.split(".")[0] in selects:
+                        filter_item.append(geo)
+                else:
+                    filter_item.append(geo)
         try:
             mc.sets(filter_item, e=True, forceElement=sg)
         except ValueError as e:

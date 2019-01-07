@@ -34,7 +34,7 @@ class ShaderIO(base_class, form_class):
         self.lin_import.dragEnterEvent = self.lin_import_dragEnterEvent  # 拖拽启动事件
         # self.lin_import.dragMoveEvent = self.lin_import_dragMoveEvent  # 拖拽移动事件
         self.lin_import.dropEvent = self.lin_import_dropEvent  # 拖拽松开事件
-        self.btn_import_sel_shader.setEnabled(False)
+        self.btn_import_sel_shader.setEnabled(True)
         self.btn_auto_import.setEnabled(False)
         self.btn_batch_export.setEnabled(False)
         # mc.dockControl(self.dockControl_object_name,
@@ -64,9 +64,12 @@ class ShaderIO(base_class, form_class):
                 self.lin_import.setText(url.toString()[8:])
             event.acceptProposedAction()
 
-    # @QtCore.Slot(bool)
-    # def on_btn_import_sel_shader_clicked(self, args=None):
-    #     config_seer7.import_sel_shader(self.lin_import.text(), self.lin_namespace.text())
+    @QtCore.Slot(bool)
+    def on_btn_import_sel_shader_clicked(self, args=None):
+        if self.lin_namespace.text():
+            shaderCore.import_sel_shader(self.lin_import.text(), self.lin_namespace.text())
+        else:
+            shaderCore.import_sel_shader(self.lin_import.text())
 
     @QtCore.Slot(bool)
     def on_btn_import_shader_clicked(self, args=None):
