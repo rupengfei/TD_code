@@ -17,8 +17,15 @@ shelf_path = __file__[:__file__.rfind("/")] + shelf_name
 # print shelf_path
 # print os.path.expanduser('~')
 shelf_to_path = os.path.expanduser('~') + "/Documents/maya/2017/prefs/shelves" + shelf_name
+shelf_to_CN_path = os.path.expanduser('~') + "/Documents/maya/2017/zh_CN/prefs/shelves"
 if not os.path.isfile(shelf_to_path):
     shutil.copy(shelf_path, shelf_to_path)
+
+if os.path.isdir(shelf_to_CN_path):
+    shelf_to_CN_path = shelf_to_CN_path + shelf_name
+    if not os.path.isfile(shelf_to_CN_path):
+        shutil.copy(shelf_path, shelf_to_CN_path)
+
 
 yaml_name = __file__[:__file__.rfind(".")] + ".yaml"
 mel_name = __file__[:__file__.rfind(".")] + ".mel"
@@ -36,7 +43,7 @@ def load_yaml_file(files=str(), mels=str()):
             _env[e["name"]] = e["value"] + ";" + os.environ.get(e["name"], "")
 
         elif e["mode"] == "post":
-            _env[e["name"]] = os.environ.get(e["name"] + ";" + e["value"])
+            _env[e["name"]] = os.environ.get(e["name"], "") + ";" + e["value"]
 
         else:
             pass

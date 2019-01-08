@@ -1,16 +1,12 @@
 Softeare: Maya
-Version: 2017
+Version: !!str 2017
 Exec: 'C:/Program Files/Autodesk/Maya2017/bin/maya.exe'
 
 Env:
-  - name: MAYA_UI_LANGUAGE
-    value: en_US
-    mode: over
-
   - name: MAYA_DISABLE_CLIC_IPM
     value: "1"
     mode: over
 
   - name: PYTHONPATH
     value: "Z:/SEER7/bin/rupengfei/TD_code"
-    mode: over
+    mode: post
