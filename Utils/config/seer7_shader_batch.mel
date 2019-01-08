@@ -1,9 +1,8 @@
 python("import sys");
-//python("reload(sys)");
+python("reload(sys)");
 python("import maya.utils as utils");
-//python("sys.setdefaultencoding('gbk')");
+python("sys.setdefaultencoding('gbk')");
 python("path = 'Z:/SEER7/bin/rupengfei/TD_Code'");
 python("path in sys.path or sys.path.append(path)");
-python("import pymel.core as pm");
-//python("import Utils.config.config_seer7 as config_seer7;config_seer7.auto_export_shader()");
+python("import Utils.config.config_seer7 as config_seer7;config_seer7.auto_export_shader()");
 print "\n\n\n\n\n\n\n\n\n\n Clear \n\n\n\n\n\n\n\n\n\n";
