@@ -181,11 +181,21 @@ def assign_data_to_all(data_path, sg_namespace=None, geo_namespace=None, selects
         for geo in geos:
             if geo_namespace:
                 geo = "{0}:{1}".format(geo_namespace, geo)
-            if mc.objExists(geo.split(".")[0]):  # 面材质带点  .f[8]
-                if selects:
-                    if geo.split(".")[0] in selects:
-                        filter_item.append(geo)
-                else:
+            if selects:
+                for sel in selects:
+                    sel_colon = sel.split(":")[-1]
+                    geo_colon = geo.split(":")[-1]  # "shader_tested:belly_f" 去掉第一个冒号前边的名称空间
+                    if "." in geo_colon:
+                        sel_colon = sel_colon + geo.split(".")[-1]
+                        sel = sel + geo.split(".")[-1]
+                    if geo_colon in sel_colon:
+                        if geo_colon == sel_colon:
+                            filter_item.append(sel)
+                        else:
+                            mc.warning("----场景有重名物体没有附上材质----.\n{0}".format(sel))
+                            pass
+            else:
+                if mc.objExists(geo.split(".")[0]):  # 面材质带点  .f[8]
                     filter_item.append(geo)
         try:
             mc.sets(filter_item, e=True, forceElement=sg)
