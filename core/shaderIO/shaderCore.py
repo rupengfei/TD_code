@@ -184,7 +184,7 @@ def assign_data_to_all(data_path, sg_namespace=None, geo_namespace=None, selects
             if selects:
                 for sel in selects:
                     sel_colon = sel.split(":")[-1]
-                    geo_colon = geo.split(":")[-1]  # "shader_tested:belly_f" 去掉第一个冒号前边的名称空间
+                    geo_colon = geo.split(":")[-1]
                     if "." in geo_colon:
                         sel_colon = sel_colon + geo.split(".")[-1]
                         sel = sel + geo.split(".")[-1]
