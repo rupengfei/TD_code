@@ -1,0 +1,12 @@
+{
+    "xiaomi": {
+        "fur_name": "xiaomi_Fur_mesh",
+        "geo_name": "xiaomi_body_mesh",
+        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/XiaoMi_MaoFa/Fur/approve/Seer7_Char_FUR_XiaoMi_RIG.ma"
+    },
+    "XingXing_BaZao": {
+        "fur_name": "xingxing_Fur_mesh",
+        "geo_name": "xingxing_body_mesh",
+        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/XingXing_BaZao/Fur/approve/Seer7_Char_FUR_XingXing01.ma"
+    }
+}
