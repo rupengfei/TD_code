@@ -24,9 +24,7 @@ def import_fur_BS():
             # if name_space != "unknown":
             #     pass
             if name_space == "unknown":
-                mayaTool.reference_file(ib["fur_file_path"], name_space=ia, typ="ma")
-                # 为避免文件路径后缀查找出错 {1}，再此处不用mayaTool返回的namespace
-                name_space = mc.file(ib["fur_file_path"] + fix, query=True, namespace=True)
+                name_space = mayaTool.reference_file(ib["fur_file_path"], name_space=ia, typ="ma", fix=True)
 
                 bs_a = geo_name
                 bs_b = name_space + ":" + ib["fur_name"]
