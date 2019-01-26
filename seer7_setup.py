@@ -48,6 +48,12 @@ class Setup(base_class, form_class):
         shaderIO = shaderIOUI.ShaderIO()
         shaderIO.show_win()
 
+    @QtCore.Slot(bool)
+    def on_btn_aoto_fur_bs_clicked(self, args=None):
+        from core.fur import hair_core
+        reload(hair_core)
+        hair_core.import_fur_BS()
+
 
 def show_win():
     Control_object_name = "seer7_toolControl"  # 窗口名
