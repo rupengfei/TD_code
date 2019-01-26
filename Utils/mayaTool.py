@@ -13,44 +13,57 @@ import maya.mel as mel
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 
 
-def reference_file(file_path, name_space=None, typ="ma"):
-    """导入参考文件"""
-    file_path = file_path.replace('\\', '/')
-    ref_file = mc.file(query=True, reference=True)
-    if file_path in ref_file:
-        return mc.file(file_path, query=True, namespace=True)
+def reference_file(file_path, name_space=None, typ="ma", fix=False):
+    """
+    Args:
+        file_path: 文件路径
+        name_space: 名称空间，没有就是文件名
+        typ: 类型现有三种 ma fbx abc
+        fix: False 不重复导入
+             True 可以重复导入参考文件
+
+    Returns: 返回参考文件的名称空间
+
+    """
+    if "\\" in file_path:
+        file_path = file_path.replace('\\', '/')
+    if fix is False:
+        ref_file = mc.file(query=True, reference=True)
+        if file_path in ref_file:
+            return mc.file(file_path, query=True, namespace=True)
     if not name_space:
         name_space = os.path.splitext(os.path.basename(file_path))[0]
+    fix_file_path = file_path
     if typ == "fbx":
-        mc.file(file_path,
-                r=True,
-                type="FBX",
-                ignoreVersion=True,
-                gl=True,
-                mergeNamespacesOnClash=False,
-                namespace=name_space,
-                options="fbx"
-                )
+        fix_file_path = mc.file(file_path,
+                                r=True,
+                                type="FBX",
+                                ignoreVersion=True,
+                                gl=True,
+                                mergeNamespacesOnClash=False,
+                                namespace=name_space,
+                                options="fbx"
+                                )
     if typ == "ma":
-        mc.file(file_path,
-                r=True,
-                type="mayaAscii",
-                ignoreVersion=True,
-                gl=True,
-                mergeNamespacesOnClash=False,
-                namespace=name_space,
-                options="v=0;"
-                )
+        fix_file_path = mc.file(file_path,
+                                r=True,
+                                type="mayaAscii",
+                                ignoreVersion=True,
+                                gl=True,
+                                mergeNamespacesOnClash=False,
+                                namespace=name_space,
+                                options="v=0;"
+                                )
     if typ == "abc":
-        mc.file(file_path,
-                r=True,
-                type="Alembic",
-                ignoreVersion=True,
-                gl=True,
-                mergeNamespacesOnClash=False,
-                namespace=name_space,
-                )
-    return mc.file(file_path, query=True, namespace=True)
+        fix_file_path = mc.file(file_path,
+                                r=True,
+                                type="Alembic",
+                                ignoreVersion=True,
+                                gl=True,
+                                mergeNamespacesOnClash=False,
+                                namespace=name_space,
+                                )
+    return mc.file(fix_file_path, query=True, namespace=True)
 
 
 def get_current_frame():
