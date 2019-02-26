@@ -5,11 +5,10 @@
 #         time: 2018/12/9
 # ==========================================
 import maya.cmds as mc
-from Utils import scriptTool
+from Utils import scriptTool, uiTool
 from PySide2 import QtCore
 from maya import OpenMayaUI as omui
 import maya.mel as mel
-from Utils import uiTool
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 script_path = scriptTool.getScriptPath()
 form_class, base_class = uiTool.loadUiType(script_path + "/seer7_setup.ui")
@@ -54,6 +53,9 @@ class Setup(base_class, form_class):
         reload(hair_core)
         hair_core.import_fur_BS()
 
+    @QtCore.Slot(bool)
+    def on_btn_setAttr_tool_clicked(self, args=None):
+        pass
 
 def show_win():
     Control_object_name = "seer7_toolControl"  # 窗口名
