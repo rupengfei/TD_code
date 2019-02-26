@@ -2,51 +2,51 @@
     "XiaoMi": {
         "fur_name": "xiaomi_body_fur_BS",
         "geo_name": "xiaomi_body_mesh",
-        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/XiaoMi_MaoFa/Fur/approve/Seer7_Char_FUR_XiaoMi_yeti.ma"
+        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/XiaoMi_MaoFa/Fur/approve/Seer7_Char_FUR_XiaoMi_BS.ma"
     },
     "TuJiu_LuanQi": {
-        "fur_name": "xiaomi_body_fur_BS111",
-        "geo_name": "xiaomi_body_mesh1111",
-        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/TuJiu_LuanQi/Fur/approve/Seer7_Char_FUR_TuJiu_tx.ma"
+        "fur_name": "TuJiu_LuanQi_Fur_mesh",
+        "geo_name": "TuJiu_LuanQi_body_mesh",
+        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/TuJiu_LuanQi/Fur/approve/Seer7_Char_Fur_TuJiu_BS.ma"
     },
     "Gou_DaoGe": {
-        "fur_name": "xiaomi_body_fur_BS111",
-        "geo_name": "xiaomi_body_mesh1111",
-        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/Gou_DaoGe/Fur/approve/Seer7_Char_FUR_Gou.ma"
+        "fur_name": "DaoGe_Fur_mesh",
+        "geo_name": "daoge_body_mesh",
+        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/Gou_DaoGe/Fur/approve/Seer7_Char_FUR_Gou_BS.ma"
     },
     "LaoHu_NvWang": {
-        "fur_name": "xiaomi_body_fur_BS111",
-        "geo_name": "xiaomi_body_mesh1111",
-        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/LaoHu_NvWang/Fur/approve/FUR_nvwang_f04.ma"
+        "fur_name": "LaoHu_NvWang_Fur_mesh",
+        "geo_name": "LaoHu_NvWang_body_mesh",
+        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/LaoHu_NvWang/Fur/approve/Seer7_Char_Fur_LaoHu_BS.ma"
     },
     "XiongMao_DaXia": {
-        "fur_name": "xiaomi_body_fur_BS111",
-        "geo_name": "xiaomi_body_mesh1111",
-        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/XiongMao_DaXia/Fur/approve/Seer7_Char_Fur_XiongMao.ma"
+        "fur_name": "XiongMao_Fur_mesh",
+        "geo_name": "XiongMao_body_mesh",
+        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/XiongMao_DaXia/Fur/approve/Seer7_Char_Fur_XiongMao_BS.ma"
     },
     "XingXing_BaZao": {
-        "fur_name": "xiaomi_body_fur_BS111",
-        "geo_name": "xiaomi_body_mesh1111",
-        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/XingXing_BaZao/Fur/approve/Seer7_Char_FUR_XingXing01.ma"
+        "fur_name": "XinGe_BaoZao_Fur_mesh",
+        "geo_name": "XinGe_BaoZao_body_mesh",
+        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/XingXing_BaZao/Fur/approve/Seer7_Char_Fur_XingXing_BS.ma"
     },
     "TuZi_BaoYa": {
-        "fur_name": "xiaomi_body_fur_BS111",
-        "geo_name": "xiaomi_body_mesh1111",
-        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/TuZi_BaoYa/Fur/approve/Seer7_Char_FUR_TuZi02.mb"
+        "fur_name": "Rabbit_Fur_mesh",
+        "geo_name": "Rabbit_body_mesh",
+        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/TuZi_BaoYa/Fur/approve/Seer7_Char_FUR_TuZi_BS.ma"
     },
     "Ji_GeDa": {
-        "fur_name": "xiaomi_body_fur_BS111",
-        "geo_name": "xiaomi_body_mesh1111",
-        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/Ji_GeDa/Fur/approve/Seer7_Char_Fur_Ji_yh.ma"
+        "fur_name": "Ji_GeDa_Fur_mesh",
+        "geo_name": "Ji_GeDa_body_mesh",
+        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/Ji_GeDa/Fur/approve/Seer7_Char_Fur_Ji_BS.ma"
     },
     "PangNvRen": {
-        "fur_name": "xiaomi_body_fur_BS111",
-        "geo_name": "xiaomi_body_mesh1111",
-        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/PangNvRen/Fur/approve/FUR_PNR.mb"
+        "fur_name": "PangNvRen_Fur_mesh",
+        "geo_name": "PangNvRen_body_mesh",
+        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/PangNvRen/Fur/approve/Seer7_Char_Fur_PangNvRen_BS.ma"
     },
     "YuHangYuan_Nv_LiSha": {
-        "fur_name": "xiaomi_body_fur_BS111",
-        "geo_name": "xiaomi_body_mesh1111",
-        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/YuHangYuan_Nv_LiSha/Fur/approve/Seer7_Char_FUR_YuHangYuan_Nv_LiSha.ma"
+        "fur_name": "YuHangYuan_Nv_LiSha_Fur_mesh",
+        "geo_name": "YuHangYuan_Nv_LiSha_body_mesh",
+        "fur_file_path": "Z:/SEER7/Work/Asset_work/Chars/YuHangYuan_Nv_LiSha/Fur/approve/Seer7_Char_Fur_YuHangYuan_Nv_LiSha_BS.ma"
     }
 }
