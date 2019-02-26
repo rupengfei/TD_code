@@ -57,8 +57,8 @@ def abc_export(path, starts, ends, step, geos):
         out_json_name = out_file_name + ".json"
         try:
             pynode_geo = pm.PyNode(geo)
-            if "Face_RenderMesh" in geo:
-                print "Face_RenderMesh"
+            if "FaceRenderMesh_Grp" in geo:
+                print "FaceRenderMesh_Grp"
                 seer7_setting_render(True)
                 ioTool.writeData(out_json_name, get_face_members(pynode_geo))
                 export_color_set(start, end, step, geo, out_file_name)
@@ -104,6 +104,20 @@ def export_geo(start, end, step, geo, path):
 
 
 def export_color_set(start, end, step, geo, path):
+    """导出面部表情模型"""
+    mel_str = "AbcExport -j \""
+    mel_str += "-frameRange {0} {1} ".format(start, end)
+    mel_str += "-step {0} ".format(step)
+    mel_str += "-uvWrite "
+    mel_str += "-worldSpace "
+    mel_str += "-writeVisibility "
+    mel_str += "-dataFormat ogawa "
+    mel_str += "-root {0} ".format(geo)
+    mel_str += "-file {0}.abc\";".format(path)
+    # print mel_str
+    pm.mel.eval(mel_str)
+
+def export_color_set1(start, end, step, geo, path):
     """导出颜色集"""
     mel_str = "AbcExport -j \""
     mel_str += "-frameRange {0} {1} ".format(start, end)
@@ -217,10 +231,15 @@ def get_face_members(geo):
     else:
         shader_path = "None"
 
+    name1 = str(file_path)
+    name2 = str(file_path_more)
+    name3 = name1.split(".")[0] + "_MASH." + name1.split(".")[1]
+    name4 = name2.split(".")[0] + "_MASH." + name2.split(".")[1]
+
     data = dict()
     data["namespace"] = str(geo.namespace())[:-1]
-    data["reference_file"] = str(file_path)
-    data["reference_file_more"] = str(file_path_more)
+    data["reference_file"] = name3
+    data["reference_file_more"] = name4
     data["shader_file"] = shader_path
     data["type"] = "face_abc"
     data["link_name"] = mayaTool.name_rest(str(geo.name())) + ".abc"
@@ -247,7 +266,7 @@ def abc_import(path="D:/Repo", geos=tuple()):
             import_cam(geo_path, data)
         if data["type"] == "face_abc":
             print "face_abc"
-            face_render_mesh_Grp(import_face(geo_path, data))
+            import_face(geo_path, data)
         if data["type"] == "geo_abc":
             print "geo_abc"
             import_geo(geo_path, data)
@@ -287,7 +306,7 @@ def face_render_mesh_Grp(name_space):
         pm.parent(sels, "Face_RenderMesh_Grp")
 
 
-def import_face(path, data):
+def import_face1(path, data):
     """导入 面部颜色集"""
     path = path + ".abc"
     # name_space = data["namespace"]
@@ -296,6 +315,20 @@ def import_face(path, data):
     name_space = mayaTool.reference_file(path, name_space=name_space, typ="abc")
     if os.path.exists(data["shader_file"]):
         shaderCore.import_all_shader(data["shader_file"], name_space, shader_namespace)
+    return name_space
+
+def import_face(path, data):
+    """导入 面部颜色集"""
+    path = path + ".abc"
+    # name_space = data["namespace"]
+    name_space = "render"
+    # shader_namespace = "shader_RN"
+    name_space = mayaTool.reference_file(path, name_space=name_space, typ="abc")
+    name_space_mash = mayaTool.reference_file(data["reference_file"], name_space="renderMash", typ="ma")
+    name_space = name_space + ":" + data["name"]
+    name_space_mash = name_space_mash + ":" + data["name"] + "_BS"
+    # blendShape A 动 B 静
+    mc.blendShape([name_space, name_space_mash], before=True, w=[0, 1], origin="world")
     return name_space
 
 
@@ -312,8 +345,8 @@ def import_geo(path, data):
         shader_file = data["shader_file"][:data["shader_file"].rfind("{")]
     else:
         shader_file = data["shader_file"]
-    if os.path.exists(data["shader_file"]):
-        shaderCore.import_all_shader(data["shader_file"], name_space, shader_namespace)
+    if os.path.exists(shader_file):
+        shaderCore.import_all_shader(shader_file, name_space, shader_namespace)
     return name_space
 
 def import_mesh(path, data):
