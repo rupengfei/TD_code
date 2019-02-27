@@ -55,7 +55,8 @@ class Setup(base_class, form_class):
 
     @QtCore.Slot(bool)
     def on_btn_setAttr_tool_clicked(self, args=None):
-        pass
+        from core import Attr_tool
+        Attr_tool.Attr_code()
 
 def show_win():
     Control_object_name = "seer7_toolControl"  # 窗口名
