@@ -1,0 +1,119 @@
+# -*- coding:utf-8 -*-  
+# ==========================================
+#       author: Pengfei.Ru
+#         mail: a773849069@gmail.com
+#         time: 2019/2/14
+# ==========================================
+import maya.cmds as mc
+from Utils import scriptTool, uiTool
+import os
+import sys
+from PySide2 import QtWidgets, QtCore
+from core.shaderIO import shaderCore
+#
+reload()
+dir()
+help()
+print()
+# --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
+                            // 2016之后的变量定义域冲突问题
+melOptions -duplicateVariableWarnings off;
+                            # 查重名
+import maya.cmds as mc
+
+mc.select(hierarchy=True)
+sels = mc.ls(sl=True)
+for _ in sels:
+    if "|" in _:
+        print "这个是重名的物体",_
+
+
+
+
+                            # 解锁节点
+import maya.cmds as mc
+unknowns = mc.ls(type="unknown")
+for unknown in unknowns:
+    mc.lockNode(unknown, lock=off)
+    mc.delete unknown
+
+
+
+                             //根据选择的动画关键帧自动跳转时间滑块
+//开启自动跳转
+global proc autoGoToTimeBySelectedKey()
+{
+    float $getFrame[]=`keyframe -q -sl`;
+    currentTime $getFrame[0];
+}
+
+global int $allAutoIDOfScriptJob[];
+$allAutoIDOfScriptJob[size($allAutoIDOfScriptJob)] = `scriptJob -e "SelectionChanged" "autoGoToTimeBySelectedKey()"`;
+
+//关闭自动跳转
+for ($one in $allAutoIDOfScriptJob)
+{
+    scriptJob -k $one;
+}
+clear $allAutoIDOfScriptJob;
+
+
+                                # 物体跟随
+import maya.cmds as cmds
+import maya.OpenMaya as om
+# by 劲爆羊
+#1、先选择所有需要吸附的物体（未蒙皮，如纽扣），最后加选需要吸附至的物体（如衣服）
+#2、执行以下代码
+def createFollicleAuto():
+    theObjListAll = cmds.ls(sl=True)
+    theObjList = theObjListAll[:-1]
+    selectionList = om.MSelectionList()
+    selectionList.add(theObjListAll[-1])
+    getTheMeshShape = cmds.listRelatives(theObjListAll[-1],s=True)[0]
+    getPath = om.MDagPath()
+    selectionList.getDagPath(0,getPath)
+    mfnMesh = om.MFnMesh(getPath)
+    space = om.MSpace.kWorld
+    getAllFolGroup = theObjListAll[-1]+'_folGroup'
+    if not cmds.objExists(theObjListAll[-1]+'_folGroup'):
+        getAllFolGroup = cmds.createNode('transform',n=theObjListAll[-1]+'_folGroup')
+    for one in theObjList:
+        pArray = [0,0]
+        fl1 = om.MScriptUtil()
+        fl1.createFromList(pArray,2)
+        uvPoint = fl1.asFloat2Ptr()
+        getPos = cmds.xform(one,ws=True,piv=True,q=True)[:3]
+        point = om.MPoint(getPos[0],getPos[1],getPos[2])
+        mfnMesh.getUVAtPoint(point,uvPoint,space)
+        uv0 = om.MScriptUtil.getFloat2ArrayItem(uvPoint,0,0)
+        uv1 = om.MScriptUtil.getFloat2ArrayItem(uvPoint,0,1)
+        getNewFolShape = cmds.createNode('follicle')
+        cmds.setAttr(getNewFolShape+'.simulationMethod',0)
+        cmds.setAttr(getNewFolShape+".degree",1)
+        cmds.setAttr(getNewFolShape+".sampleDensity",1)
+        cmds.setAttr(getNewFolShape+".template",1)
+        getNewFolOld = cmds.listRelatives(getNewFolShape,p=True)
+        cmds.setAttr(getNewFolOld[0]+".visibility",0)
+        getNewFolNew = cmds.rename(getNewFolOld,one+'_fol')
+        getNewFolShapeNew = cmds.listRelatives(getNewFolNew,s=True)[0]
+        cmds.connectAttr(getTheMeshShape+".outMesh",getNewFolShapeNew+".inputMesh",f=True)
+        cmds.connectAttr(getTheMeshShape+".worldMatrix[0]",getNewFolShapeNew+".inputWorldMatrix",f=True)
+        cmds.connectAttr(getNewFolShapeNew+".outTranslate",getNewFolNew+".translate",f=True)
+        cmds.connectAttr(getNewFolShapeNew+".outRotate",getNewFolNew+".rotate",f=True)
+        cmds.setAttr(getNewFolShapeNew+'.parameterU',uv0)
+        cmds.setAttr(getNewFolShapeNew+'.parameterV',uv1)
+        getGroup = cmds.createNode('transform',n=one+'_folGroup')
+        theJoint = cmds.joint(n=one+'_JNT')
+        getPos = cmds.getAttr(getNewFolNew+'.translate')[0]
+        getRot = cmds.getAttr(getNewFolNew+'.rotate')[0]
+        cmds.setAttr(getGroup+'.translateX',getPos[0])
+        cmds.setAttr(getGroup+'.translateY',getPos[1])
+        cmds.setAttr(getGroup+'.translateZ',getPos[2])
+        cmds.setAttr(getGroup+'.rotateX',getRot[0])
+        cmds.setAttr(getGroup+'.rotateY',getRot[1])
+        cmds.setAttr(getGroup+'.rotateZ',getRot[2])
+        cmds.skinCluster(theJoint,one)
+        cmds.parent(getGroup,getNewFolNew)
+        cmds.parent(getNewFolNew,getAllFolGroup)
+
+createFollicleAuto()
