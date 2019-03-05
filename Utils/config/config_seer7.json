@@ -3,7 +3,7 @@
     "cacheIO_shader": "Z:/SEER7/Work/Shot_work/cacheIO/Shader", 
     "test_scene": "Z:/SEER7/Work/Shot_work/Layout/sc003/sc003_shot007/work", 
     "cacheIO_fx": "Z:/SEER7/Work/Shot_work/cacheIO/Fx", 
-    "cacheIO_an": "Z:/SEER7/Work/Shot_work/cacheIO/Animation", 
+    "cacheIO_an": "Z:/SEER7/Work/Shot_work/Animation",
     "shader_source_path": "D:/Repo/seer7/cacheIO/Chars/Rig", 
     "cacheIO_lt": "Z:/SEER7/Work/Shot_work/cacheIO/Lighting"
 }

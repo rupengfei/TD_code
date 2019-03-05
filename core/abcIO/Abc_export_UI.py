@@ -1,4 +1,4 @@
-# -*- coding:GBK -*-
+# -*- coding:utf-8 -*-
 # ==========================================
 #       author: Pengfei.Ru
 #         mail: a773849069@gmail.com
@@ -45,7 +45,7 @@ class Setup(base_class, form_class):
     @QtCore.Slot(bool)
     def on_btn_sel_path_clicked(self, event):
         # print "btn_sel_path"
-        dir_path = QtWidgets.QFileDialog.getExistingDirectory()
+        dir_path = QtWidgets.QFileDialog.getExistingDirectory(self, u"é€‰æ‹©æ–‡ä»¶å¤¹", self.lin_export_path.text() if self.lin_export_path.text() else "D:/Cache")
         if dir_path:
             self.lin_export_path.setText(dir_path)
             return dir_path
@@ -60,22 +60,22 @@ class Setup(base_class, form_class):
         self.float_start.setValue(playblast_time[0])
         self.float_end.setValue(playblast_time[1])
         self.float_step.setValue(playblast_time[-1])
-        print "ÖØÖÃ²ÎÊı ok"
+        print "é‡ç½®å‚æ•° ok"
 
     @QtCore.Slot(bool)
     def on_btn_refresh_list_clicked(self, args=None):
         # print
         # reload(config_seer7)
-        geo_name = config_seer7.sel_mod(self.check_cam.isChecked(),  # ¶àÑ¡¿ò Ïà»ú
-                                        self.check_color_set.isChecked(),  # _ÑÕÉ«¼¯
+        geo_name = config_seer7.sel_mod(self.check_cam.isChecked(),  # å¤šé€‰æ¡† ç›¸æœº
+                                        self.check_color_set.isChecked(),  # _é¢œè‰²é›†
                                         self.check_body.isChecked(),  # ______Geo
                                         self.check_prop.isChecked(),  # ______Prop
                                         self.check_BG.isChecked(),  # ________BG
-                                        self.check_other.isChecked(),  # _____ÆäËû
+                                        self.check_other.isChecked(),  # _____å…¶ä»–
                                         )
         self.__list_model.replace_row(geo_name)
         # self.__list_model.append(geo_name)
-        print "ÖØÖÃÁĞ±í ok"
+        print "é‡ç½®åˆ—è¡¨ ok"
 
     @QtCore.Slot(bool)
     def on_btn_del_sel_clicked(self, args=None):
@@ -84,14 +84,14 @@ class Setup(base_class, form_class):
     @QtCore.Slot(bool)
     def on_btn_export_sel_clicked(self, args=None):
         # reload(Abc_Core)
-        path = self.lin_export_path.text()  # Êä³öÂ·¾¶
+        path = self.lin_export_path.text()  # è¾“å‡ºè·¯å¾„
         if not os.path.exists(path):
             os.makedirs(path)
-        start = self.float_start.value()  # ÆğÊ¼Ö¡
-        end = self.float_end.value()  # ½áÊøÖ¡
-        step = self.float_step.value()  # ×Ó²½Öµ
+        start = self.float_start.value()  # èµ·å§‹å¸§
+        end = self.float_end.value()  # ç»“æŸå¸§
+        step = self.float_step.value()  # å­æ­¥å€¼
         # TODO:geos
-        geos = self.__list_model.selectRow(sel_items=self.list_view.selectedIndexes())  # ÁĞ±íÊı¾İ
+        geos = self.__list_model.selectRow(sel_items=self.list_view.selectedIndexes())  # åˆ—è¡¨æ•°æ®
         print "------------------------------------"
         print path, "\n", start, "\n", end, "\n", step, "\n", geos
         print "------------------------------------"
@@ -99,13 +99,13 @@ class Setup(base_class, form_class):
 
     @QtCore.Slot(bool)
     def on_btn_export_clicked(self, args=None):
-        path = self.lin_export_path.text()  # Êä³öÂ·¾¶
+        path = self.lin_export_path.text()  # è¾“å‡ºè·¯å¾„
         if not os.path.exists(path):
             os.makedirs(path)
-        start = self.float_start.value()  # ÆğÊ¼Ö¡
-        end = self.float_end.value()  # ½áÊøÖ¡
-        step = self.float_step.value()  # ×Ó²½Öµ
-        geos = self.__list_model.data(list1=True)  # ÁĞ±íÊı¾İ
+        start = self.float_start.value()  # èµ·å§‹å¸§
+        end = self.float_end.value()  # ç»“æŸå¸§
+        step = self.float_step.value()  # å­æ­¥å€¼
+        geos = self.__list_model.data(list1=True)  # åˆ—è¡¨æ•°æ®
         Abc_Core.abc_export(path, start, end, step, geos)
 
 

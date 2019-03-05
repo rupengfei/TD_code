@@ -78,7 +78,7 @@ def seer7_cam_get_path():
         return "D:/Cache"
     short_name = seer7_split_cam(cam_name)
     path_animation = seer7_data()["cacheIO_an"]
-    export_path = os.path.join(path_animation, short_name[0], short_name[2], "Cache").replace("\\", "/")
+    export_path = os.path.join(path_animation, short_name[0], short_name[2], "approve").replace("\\", "/")
     if not os.path.isdir(export_path):
         os.makedirs(export_path)
     return export_path

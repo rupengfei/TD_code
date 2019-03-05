@@ -71,11 +71,6 @@ def abc_export(path, starts, ends, step, geos):
                                      get_cam_members(pynode_geo, starts, ends, step, out_file_name, path))
                     export_cam(path, geo)
                     continue
-                if pynode_geo.getShapes()[0].nodeType() == "mesh":
-                    print "mesh"  # 其他的 Geo
-                    ioTool.writeData(out_json_name, get_mesh_members(pynode_geo))
-                    export_geo(start, end, step, geo, out_file_name)
-                    continue
             else:
                 print "Geo"  # 人物道具场景等 Geo, 有的geo可能不在Rig路径下
                 # path  路径 geo名 .json
@@ -174,7 +169,7 @@ def get_mesh_members(geo=None, *args):
     """获取不是参考文件的信息"""
     data = dict()
     data["namespace"] = str(geo.name())
-    data["type"] = "mesh_abc"
+    data["type"] = "other_abc"
     data["name"] = str(geo.name())
     data["link_name"] = mayaTool.name_rest(str(geo.name())) + ".abc"
     return data
@@ -194,16 +189,16 @@ def get_geo_members(geo="PyNode", typ="geo_abc", *args):
         1 路径
         2
     """
-    if geo.isReferenced():
-        file_path_more = geo.referenceFile()  # 'Z:/ATieDa_ShengJi.ma{1}'
-        file_path = str(file_path_more.path)  # 'Z:/ATieDa_ShengJi.ma'
-        shader_name = file_path.split("/")[-1].split(".")  # ["Seer7_char_RIG_ATieDa_ShengJi", "ma"]
-        shader_name = shader_name[0] + "_SG." + shader_name[1]  # file_name is Seer7_char_RIG_ATieDa_ShengJi_SG.ma
-        shader_path = file_path.split("Rig")
-        shader_path = shader_path[0] + "Rig/Shader/" + shader_name
-        # shader_path is 'Z:/SEER7/Work/Asset_work/Chars/ATieDa_ShengJi/Rig/Shader/Seer7_char_RIG_ATieDa_ShengJi_SG.ma'
-    else:
-        shader_path = "None"
+    if not geo.isReferenced():
+        return get_mesh_members(geo)
+
+    file_path_more = geo.referenceFile()  # 'Z:/ATieDa_ShengJi.ma{1}'
+    file_path = str(file_path_more.path)  # 'Z:/ATieDa_ShengJi.ma'
+    shader_name = file_path.split("/")[-1].split(".")  # ["Seer7_char_RIG_ATieDa_ShengJi", "ma"]
+    shader_name = shader_name[0] + "_SG." + shader_name[1]  # file_name is Seer7_char_RIG_ATieDa_ShengJi_SG.ma
+    shader_path = file_path.split("Rig")
+    shader_path = shader_path[0] + "Rig/Shader/" + shader_name
+    # shader_path is 'Z:/SEER7/Work/Asset_work/Chars/ATieDa_ShengJi/Rig/Shader/Seer7_char_RIG_ATieDa_ShengJi_SG.ma'
 
     data = dict()
     data["namespace"] = str(geo.namespace())[:-1]
@@ -270,9 +265,9 @@ def abc_import(path="D:/Repo", geos=tuple()):
         if data["type"] == "geo_abc":
             print "geo_abc"
             import_geo(geo_path, data)
-        if data["type"] == "mesh_abc":
-            print "mesh_abc"
-            import_mesh(geo_path, data)
+        if data["type"] == "other_abc":
+            print "other_abc"
+            import_other(geo_path, data)
     return True
 
 
@@ -349,7 +344,7 @@ def import_geo(path, data):
         shaderCore.import_all_shader(shader_file, name_space, shader_namespace)
     return name_space
 
-def import_mesh(path, data):
+def import_other(path, data):
     """导入道具等几何体缓存"""
     path = path + ".abc"
     # name_space = data["namespace"]
