@@ -192,6 +192,13 @@ def get_geo_members(geo="PyNode", typ="geo_abc", *args):
     if not geo.isReferenced():
         return get_mesh_members(geo)
 
+    ai_subdiv, opaque = list(), list()
+    for mesh in mc.ls(sl=True, dag=True, typ="mesh"):
+        if mc.getAttr(mesh + ".aiSubdivType"):
+            ai_subdiv.append(mesh.split(":")[-1])
+        if not mc.getAttr(mesh + ".aiOpaque"):
+            opaque.append(mesh.split(":")[-1])
+
     file_path_more = geo.referenceFile()  # 'Z:/ATieDa_ShengJi.ma{1}'
     file_path = str(file_path_more.path)  # 'Z:/ATieDa_ShengJi.ma'
     shader_name = file_path.split("/")[-1].split(".")  # ["Seer7_char_RIG_ATieDa_ShengJi", "ma"]
@@ -201,6 +208,8 @@ def get_geo_members(geo="PyNode", typ="geo_abc", *args):
     # shader_path is 'Z:/SEER7/Work/Asset_work/Chars/ATieDa_ShengJi/Rig/Shader/Seer7_char_RIG_ATieDa_ShengJi_SG.ma'
 
     data = dict()
+    data["ai_subdiv"] = ai_subdiv
+    data["opaque"] = opaque
     data["namespace"] = str(geo.namespace())[:-1]
     data["reference_file"] = str(file_path)
     data["reference_file_more"] = str(file_path_more)
@@ -342,6 +351,14 @@ def import_geo(path, data):
         shader_file = data["shader_file"]
     if os.path.exists(shader_file):
         shaderCore.import_all_shader(shader_file, name_space, shader_namespace)
+    if data["ai_subdiv"]:
+        for mesh in data["ai_subdiv"]:
+            mc.setAttr(name_space + ":" + mesh + ".aiSubdivType", 1)
+            mc.setAttr(name_space + ":" + mesh + ".aiSubdivIterations", 2)
+
+    if data["opaque"]:
+        for mesh in data["opaque"]:
+            mc.setAttr(name_space + ":" + mesh + ".aiOpaque", 1)
     return name_space
 
 def import_other(path, data):

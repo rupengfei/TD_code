@@ -60,7 +60,7 @@ class Setup(base_class, form_class):
         self.float_start.setValue(playblast_time[0])
         self.float_end.setValue(playblast_time[1])
         self.float_step.setValue(playblast_time[-1])
-        print "重置参数 ok"
+        print u"重置参数 ok"
 
     @QtCore.Slot(bool)
     def on_btn_refresh_list_clicked(self, args=None):
@@ -75,7 +75,7 @@ class Setup(base_class, form_class):
                                         )
         self.__list_model.replace_row(geo_name)
         # self.__list_model.append(geo_name)
-        print "重置列表 ok"
+        print u"重置列表 ok"
 
     @QtCore.Slot(bool)
     def on_btn_del_sel_clicked(self, args=None):
