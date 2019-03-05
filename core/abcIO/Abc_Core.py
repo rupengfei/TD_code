@@ -353,12 +353,18 @@ def import_geo(path, data):
         shaderCore.import_all_shader(shader_file, name_space, shader_namespace)
     if data["ai_subdiv"]:
         for mesh in data["ai_subdiv"]:
-            mc.setAttr(name_space + ":" + mesh + ".aiSubdivType", 1)
-            mc.setAttr(name_space + ":" + mesh + ".aiSubdivIterations", 2)
+            try:
+                mc.setAttr(name_space + ":" + mesh + ".aiSubdivType", 1)
+                mc.setAttr(name_space + ":" + mesh + ".aiSubdivIterations", 2)
+            except:
+                pass
 
     if data["opaque"]:
         for mesh in data["opaque"]:
-            mc.setAttr(name_space + ":" + mesh + ".aiOpaque", 1)
+            try:
+                mc.setAttr(name_space + ":" + mesh + ".aiOpaque", 0)
+            except:
+                pass
     return name_space
 
 def import_other(path, data):
