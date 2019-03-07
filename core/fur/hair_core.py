@@ -23,10 +23,12 @@ def import_fur_BS():
             name_space = mc.file(ib["fur_file_path"] + fix, query=True, namespace=True)
             # if name_space != "unknown":
             #     pass
+            bs_a = geo_name
+            bs_b = name_space + ":" + ib["fur_name"]
             if name_space == "unknown":
                 name_space = mayaTool.reference_file(ib["fur_file_path"], name_space=ia, typ="ma", fix=True)
-
-                bs_a = geo_name
                 bs_b = name_space + ":" + ib["fur_name"]
-                # blendShape A 动 B 静
-                mc.blendShape([bs_a, bs_b], before=True, w=[0, 1], origin="world")
+            elif not len(mc.listRelatives(bs_b, shapes=True)) == 1:
+                continue
+            # blendShape A 动 B 静
+            mc.blendShape([bs_a, bs_b], before=True, w=[0, 1], origin="world")
