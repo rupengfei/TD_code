@@ -87,6 +87,8 @@ def seer7_cam_get_path():
 def sel_rn_Geo(rn="Chars"):
     prop_geo = list()
     geos = mc.ls("*:*_Geo")
+    geos.extend(mc.ls("*:*:*_Geo"))
+    geos.extend(mc.ls("*:*:*:*_Geo"))
     try:
         for geo in geos:
             g = pm.PyNode(geo)
@@ -97,7 +99,10 @@ def sel_rn_Geo(rn="Chars"):
     return prop_geo
 
 def sel_Face_RenderMesh():
-    return mc.ls("*:*_FaceRenderMesh_Grp")
+    face = mc.ls("*:*_FaceRenderMesh_Grp")
+    face.extend(mc.ls("*:*:*_FaceRenderMesh_Grp"))
+    face.extend(mc.ls("*:*:*:*_FaceRenderMesh_Grp"))
+    return face
 
 
 def sel_mod(cam, color_set, body, prop, BG, other):
