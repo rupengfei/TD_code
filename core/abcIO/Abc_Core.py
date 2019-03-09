@@ -16,6 +16,8 @@ import os
 
 def seer7_setting_render(opened=True):
     geos = list()
+    geos.extend(mc.ls("*:*:*:*_LVL"))
+    geos.extend(mc.ls("*:*:*_LVL"))
     geos.extend(mc.ls("*:*_LVL"))
     geos.extend(mc.ls("*_LVL"))
     if opened:
