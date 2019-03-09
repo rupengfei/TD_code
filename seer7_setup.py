@@ -42,13 +42,18 @@ class Setup(base_class, form_class):
 
     @QtCore.Slot(bool)
     def on_btn_load_render_ref_clicked(self, args=None):
-        from Utils.config.config_seer7 import references_replace_render
-        references_replace_render()
+        from Utils.config import config_seer7
+        config_seer7.references_replace_render()
 
     @QtCore.Slot(bool)
     def on_btn_load_anim_ref_clicked(self, args=None):
-        from Utils.config.config_seer7 import references_replace_anim
-        references_replace_anim()
+        from Utils.config import config_seer7
+        config_seer7.references_replace_anim()
+
+    @QtCore.Slot(bool)
+    def on_btn_load_all_ref_clicked(self, args=None):
+        from Utils.config import config_seer7
+        config_seer7.references_replace_all()
 
     @QtCore.Slot(bool)
     def on_btn_shaderIOTool_clicked(self, args=None):

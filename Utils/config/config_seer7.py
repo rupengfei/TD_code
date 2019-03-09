@@ -22,11 +22,15 @@ from core.shaderIO import shaderCore
 
 
 def references_replace_render():
-    mayaTool.references_loaded(first_name=".", last_name="_render", loaded=True)
+    mayaTool.references_loaded(".", "_render.", only_load=True)
 
 
 def references_replace_anim():
-    mayaTool.references_loaded(first_name="_render", last_name="", loaded=True)
+    mayaTool.references_loaded("_render", "", only_load=True)
+
+
+def references_replace_all():
+    mayaTool.references_loaded(".", "_render.", only_load=False, load_all=True)
 
 
 def setData(data=None):

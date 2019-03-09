@@ -12,11 +12,11 @@ import os
 
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
 
-def references_loaded(first_name="", last_name="", loaded=True):
+def references_loaded(first_name="", last_name="", only_load=True, load_all=False):
     # 替换引用文件
     allReferences = pm.getReferences()
     for _, rev in allReferences.iteritems():
-        if not loaded or rev.isLoaded():
+        if rev.isLoaded() or not only_load:
             render_file = str(rev)
             if first_name in render_file:
                 render_file = last_name.join(render_file.split(first_name))
@@ -24,6 +24,8 @@ def references_loaded(first_name="", last_name="", loaded=True):
                     render_file = render_file.split("{")[0]
                 if os.path.isfile(render_file):
                     rev.replaceWith(render_file)
+                elif load_all and not rev.isLoaded():
+                    rev.load()
 
 
 def reference_file(file_path, name_space=None, typ="ma", fix=False):
