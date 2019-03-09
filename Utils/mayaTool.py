@@ -5,12 +5,25 @@
 #         time: 2018/12/02
 # ==========================================
 import maya.cmds as mc
+import pymel.core as pm
 import re
 import os
-import maya.mel as mel
 
 
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
+
+def references_loaded(first_name="", last_name="", loaded=True):
+    # 替换引用文件
+    allReferences = pm.getReferences()
+    for _, rev in allReferences.iteritems():
+        if not loaded or rev.isLoaded():
+            render_file = str(rev)
+            if first_name in render_file:
+                render_file = last_name.join(render_file.split(first_name))
+                if "{" in render_file:
+                    render_file = render_file.split("{")[0]
+                if os.path.isfile(render_file):
+                    rev.replaceWith(render_file)
 
 
 def reference_file(file_path, name_space=None, typ="ma", fix=False):
@@ -97,11 +110,7 @@ def filter_camera(cam_name="cam_*_*"):
 
 def name_rest(rn_name=""):
     names = rn_name.split(":")
-    if len(names) == 1:
-        return names[0]
-    elif len(names) == 2:
-        return names[0] + "_" + names[1]
-    return False
+    return "_".join(names)
 
 
 def get_scene_name():
@@ -175,7 +184,7 @@ def get_input_path(filter_format='Maya ASCII (*.ma)', start_dir=None):  # 111111
     return filePath
 
 try:
-    PROGRESSBAR = mel.eval('string $temp = $gMainProgressBar;')  # PROGRESSBAR
+    PROGRESSBAR = pm.mel.eval('string $temp = $gMainProgressBar;')  # PROGRESSBAR
 except:
     pass
 

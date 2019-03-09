@@ -41,6 +41,16 @@ class Setup(base_class, form_class):
         abc1.show_win()
 
     @QtCore.Slot(bool)
+    def on_btn_load_render_ref_clicked(self, args=None):
+        from Utils.config.config_seer7 import references_replace_render
+        references_replace_render()
+
+    @QtCore.Slot(bool)
+    def on_btn_load_anim_ref_clicked(self, args=None):
+        from Utils.config.config_seer7 import references_replace_anim
+        references_replace_anim()
+
+    @QtCore.Slot(bool)
     def on_btn_shaderIOTool_clicked(self, args=None):
         from core.shaderIO import shaderIOUI
         # reload(shaderIOUI)

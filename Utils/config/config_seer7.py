@@ -20,6 +20,15 @@ from core.shaderIO import shaderCore
  u'D:/cloth/scenes/seer7_test/atieda_v03.ma{1}'] 
  """
 
+
+def references_replace_render():
+    mayaTool.references_loaded(first_name=".", last_name="_render", loaded=True)
+
+
+def references_replace_anim():
+    mayaTool.references_loaded(first_name="_render", last_name="", loaded=True)
+
+
 def setData(data=None):
     """
     data = {
