@@ -14,7 +14,7 @@ class MVC_List_Model(QtCore.QAbstractListModel):
         """
         """
         super(MVC_List_Model, self).__init__(parent)
-        self.__data = data or list("abcde")
+        self.__data = data or list()
 
     def rowCount(self, index=QtCore.QModelIndex()):
         """返回列表的长度  是个整数"""
