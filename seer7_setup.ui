@@ -49,7 +49,7 @@ alternate-background-color: rgb(255, 255, 127);</string>
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab1">
        <attribute name="title">
@@ -112,7 +112,7 @@ alternate-background-color: rgb(255, 255, 127);</string>
            </size>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;导出时记录信息&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;这个命令只会把已经加载的引用文件修改为渲染文件&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="whatsThis">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;this is haha&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -156,7 +156,7 @@ alternate-background-color: rgb(255, 255, 127);</string>
            </size>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;导出时记录信息&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;这个命令将会加载所有引用文件并且把应该修改为渲染文件的引用修改过来&lt;/p&gt;&lt;p&gt;如果场景有不需要加载的引用，那就用《动画引用改为渲染文件》这个命令&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="whatsThis">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;this is haha&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -229,7 +229,7 @@ alternate-background-color: rgb(255, 255, 127);</string>
         <item row="0" column="0">
          <widget class="QPushButton" name="btn_setAttr_tool">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;材质传递工具&lt;/p&gt;&lt;p&gt;使用说明请前往工具介绍&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;可搜索各种参数&lt;/p&gt;&lt;p&gt;可统一设置参数&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>批量设置参数工具</string>

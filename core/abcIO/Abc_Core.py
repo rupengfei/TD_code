@@ -13,6 +13,10 @@ import os
 
 # reload(mayaTool)
 # --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*
+try:
+    type(mc.AbcExport)
+except AttributeError as e:
+    mc.loadPlugin("C:/Program Files/Autodesk/Maya2017/bin/plug-ins/AbcExport.mll")
 
 def seer7_setting_render(opened=True):
     geos = list()
@@ -78,8 +82,8 @@ def abc_export(path, starts, ends, step, geos):
                 # path  路径 geo名 .json
                 ioTool.writeData(out_json_name, get_geo_members(pynode_geo))
                 export_geo(start, end, step, geo, out_file_name)
-        except Exception as e:
-            print e
+        except:
+            pass
     mc.playbackOptions(e=True, min=starts, max=ends)
     return True
 
