@@ -28,20 +28,26 @@ def seer7_setting_render(opened=True):
         for geo in geos:
             try:
                 try:
-                    mc.setAttr(geo + ".LvL", 3)
-                except RuntimeError:
-                    mc.setAttr(geo + ".LvL", 2)
-            except RuntimeError:
-                try:
-                    mc.setAttr(geo + ".LVL", 3)
-                except RuntimeError:
-                    mc.setAttr(geo + ".LVL", 2)
+                    try:
+                        mc.setAttr(geo + ".LvL", 3)
+                    except:
+                        mc.setAttr(geo + ".LvL", 2)
+                except:
+                    try:
+                        mc.setAttr(geo + ".LVL", 3)
+                    except:
+                        mc.setAttr(geo + ".LVL", 2)
+            except:
+                pass
     else:
         for geo in geos:
             try:
-                mc.setAttr(geo + ".LvL", 0)
-            except RuntimeError:
-                mc.setAttr(geo + ".LVL", 0)
+                try:
+                    mc.setAttr(geo + ".LvL", 0)
+                except:
+                    mc.setAttr(geo + ".LVL", 0)
+            except:
+                pass
     return True
 
 
@@ -82,8 +88,8 @@ def abc_export(path, starts, ends, step, geos):
                 # path  路径 geo名 .json
                 ioTool.writeData(out_json_name, get_geo_members(pynode_geo))
                 export_geo(start, end, step, geo, out_file_name)
-        except:
-            pass
+        except RuntimeError as errors:
+            print errors
     mc.playbackOptions(e=True, min=starts, max=ends)
     return True
 
