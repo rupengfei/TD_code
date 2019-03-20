@@ -1,0 +1,1 @@
+"C:\Program Files\Autodesk\Maya2017\bin\mayapy.exe" "Z:\SEER7\bin\rupengfei\TD_code\core\abcIO\abcIO_batchUI.py"

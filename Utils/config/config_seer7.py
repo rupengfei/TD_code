@@ -192,7 +192,20 @@ def auto_export_shader():
         sels1 = mc.listRelatives(sels, p=True)
         shaderCore.export_sel_sg_nodes(scene_name, fix_name, sels1[:])
         shaderCore.export_sel_sg_members(json_name, sels1[:])
+    return True
 
+def auto_export_abc():
+    from core.abcIO import Abc_Core
+    references_replace_render()
+    path = seer7_cam_get_path()  # 输出路径
+    if not os.path.exists(path):
+        os.makedirs(path)
+    playblast_time = mayaTool.get_time_slider()
+    start = playblast_time[0] # 起始帧
+    end = playblast_time[1]  # 结束帧
+    step = playblast_time[-1]  # 子步值
+    geo_name = sel_mod(cam=True, color_set=True, body=True, prop=True, BG=False, other=False)
+    Abc_Core.abc_export(path, start, end, step, geo_name)
     return True
 
 def auto_import_shader():
