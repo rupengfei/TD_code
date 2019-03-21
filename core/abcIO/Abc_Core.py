@@ -17,6 +17,13 @@ try:
     type(mc.AbcExport)
 except AttributeError as e:
     mc.loadPlugin("C:/Program Files/Autodesk/Maya2017/bin/plug-ins/AbcExport.mll")
+    print "jia zai abc cha jian"
+
+try:
+    type(mc.gameExporter)
+except AttributeError as e:
+    pm.loadPlugin("C:/Program Files/Autodesk/Maya2017/bin/plug-ins/gameFbxExporter.mll")
+    print "jia zai fbx cha jian"
 
 def seer7_setting_render(opened=True):
     geos = list()
@@ -29,13 +36,17 @@ def seer7_setting_render(opened=True):
             try:
                 try:
                     try:
+                        mc.cutKey(geo + ".LvL", clear=True)
                         mc.setAttr(geo + ".LvL", 3)
                     except:
+                        mc.cutKey(geo + ".LvL", clear=True)
                         mc.setAttr(geo + ".LvL", 2)
                 except:
                     try:
+                        mc.cutKey(geo + ".LVL", clear=True)
                         mc.setAttr(geo + ".LVL", 3)
                     except:
+                        mc.cutKey(geo + ".LVL", clear=True)
                         mc.setAttr(geo + ".LVL", 2)
             except:
                 pass
@@ -43,8 +54,10 @@ def seer7_setting_render(opened=True):
         for geo in geos:
             try:
                 try:
+                    mc.cutKey(geo + ".LvL", clear=True)
                     mc.setAttr(geo + ".LvL", 0)
                 except:
+                    mc.cutKey(geo + ".LVL", clear=True)
                     mc.setAttr(geo + ".LVL", 0)
             except:
                 pass
