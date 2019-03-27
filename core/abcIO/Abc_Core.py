@@ -25,6 +25,11 @@ except AttributeError as e:
     pm.loadPlugin("C:/Program Files/Autodesk/Maya2017/bin/plug-ins/gameFbxExporter.mll")
     print "jia zai fbx cha jian"
 
+def set_abc_plug_in_load_file():
+    path = "Z:/SEER7/bin/rupengfei/TD_code/Utils/config/abc_maya_file.ma"
+    name_space = mayaTool.reference_file(path, name_space="abc_plugin_file", typ="ma")
+
+
 def seer7_setting_render(opened=True):
     geos = list()
     geos.extend(mc.ls("*:*:*:*_LVL"))
@@ -287,6 +292,7 @@ def abc_import(path="D:/Repo", geos=tuple()):
     """import 分配函数"""
     if not geos:
         return False
+    set_abc_plug_in_load_file()
     for geo in geos:
         geo_path = path + "/" + geo
         data = read_json(geo_path + ".json")
@@ -355,9 +361,25 @@ def import_face(path, data):
     name_space = mayaTool.reference_file(path, name_space=name_space, typ="abc")
     name_space_mash = mayaTool.reference_file(data["reference_file"], name_space="renderMash", typ="ma")
     name_space = name_space + ":" + data["name"]
+    name_space_mash_screen = name_space_mash + ":MashScreen"
     name_space_mash = name_space_mash + ":" + data["name"] + "_BS"
     # blendShape A 动 B 静
     mc.blendShape([name_space, name_space_mash], before=True, w=[0, 1], origin="world")
+    # name_space = "ATieDa_FaceRenderMesh_Grp"
+    # name_space_mash_screen = "ATieDa_FaceRenderMesh_Rig_Grp|MashScreen"
+    MashScreen1 = ""  # 筛选出需要做约束的mash
+    for i in mc.ls(name_space, long=True, dag=True):
+        if "MashScreen" in i:
+            if mc.nodeType(i) == "transform":
+                MashScreen1 = i
+    parent_con = ""  # 判断有没有约束
+    for i in mc.ls(name_space_mash_screen, long=True, dag=True):
+        if mc.nodeType(i) == "parentConstraint":
+            parent_con = i
+    if parent_con:
+        print u"已经有约束了"
+    else:  # 没有约束就加一下
+        mc.parentConstraint([MashScreen1, name_space_mash_screen], weight=1, mo=False)
     return name_space
 
 

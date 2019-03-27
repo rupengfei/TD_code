@@ -211,6 +211,45 @@ def auto_export_abc():
 def auto_import_shader():
     pass
 
+def seer7_set_all_LVL_to_render(opened=True):
+    geos = list()
+    geos.extend(mc.ls("*:*:*:*:*:*_LVL"))
+    geos.extend(mc.ls("*:*:*:*:*_LVL"))
+    geos.extend(mc.ls("*:*:*:*_LVL"))
+    geos.extend(mc.ls("*:*:*_LVL"))
+    geos.extend(mc.ls("*:*_LVL"))
+    geos.extend(mc.ls("*_LVL"))
+    if opened:
+        for geo in geos:
+            try:
+                try:
+                    try:
+                        mc.cutKey(geo + ".LvL", clear=True)
+                        mc.setAttr(geo + ".LvL", 3)
+                    except:
+                        mc.cutKey(geo + ".LvL", clear=True)
+                        mc.setAttr(geo + ".LvL", 2)
+                except:
+                    try:
+                        mc.cutKey(geo + ".LVL", clear=True)
+                        mc.setAttr(geo + ".LVL", 3)
+                    except:
+                        mc.cutKey(geo + ".LVL", clear=True)
+                        mc.setAttr(geo + ".LVL", 2)
+            except:
+                pass
+    else:
+        for geo in geos:
+            try:
+                try:
+                    mc.cutKey(geo + ".LvL", clear=True)
+                    mc.setAttr(geo + ".LvL", 0)
+                except:
+                    mc.cutKey(geo + ".LVL", clear=True)
+                    mc.setAttr(geo + ".LVL", 0)
+            except:
+                pass
+    return True
 
 if __name__ == '__main__':
     setData()

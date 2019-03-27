@@ -65,8 +65,14 @@ class Setup(base_class, form_class):
     @QtCore.Slot(bool)
     def on_btn_aoto_fur_bs_clicked(self, args=None):
         from core.fur import hair_core
-        reload(hair_core)
+        # reload(hair_core)
         hair_core.import_fur_BS()
+
+    @QtCore.Slot(bool)
+    def on_btn_set_all_to_render_clicked(self, args=None):
+        from Utils.config import config_seer7
+        # reload(config_seer7)
+        config_seer7.seer7_set_all_LVL_to_render(opened=True)
 
     @QtCore.Slot(bool)
     def on_btn_setAttr_tool_clicked(self, args=None):

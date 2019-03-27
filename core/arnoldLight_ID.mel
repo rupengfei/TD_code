@@ -1,0 +1,302 @@
+//作者 江苏苏州陈昊 2014-11-15 QQ：116406776
+
+global int $lightIDNumber;
+global int $lightfloatIDnumber;
+global int $lightAovStartNum;
+global int $lightOoM;
+
+//创建ID
+global proc Create_lightwindows()
+
+{
+
+string $lightwin = "arnoldLightID";
+global int $lightIDNumber;
+global int $lightfloatIDnumber;
+global int $lightAovStartNum;
+global int $lightOoM;
+
+if ($lightfloatIDnumber<1 && $lightfloatIDnumber>8 )
+
+{$lightfloatIDnumber =1;}
+
+if ($lightIDNumber<1 && $lightIDNumber>8 )
+
+{$lightIDNumber =1;}
+
+if (`window -exists $lightwin`) deleteUI -window $lightwin;
+
+window -title "Light ID for arnold"
+
+-minimizeButton true
+
+-maximizeButton false
+
+-rtf true
+
+-wh 300 100 $lightwin;
+
+columnLayout
+
+-adjustableColumn true
+
+-cal "left" ColumnLayout;
+
+frameLayout
+
+-labelVisible false
+
+-marginWidth 0
+
+-marginHeight 0 rockFrame;
+
+columnLayout;
+
+radioButtonGrp
+
+-numberOfRadioButtons 1
+
+-columnWidth 1 80
+-columnWidth 2 25
+-columnAlign 1 "left"
+
+-label "ID Type"
+
+-label1 "LightID"
+
+-sl $lightOoM lightrezFlag;
+
+separator -height 8 -st none;
+
+intSliderGrp
+
+-label "Number of IDs" -field true
+
+-value $lightfloatIDnumber
+
+-columnWidth 1 80
+-columnWidth 2 30
+-columnWidth 3 30
+-columnAlign 1 "left"
+-columnAlign 2 "left"
+-columnAlign 3 "left"
+
+-width 240
+
+-minValue 1
+
+-maxValue 8
+
+-sliderStep 1
+
+LightidNum;
+
+separator -height 10 -st none;
+
+rowColumnLayout -numberOfRows 1 -rowHeight 1 30;
+
+button -label "Create_ID" -w 120 -c "Create_lightID()";
+
+button -label "remove_ID" -w 120 -c "Remove_lightID()";
+
+button -label "Create_aov" -w 120 -c "Create_aov()";
+
+button -label "remove_aov" -w 120 -c "remove_aov()";
+
+setParent arnoldLightID;
+
+showWindow $lightwin;
+
+}
+
+
+//加属性
+global proc Create_lightID()
+{
+global int $lightIDNumber;
+global int $lightfloatIDnumber;
+global int $lightAovStartNum;
+global int $lightOoM;
+global string $lightwin;
+int $lightIDNumber = `intSliderGrp -q -value LightidNum`;
+
+string $selection[] = `ls -sl`;
+string $shapes[]    = `listRelatives -shapes -noIntermediate $selection`;
+
+for ($node in $shapes)
+  {
+     if(`objExists ($node+".mtoa_constant_lightGroup")` !=1)
+    {
+ addAttr -ln "mtoa_constant_lightGroup"  -at long $node;
+ setAttr ($node+".mtoa_constant_lightGroup") $lightIDNumber;
+    }
+     else{setAttr ($node+".mtoa_constant_lightGroup") $lightIDNumber;}
+ 
+  }
+
+
+$lightfloatIDnumber = $lightIDNumber + 1;
+
+Create_lightwindows();
+
+}
+
+//去除ID
+
+global proc Remove_lightID()
+
+{
+ string $mySelection []  = `ls -sl`;
+ string $shapes[]    = `listRelatives -shapes -noIntermediate $mySelection`;
+ string $useAtt[] = `listAttr -userDefined $shapes`;
+
+ for($each in $shapes)
+ {
+  for ($X=0; $X<=size($useAtt);$X=$X+1) 
+   {
+     if(`objExists ($each+"."+$useAtt[$X])` !=0)
+       {
+        deleteAttr -attribute $useAtt[$X] $each;
+        }
+    }
+ }
+}
+
+//加aov
+global proc Create_aov()
+{
+     global int $lightIDNumber;
+     global int $lightfloatIDnumber;
+     global int $lightAovStartNum;
+     global int $lightOoM;
+     global string $lightwin;
+     int $lightIDNumber = `intSliderGrp -q -value LightidNum`;
+     int $aovListNum=0;
+     
+     //判断创建lgith_all
+          if (`objExists light_group_all` !=1)
+          {
+          remove_Mataov();
+          createNode alSurface -name "light_all_alSurface";
+          setAttr "light_all_alSurface.diffuseColor" -type double3 1 1 1 ;
+          setAttr "light_all_alSurface.specular1Strength" 0;
+          //去除新建lgithall材质的aov
+            setAttr -type "string" light_all_alSurface.aovDiffuseColor "";
+            setAttr -type "string" light_all_alSurface.aovDirectDiffuse "";
+            setAttr -type "string" light_all_alSurface.aovDirectDiffuseRaw "";
+            setAttr -type "string" light_all_alSurface.aovIndirectDiffuse "";
+            setAttr -type "string" light_all_alSurface.aovIndirectDiffuseRaw "";
+            setAttr -type "string" light_all_alSurface.aovDirectBacklight "";
+            setAttr -type "string" light_all_alSurface.aovIndirectBacklight "";
+            setAttr -type "string" light_all_alSurface.aovDirectSpecular "";
+            setAttr -type "string" light_all_alSurface.aovIndirectSpecular "";
+            setAttr -type "string" light_all_alSurface.aovDirectSpecular2 "";
+            setAttr -type "string" light_all_alSurface.aovIndirectSpecular2 "";
+            setAttr -type "string" light_all_alSurface.aovSingleScatter "";
+            setAttr -type "string" light_all_alSurface.aovSss "";
+            setAttr -type "string" light_all_alSurface.aovRefraction "";
+            setAttr -type "string" light_all_alSurface.aovEmission "";
+            setAttr -type "string" light_all_alSurface.aovUv "";
+            setAttr -type "string" light_all_alSurface.aovDepth "";
+            setAttr -type "string" light_all_alSurface.aovId1 "";
+            setAttr -type "string" light_all_alSurface.aovId2 "";
+            setAttr -type "string" light_all_alSurface.aovId3 "";
+            setAttr -type "string" light_all_alSurface.aovId4 "";
+            setAttr -type "string" light_all_alSurface.aovId5 "";
+            setAttr -type "string" light_all_alSurface.aovId6 "";
+            setAttr -type "string" light_all_alSurface.aovId7 "";
+            setAttr -type "string" light_all_alSurface.aovId8 "";
+
+          createNode aiAOV -name "light_group_all";
+          setAttr -type "string" light_group_all.name "light_group_all";
+          setAttr  light_group_all.type 5;
+          connectAttr defaultArnoldDriver.message light_group_all.outputs[0].driver;
+          connectAttr defaultArnoldFilter.message light_group_all.outputs[0].filter;
+          //连接材质lgithall到aov中
+          connectAttr light_all_alSurface.outColor light_group_all.defaultValue;
+          }  
+    //判断连接aovList
+        if (`objExists defaultArnoldRenderOptions.aovList[$aovListNum]` !=1)
+          {
+             connectAttr light_group_all.message defaultArnoldRenderOptions.aovList[$aovListNum];
+          }      
+       else
+          {
+             while (`connectionInfo -isDestination defaultArnoldRenderOptions.aovList[$aovListNum]`) 
+                  {    
+                     $aovListNum=$aovListNum+1;
+                  }
+          connectAttr light_group_all.message defaultArnoldRenderOptions.aovList[$aovListNum];
+          }
+
+     //循环创建light1-8
+     for ($lightaov_star=1; $lightaov_star <= $lightIDNumber-1; $lightaov_star=$lightaov_star+1)
+         {
+          //判断创建light1-8
+          string $lightAOVname = `createNode aiAOV -name ("light_group_"+$lightaov_star)`;
+          setAttr -type "string" ($lightAOVname+".name") ("light_group_"+$lightaov_star);
+          setAttr  ($lightAOVname+".type") 5;
+          connectAttr defaultArnoldDriver.message ($lightAOVname+".outputs[0].driver");
+          connectAttr defaultArnoldFilter.message ($lightAOVname+".outputs[0].filter");
+
+       //连接light1-8
+        if (`objExists defaultArnoldRenderOptions.aovList[$aovListNum]` !=1)
+          {
+             connectAttr ($lightAOVname+".message") defaultArnoldRenderOptions.aovList[$aovListNum];
+          }      
+       else
+          {
+             while (`connectionInfo -isDestination defaultArnoldRenderOptions.aovList[$aovListNum]`) 
+                  {    
+                     $aovListNum=$aovListNum+1;
+                  }
+          connectAttr ($lightAOVname+".message") defaultArnoldRenderOptions.aovList[$aovListNum];
+          }
+          }
+}
+
+//清理aiUserDataColorID和aiAOVID的节点.
+global proc remove_aov()
+{
+//删除插件所创建的节点
+string $clearnode[] = `ls ("light_group_*") ("light_all_*")`;
+delete $clearnode;
+//刷新面板
+Create_lightwindows();
+}
+
+//清理所有材质灯光aov
+global proc remove_Mataov()
+{
+  string $select[] = `ls -type alSurface -type alSurfaceX -type alHair -type alHairX -type alLayer`;
+  for($a in $select)
+    {
+            if (`objExists ($a+".aovLightGroup1")` !=0)
+          {
+            setAttr -type "string" ($a+".aovLightGroup1") "";
+            setAttr -type "string" ($a+".aovLightGroup2") "";
+            setAttr -type "string" ($a+".aovLightGroup3") "";
+            setAttr -type "string" ($a+".aovLightGroup4") "";
+            setAttr -type "string" ($a+".aovLightGroup5") "";
+            setAttr -type "string" ($a+".aovLightGroup6") "";
+            setAttr -type "string" ($a+".aovLightGroup7") "";
+            setAttr -type "string" ($a+".aovLightGroup8") "";
+          }
+            if (`objExists ($a+".aovShadowGroup1")` !=0)
+          {
+            setAttr -type "string" ($a+".aovShadowGroup1") "";
+            setAttr -type "string" ($a+".aovShadowGroup2") "";
+            setAttr -type "string" ($a+".aovShadowGroup3") "";
+            setAttr -type "string" ($a+".aovShadowGroup4") "";
+            setAttr -type "string" ($a+".aovShadowGroup5") "";
+            setAttr -type "string" ($a+".aovShadowGroup6") "";
+            setAttr -type "string" ($a+".aovShadowGroup7") "";
+            setAttr -type "string" ($a+".aovShadowGroup8") "";
+          }
+     }
+
+Create_lightwindows();
+}
+
+
+Create_lightwindows();
