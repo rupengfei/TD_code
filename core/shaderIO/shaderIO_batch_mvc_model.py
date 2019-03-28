@@ -1,7 +1,8 @@
 # -*- coding:utf-8 -*-  
 # ==========================================
 #       author: Pengfei.Ru
-#         mail: a773849069@gmail.com
+#         mail: 773849069@qq.com
+#         QQ: 773849069
 #         time: 2018/12/7
 # ==========================================
 from PySide2 import QtCore
