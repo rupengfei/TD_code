@@ -88,6 +88,7 @@ def seer7_cam_get_path():
     """用相机匹配路径"""
     cam_name = mayaTool.filter_camera("cam_*_*")
     if not cam_name:
+        print "not camera"
         return "D:/Cache"
     short_name = seer7_split_cam(cam_name)
     path_animation = seer7_data()["cacheIO_an"]
