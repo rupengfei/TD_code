@@ -1,0 +1,41 @@
+global string $serverGlabalDir; 
+$serverGlabalDir = "//192.168.10.230/workvol_mov/shelvers/Animation Technology/"; 
+global proc string makeSpineEvalLoad_cmd(){
+    string $ok=0;
+    string $path = `workDir`;
+    string $path_0 = `internalVar -usd`+ "CRT/";
+    string $path_l = $path_0 + "Python/";
+    
+    if(!`filetest -d $path_l`){
+		sysFile -makeDir $path_l;
+    }    
+    string $pyfiles[] = `getFileList -folder $path`;
+    
+    sysFile -copy ($path_0+"__init__.py") ($path + "__init__.py" );
+    
+    for($py in $pyfiles){
+	    string $destWindows = $path_l + $py;
+	    string $srcWindows =  $path + $py;
+	    sysFile -copy $destWindows $srcWindows;
+	    print($srcWindows+"\n");
+	    print $destWindows;
+	    $ok=1;
+	}
+    return $ok;
+}
+global proc string workDir(){
+    global string $serverGlabalDir;
+    string $path;
+    $path = $serverGlabalDir + "动画工具架/mel/修改TSM绑定/CRT_Setup/CRT/tsmModify/";
+    return($path);
+}
+
+global proc string meshRepairWin_load(){
+    python("from CRT.Python.finalCutUI import *");
+    python("from CRT.Python.finalCutCmd import *");
+    python("meshRepairWin(200,150)");
+    string $result = "OK";
+    return $result;
+}
+makeSpineEvalLoad_cmd();
+meshRepairWin_load();

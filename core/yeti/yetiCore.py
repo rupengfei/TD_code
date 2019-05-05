@@ -24,14 +24,13 @@ def list_graph_node_param(yetiNode, node):
 def list_graph_node(yeti_graph):
     return mc.pgYetiGraph(yeti_graph, listNodes=True)
 
-def replace_all_texture_node_path(path, rep1, rep2):
+def replace_all_texture_node_path(rep1, rep2):
     for graph_node in get_sel_graph():
-        for nodes in get_graph_TypeNode(graph_node, "texture"):
-            for node in nodes():
-                file_names = get_graph_node_attribute(graph_node, node, "file_name")
-                file_names = file_names.replace(rep1, rep2)
-                set_string_pram(graph_node, node, "file_name", file_names)
+        for node in get_graph_TypeNode(graph_node, "texture"):
+            file_names = get_graph_node_attribute(graph_node, node, "file_name")
+            file_names = file_names.replace(rep1, rep2)
+            set_string_pram(graph_node, node, "file_name", file_names)
 
 def set_string_pram(yetiNode, node, param, value):
-    mc.pgYetiGraph(yetiNode, n=node, p=param, setParamValueExpr=value)
+    mc.pgYetiGraph(yetiNode, n=node, p=param, setParamValueString=value)
 
